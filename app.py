@@ -73,15 +73,16 @@ def project(project_id):
 
 @app.route("/create/", methods=("GET", "POST"))
 def create():
+    form = ProjectForm()
     if request.method == "POST":
-        locnum = int(request.form["locnum"])
-        drawnum = int(request.form["drawnum"])
-        contractnum = request.form["contractnum"]
-        projectnum = request.form["projectnum"]
-        projectmngr = request.form["projectmngr"]
-        mainconsult = request.form["mainconsult"]
-        title = request.form["title"]
-        comments = request.form["comments"]
+        locnum = int(form.locnum.data)
+        drawnum = int(form.drawnum.data)
+        contractnum = form.contractnum.data
+        projectnum = form.projectnum.data
+        projectmngr = form.projectmngr.data
+        mainconsult = form.mainconsult.data
+        title = form.title.data
+        comments = form.comments.data
 
         project = Drawfile(
             locnum=locnum, drawnum=drawnum, contractnum=contractnum, projectnum=projectnum, projectmngr=projectmngr, mainconsult=mainconsult, title=title, comments=comments
@@ -91,7 +92,7 @@ def create():
 
         return redirect(url_for("index"))
 
-    return render_template("create.html")
+    return render_template("create.html", form=form)
 
 
 @app.route("/<int:project_id>/edit/", methods=("GET", "POST"))
