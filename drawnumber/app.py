@@ -5,8 +5,12 @@
 import os
 from flask import Flask, render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
-
 from sqlalchemy.sql import func
+
+from forms import LocationForm
+
+SECRET_KEY = os.urandom(32)
+
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -15,6 +19,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(
     basedir, "database.db"
 )
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config['SECRET_KEY'] = SECRET_KEY
 
 db = SQLAlchemy(app)
 
@@ -59,28 +64,33 @@ class Drawfile(db.Model):
 
 @app.route("/")
 def index():
-    students = Student.query.all()
-    return render_template("index.html", students=students)
+    # drawings = Drawfile.query.all()
+    drawings = Drawfile.query.order_by(Drawfile.locnum.asc(), Drawfile.drawnum.asc()).all()
+    return render_template("index.html", drawings=drawings, title="Home Page")
 
 
-@app.route("/<int:student_id>/")
-def student(student_id):
-    student = Student.query.get_or_404(student_id)
-    return render_template("student.html", student=student)
+@app.route("/<int:project_id>/")
+def project(project_id):
+    project = Drawfile.query.get_or_404(project_id)
+    return render_template("project.html", project=project)
 
 
 @app.route("/create/", methods=("GET", "POST"))
 def create():
     if request.method == "POST":
-        firstname = request.form["firstname"]
-        lastname = request.form["lastname"]
-        email = request.form["email"]
-        age = int(request.form["age"])
-        bio = request.form["bio"]
-        student = Student(
-            firstname=firstname, lastname=lastname, email=email, age=age, bio=bio
+        locnum = int(request.form["locnum"])
+        drawnum = int(request.form["drawnum"])
+        contractnum = request.form["contractnum"]
+        projectnum = request.form["projectnum"]
+        projectmngr = request.form["projectmngr"]
+        mainconsult = request.form["mainconsult"]
+        title = request.form["title"]
+        comments = request.form["comments"]
+
+        project = Drawfile(
+            locnum=locnum, drawnum=drawnum, contractnum=contractnum, projectnum=projectnum, projectmngr=projectmngr, mainconsult=mainconsult, title=title, comments=comments
         )
-        db.session.add(student)
+        db.session.add(project)
         db.session.commit()
 
         return redirect(url_for("index"))
@@ -88,34 +98,52 @@ def create():
     return render_template("create.html")
 
 
-@app.route("/<int:student_id>/edit/", methods=("GET", "POST"))
-def edit(student_id):
-    student = Student.query.get_or_404(student_id)
+@app.route("/<int:project_id>/edit/", methods=("GET", "POST"))
+def edit(project_id):
+    project = Drawfile.query.get_or_404(project_id)
 
     if request.method == "POST":
-        firstname = request.form["firstname"]
-        lastname = request.form["lastname"]
-        email = request.form["email"]
-        age = int(request.form["age"])
-        bio = request.form["bio"]
+        locnum = int(request.form["locnum"])
+        drawnum = int(request.form["drawnum"])
+        contractnum = request.form["contractnum"]
+        projectnum = request.form["projectnum"]
+        projectmngr = request.form["projectmngr"]
+        mainconsult = request.form["mainconsult"]
+        title = request.form["title"]
+        comments = request.form["comments"]
 
-        student.firstname = firstname
-        student.lastname = lastname
-        student.email = email
-        student.age = age
-        student.bio = bio
+        project.locnum = locnum
+        project.drawnum = drawnum
+        project.contractnum = contractnum
+        project.projectnum = projectnum
+        project.projectmngr = projectmngr
+        project.mainconsult = mainconsult
+        project.title = title
+        project.comments = comments
 
-        db.session.add(student)
+        db.session.add(project)
         db.session.commit()
 
         return redirect(url_for("index"))
 
-    return render_template("edit.html", student=student)
+    return render_template("edit.html", project=project)
 
 
-@app.post("/<int:student_id>/delete/")
-def delete(student_id):
-    student = Student.query.get_or_404(student_id)
-    db.session.delete(student)
+@app.post("/<int:project_id>/delete/")
+def delete(project_id):
+    project = Drawfile.query.get_or_404(project_id)
+    db.session.delete(project)
     db.session.commit()
     return redirect(url_for("index"))
+
+
+@app.route('/add_loc', methods=('GET', 'POST'))
+def add_loc():
+    form = LocationForm()
+    return render_template('addloc.html', form=form)
+
+@app.route("/locs/")
+def locations():
+    # drawings = Drawfile.query.all()
+    location_lists = Drawloc.query.order_by(Drawloc.locnum.asc()).all()
+    return render_template("locations.html", location_lists=location_lists, title="Location Categories")
