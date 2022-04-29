@@ -150,8 +150,6 @@ def add_loc():
     return render_template("addloc.html", form=form)
 
 
-
-
 @app.route("/locs/")
 def locations():
     # drawings = Drawfile.query.all()
