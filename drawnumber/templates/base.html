@@ -27,6 +27,14 @@
         inline-size: 100%;
       }
 
+      .location {
+        flex: 100%;
+        padding: 5px;
+        margin: 5px;
+        background-color: #f3f3f3;
+        inline-size: 100%;
+      }
+
       .comments {
         padding: 0px;
         margin: 2px;
@@ -50,8 +58,9 @@
   <body>
     <nav>
       <a href="{{ url_for('index') }}">Home</a>
-      <a href="{{ url_for('create') }}">Create</a>
-      <a href="#">About</a>
+      <a href="{{ url_for('create') }}">Assign New #</a>
+      <a href="{{ url_for('locations') }}">Locations</a>
+      <a href="{{ url_for('add_loc') }}">New Location</a>
     </nav>
     <hr />
     <div class="content">{% block content %} {% endblock %}</div>

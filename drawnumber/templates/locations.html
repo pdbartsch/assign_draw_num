@@ -1,15 +1,10 @@
 {% extends 'base.html' %} {% block title %}Home{% endblock %} {% block content
-    %}
-    <div class="content">
-        {% for loc in locations_list %}
-        <div class="drawing">
-            <b>
-            <p class="name">
-                {{ loc.locnum }}: {{ loc.locdescrip }}
-                </a>
-            </p>
-        </div>
-        {% endfor %}
-        </div>
-        {% endblock %}
-    
+%}
+<div class="content">
+  {% for location in location_list %}
+  <div class="location">
+    <p>{{ location.locnum }}: {{ location.locdescrip }}</p>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

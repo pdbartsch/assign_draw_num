@@ -1,3 +1,9 @@
+# set FLASK_APP=app
+
+# set FLASK_ENV=development
+
+# flask run
+
 - [generate requirements.txt file]
   `pip freeze > requirements.txt`
 

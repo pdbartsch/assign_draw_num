@@ -1,13 +1,9 @@
-# set FLASK_APP=app
-# set FLASK_ENV=development
-# flask run
-
 import os
 from flask import Flask, render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
 
-from forms import LocationForm
+from forms import LocationForm, ProjectForm
 
 SECRET_KEY = os.urandom(32)
 
@@ -137,13 +133,28 @@ def delete(project_id):
     return redirect(url_for("index"))
 
 
-@app.route('/add_loc', methods=('GET', 'POST'))
+
+@app.route("/add_loc/", methods=("GET", "POST"))
 def add_loc():
     form = LocationForm()
-    return render_template('addloc.html', form=form)
+    if request.method == "POST":
+        locnum = int(form.locnum.data)
+        locdescrip = (form.locdescrip.data)
+
+        location = Drawloc(locnum=locnum, locdescrip=locdescrip)
+        db.session.add(location)
+        db.session.commit()
+
+        return redirect(url_for("index"))
+
+    return render_template("addloc.html", form=form)
+
+
+
 
 @app.route("/locs/")
 def locations():
     # drawings = Drawfile.query.all()
-    location_lists = Drawloc.query.order_by(Drawloc.locnum.asc()).all()
-    return render_template("locations.html", location_lists=location_lists, title="Location Categories")
+    location_list = Drawloc.query.order_by(Drawloc.locnum.asc()).all()
+    return render_template("locations.html", location_list=location_list, title="Location Categories")
+
