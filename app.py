@@ -60,8 +60,12 @@ class Drawfile(db.Model):
 
 @app.route("/")
 def index():
-    # drawings = Drawfile.query.all()
-    drawings = Drawfile.query.order_by(Drawfile.locnum.asc(), Drawfile.drawnum.asc()).all()
+    lnum = request.args.get('lnum')
+
+    if lnum:
+        drawings = Drawfile.query.order_by(Drawfile.locnum.asc(), Drawfile.drawnum.asc()).filter(Drawfile.locnum == lnum).all()
+    else:
+        drawings = Drawfile.query.order_by(Drawfile.locnum.asc(), Drawfile.drawnum.asc()).all()
     return render_template("index.html", drawings=drawings, title="Home Page")
 
 
