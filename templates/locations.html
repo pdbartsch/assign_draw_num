@@ -3,7 +3,7 @@
 <div class="content">
   {% for location in location_list %}
   <div class="location">
-    <p>{{ location.locnum }}: {{ location.locdescrip }}</p>
+    <a href="{{ url_for('index', lnum=location.locnum)}}">{{ location.locnum }}: {{ location.locdescrip }}</a>
   </div>
   {% endfor %}
 </div>
