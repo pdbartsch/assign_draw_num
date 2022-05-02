@@ -1,26 +1,33 @@
 {% extends 'base.html' %}
 {% block content%}
 <div class="content">
-  {% for draw in drawings %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">UCSB Drawing#</th>
+        <th scope="col">Description</th>
+        <th scope="col">Project Manager</th>
+        <th scope="col">Consultant</th>
+        <th scope="col">Date</th>
+      </tr>
+    </thead>
+    <tbody>
 
-  <div class="drawing">
-    <b>
-      <p class="name">
-        <a href="{{ url_for('project', project_id=draw.id)}}">
-          {{ draw.locnum }}-{{ draw.drawnum }}: {{ draw.title }}
-        </a>
-      </p>
-    </b>
-    <p>
-      <ul>
-        <li>Project #:{{ draw.projectnum }}</li>
-        <li>Project Manager: {{ draw.projectmngr }}</li>
-        <li>Consultant: {{ draw.mainconsult}}</li>
-        <li>Comments: {{ draw.comments }}</li>
-      </ul>
-    </p>
-  </div>
-  {% endfor %}
+      {% for draw in drawings %}
+
+      <tr>
+        <th scope="row"><a href="{{ url_for('project', project_id=draw.id)}}">
+          {{ draw.locnum }}-{{ draw.drawnum }}</a></th>
+        <td>{{ draw.title }}</td>
+        <td>{{ draw.projectmngr }}</td>
+        <td>{{ draw.mainconsult}}</td>
+        <td>1980</td>
+      </tr>
+      {% endfor %}
+      
+    </tbody>
+  </table>
+      
 </div>
 {% endblock %}
 
