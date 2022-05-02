@@ -2,8 +2,9 @@ import os
 from flask import Flask, render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
-
 from forms import LocationForm, ProjectForm
+# from models import Drawloc, Drawfile
+
 
 SECRET_KEY = os.urandom(32)
 
@@ -160,4 +161,3 @@ def locations():
     # drawings = Drawfile.query.all()
     location_list = Drawloc.query.order_by(Drawloc.locnum.asc()).all()
     return render_template("locations.html", location_list=location_list, title="Location Categories")
-
