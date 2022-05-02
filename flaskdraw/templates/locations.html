@@ -9,7 +9,7 @@
       </tr>
     </thead>
     <tbody>
-  {% for draw in drawings %}
+  {% for location in location_list %}
   <tr>
     <th scope="row"><a href="{{ url_for('index', lnum=location.locnum)}}">
       {{ location.locnum }}</a></th>
