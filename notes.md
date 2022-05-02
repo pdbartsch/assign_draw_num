@@ -19,7 +19,7 @@ flask shell
 from app import db, Student, Drawloc, Drawfile
 db.create_all()
 
-# db.drop_all()
+## db.drop_all()
 
 student_john = Student(firstname='john', lastname='doe',
 email='jd@example.com', age=23,
