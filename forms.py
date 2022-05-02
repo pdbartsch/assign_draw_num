@@ -18,3 +18,12 @@ class ProjectForm(FlaskForm):
 class LocationForm(FlaskForm):
     locnum = IntegerField('Location Number', validators=[InputRequired()])
     locdescrip = StringField('Location Name', validators=[InputRequired(), Length(min=8, max=100)])
+
+
+# # in form field specific custom validator:
+# class FourtyTwoForm(Form):
+#     num = IntegerField('Number')
+
+#     def validate_num(form, field):
+#         if field.data != 42:
+#             raise ValidationError('Must be 42')
