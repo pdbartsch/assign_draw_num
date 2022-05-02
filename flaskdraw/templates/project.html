@@ -1,23 +1,21 @@
 {% extends 'base.html' %} 
 {% block content %}
-<span class="title">
-  <h1>
-    {{ project.locnum }}-{{ project.drawnum }}
-  </h1>
-</span>
-<div class="content">
-  <div class="drawing">
-    <p>{{ project.projectnum }}</p>
-    <p>{{ project.projectmngr }}</p>
-    <p>{{ project.mainconsult }}</p>
-    <p>{{ project.title }}</p>
-    <div class="comments">
-      <h4>Bio</h4>
-      <p>{{ project.comments }}</p>
-    </div>
-    <hr />
+
+<div class="container">
+
+  <div class= "content-section">
+
+    <h2>UCSB Drawing #{{ project.locnum }}-{{ project.drawnum }}</h2>
+    <p><b>Project Name:</b> {{ project.title }}</p>
+    <p><b>Project Number:</b> {{ project.projectnum }}</p>
+    <p><b>Project Manager:</b> {{ project.projectmngr }}</p>
+    <p><b>Consultant:</b> {{ project.mainconsult }}</p>
+    <p><b>Comments:</b> {{ project.comments }}</p>
+    <p><b>Calendar Year:</b> coming soon!</p>
+
 
     {% if current_user.is_authenticated %}
+    <hr>
     <a href="{{ url_for('edit', project_id=project.id) }}">Edit</a>
     <form method="POST" action="{{ url_for('delete', project_id=project.id) }}">
       <input
