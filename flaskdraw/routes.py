@@ -7,7 +7,7 @@ from flaskdraw.models import Drawfile, Drawloc, User
 from flask_login import login_user, current_user, logout_user, login_required
 
 @app.route("/register", methods=["GET", "POST"])
-# @login_required  # login required for this page
+@login_required  # login required for this page
 def register():
     if current_user.is_authenticated:
         return redirect(url_for("index"))
@@ -21,7 +21,7 @@ def register():
         )
         db.session.add(user)
         db.session.commit()
-        flash("your account ws created! now you can log in", "success")
+        flash("your account was created! now you can log in", "success")
         return redirect(url_for("login"))
     return render_template("register.html", title="Register", form=form)
 
