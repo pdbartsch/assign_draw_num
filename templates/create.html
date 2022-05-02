@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1 style="width: 100%">{% block title %} Add a New Project {% endblock %}</h1>
     <form method="post">
         {{ form.csrf_token }}
 
@@ -80,6 +79,6 @@
 
         <p>
             <input type="submit" value="Add" />
-          </p>
+        </p>
         </form>
-{% endblock %}
+{% endblock  content%}

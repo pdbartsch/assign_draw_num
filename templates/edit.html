@@ -2,9 +2,7 @@
 
 {% block content %}
     <h1 style="width: 100%">
-        {% block title %} Edit {{ project.locnum }}
-                               {{ project.drawnum }}'s Details
-        {% endblock %}
+        Edit {{ project.locnum }}-{{ project.drawnum }}'s Details
     </h1>
     <form method="post">
 
@@ -85,9 +83,4 @@
         </p>
     </form>
 
-
-
-
-
-
-{% endblock %}
+{% endblock content %}
