@@ -1,64 +1,74 @@
 import os
-from flask import Flask, render_template, request, url_for, redirect
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.sql import func
-from forms import LocationForm, ProjectForm
-# from models import Drawloc, Drawfile
+import secrets
+from flask import render_template, url_for, flash, redirect, request, abort
+from flaskdraw import app, db, bcrypt
+from flaskdraw.forms import LocationForm, ProjectForm, LoginForm, RegistrationForm, UpdateAccountForm
+from flaskdraw.models import Drawfile, Drawloc, User
+from flask_login import login_user, current_user, logout_user, login_required
+
+@app.route("/register", methods=["GET", "POST"])
+# @login_required  # login required for this page
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for("index"))
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode(
+            "utf-8"
+        )
+        user = User(
+            username=form.username.data, email=form.email.data, password=hashed_password
+        )
+        db.session.add(user)
+        db.session.commit()
+        flash("your account ws created! now you can log in", "success")
+        return redirect(url_for("login"))
+    return render_template("register.html", title="Register", form=form)
 
 
-SECRET_KEY = os.urandom(32)
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for("index"))
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user, remember=form.remember.data)
+            # if next parameter exists in url redirect to account page after login when trying to access page requiring login
+            next_page = request.args.get("next")
+            return redirect(next_page) if next_page else redirect(url_for("index"))
+        else:
+            flash("Login unsuccessful. Please check email and password.", "danger")
+    return render_template("login.html", title="Login", form=form)
+
+@app.route("/account", methods=["GET", "POST"])
+# @login_required  # login required for this page
+def account():
+    form = UpdateAccountForm()
+    if form.validate_on_submit():
+
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        db.session.commit()
+        flash("your account has been updated", "success")
+        return redirect(url_for("account"))
+    elif request.method == "GET":  # fill form with current users data
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+
+    return render_template(
+        "account.html", title="Account", form=form
+    )
 
 
-basedir = os.path.abspath(os.path.dirname(__file__))
 
-app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(
-    basedir, "database.db"
-)
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config['SECRET_KEY'] = SECRET_KEY
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for("index"))
 
-db = SQLAlchemy(app)
-
-
-class Student(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    firstname = db.Column(db.String(100), nullable=False)
-    lastname = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(80), unique=True, nullable=False)
-    age = db.Column(db.Integer)
-    created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
-    bio = db.Column(db.Text)
-
-    def __repr__(self):
-        return f"<Student {self.firstname}>"
-
-
-class Drawloc(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    locnum = db.Column(db.Integer, nullable=False)
-    locdescrip = db.Column(db.Text, nullable=False)
-
-    def __repr__(self):
-        return f"<Drawing Location {self.locnum} - {self.locdescrip}>"
-
-
-class Drawfile(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    locnum = db.Column(db.Integer, db.ForeignKey("drawloc.locnum"), nullable=False)
-    drawnum = db.Column(db.Integer, nullable=False)
-    contractnum = db.Column(db.String(50), nullable=True)
-    projectnum = db.Column(db.String(10), nullable=True)
-    projectmngr = db.Column(db.String(100), nullable=True)
-    mainconsult = db.Column(db.String(100), nullable=True)
-    title = db.Column(db.Text, nullable=False)
-    comments = db.Column(db.Text, nullable=True)
-    date = db.Column(db.DateTime)
-
-    def __repr__(self):
-        return f"<UCSB Drawing #{self.locnum}-{self.drawnum}: {self.title}>"
-
-
+    
 @app.route("/")
 def index():
     lnum = request.args.get('lnum')
@@ -77,6 +87,7 @@ def project(project_id):
 
 
 @app.route("/create/", methods=("GET", "POST"))
+@login_required  # login required for this page
 def create():
     form = ProjectForm()
     if request.method == "POST":
@@ -101,6 +112,7 @@ def create():
 
 
 @app.route("/<int:project_id>/edit/", methods=("GET", "POST"))
+@login_required  # login required for this page
 def edit(project_id):
     project = Drawfile.query.get_or_404(project_id)
 
@@ -132,6 +144,7 @@ def edit(project_id):
 
 
 @app.post("/<int:project_id>/delete/")
+@login_required  # login required for this page
 def delete(project_id):
     project = Drawfile.query.get_or_404(project_id)
     db.session.delete(project)
@@ -141,6 +154,7 @@ def delete(project_id):
 
 
 @app.route("/add_loc/", methods=("GET", "POST"))
+@login_required  # login required for this page
 def add_loc():
     form = LocationForm()
     if request.method == "POST":
