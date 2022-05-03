@@ -16,14 +16,17 @@
 
     {% if current_user.is_authenticated %}
     <hr>
-    <a href="{{ url_for('edit', project_id=project.id) }}">Edit</a>
-    <form method="POST" action="{{ url_for('delete', project_id=project.id) }}">
+
+    <button type="button" class="form-control-file"><a href="{{ url_for('edit', project_id=project.id) }}">Edit</a></button>
+
+    <form method="POST" class="btn" action="{{ url_for('delete', project_id=project.id) }}">
       <input
         type="submit"
         value="Delete Project"
         onclick="return confirm('Are you sure you want to delete this entry?')"
       />
     </form>
+
     {% endif %}
   </div>
 </div>

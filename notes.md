@@ -46,3 +46,7 @@ db.session.add(origilp)
 db.session.commit()
 
 # Drawloc.query.all()
+
+# table sorting
+
+- [My favorite method as of 2022](https://stackoverflow.com/a/70024272/747748)

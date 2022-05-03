@@ -4,11 +4,11 @@
   <table class="table content-section">
     <thead>
       <tr>
-        <th scope="col">UCSB Drawing#</th>
-        <th scope="col">Description</th>
-        <th scope="col">Project Manager</th>
-        <th scope="col">Consultant</th>
-        <th scope="col">Date</th>
+        <th class="order" scope="col">UCSB Drawing#</th>
+        <th class="order" scope="col">Description</th>
+        <th class="order" scope="col">Project Manager</th>
+        <th class="order" scope="col">Consultant</th>
+        <th class="order" scope="col">Date</th>
       </tr>
     </thead>
     <tbody>
@@ -16,8 +16,8 @@
       {% for draw in drawings %}
 
       <tr>
-        <th scope="row"><a href="{{ url_for('project', project_id=draw.id)}}">
-          {{ draw.locnum }}-{{ draw.drawnum }}</a></th>
+        <td scope="row"><a href="{{ url_for('project', project_id=draw.id)}}">
+          {{ draw.locnum }}-{{ draw.drawnum }}</a></td>
         <td>{{ draw.title }}</td>
         <td>{{ draw.projectmngr }}</td>
         <td>{{ draw.mainconsult}}</td>
