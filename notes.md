@@ -49,4 +49,5 @@ db.session.commit()
 
 # table sorting
 
-- [My favorite method as of 2022](https://stackoverflow.com/a/70024272/747748)
+- [My favorite method as of 2022](https://stackoverflow.com/a/49041392/747748)
+- [With this tweak](https://stackoverflow.com/a/53880407/747748)

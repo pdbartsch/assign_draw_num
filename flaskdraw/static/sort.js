@@ -1,16 +1,29 @@
-document.querySelectorAll("th.order").forEach((th_elem) => {
-  let asc = true;
-  const index = Array.from(th_elem.parentNode.children).indexOf(th_elem);
-  th_elem.addEventListener("click", (e) => {
-    const arr = [...th_elem.closest("table").querySelectorAll("tbody tr")];
-    arr.sort((a, b) => {
-      const a_val = a.children[index].innerText;
-      const b_val = b.children[index].innerText;
-      return asc ? a_val.localeCompare(b_val) : b_val.localeCompare(a_val);
-    });
-    arr.forEach((elem) => {
-      th_elem.closest("table").querySelector("tbody").appendChild(elem);
-    });
-    asc = !asc;
-  });
-});
+const getCellValue = (tr, idx) =>
+  tr.children[idx].innerText || tr.children[idx].textContent;
+
+const comparer = (idx, asc) => (a, b) =>
+  ((v1, v2) =>
+    v1 !== "" && v2 !== "" && !isNaN(v1) && !isNaN(v2)
+      ? v1 - v2
+      : v1.toString().localeCompare(v2))(
+    getCellValue(asc ? a : b, idx),
+    getCellValue(asc ? b : a, idx)
+  );
+
+// do the work...
+document.querySelectorAll("th").forEach((th) =>
+  th.addEventListener("click", () => {
+    const table = th.closest("table");
+    const tbody = table.querySelector("tbody");
+
+    Array.from(tbody.querySelectorAll("tr"))
+
+      .sort(
+        comparer(
+          Array.from(th.parentNode.children).indexOf(th),
+          (this.asc = !this.asc)
+        )
+      )
+      .forEach((tr) => tbody.appendChild(tr));
+  })
+);
