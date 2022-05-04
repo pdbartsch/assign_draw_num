@@ -2,9 +2,16 @@ import os
 import secrets
 from flask import render_template, url_for, flash, redirect, request, abort
 from flaskdraw import app, db, bcrypt
-from flaskdraw.forms import LocationForm, ProjectForm, LoginForm, RegistrationForm, UpdateAccountForm
+from flaskdraw.forms import (
+    LocationForm,
+    ProjectForm,
+    LoginForm,
+    RegistrationForm,
+    UpdateAccountForm,
+)
 from flaskdraw.models import Drawfile, Drawloc, User
 from flask_login import login_user, current_user, logout_user, login_required
+
 
 @app.route("/register", methods=["GET", "POST"])
 @login_required  # login required for this page
@@ -42,6 +49,7 @@ def login():
             flash("Login unsuccessful. Please check email and password.", "danger")
     return render_template("login.html", title="Login", form=form)
 
+
 @app.route("/account", methods=["GET", "POST"])
 # @login_required  # login required for this page
 def account():
@@ -57,10 +65,7 @@ def account():
         form.username.data = current_user.username
         form.email.data = current_user.email
 
-    return render_template(
-        "account.html", title="Account", form=form
-    )
-
+    return render_template("account.html", title="Account", form=form)
 
 
 @app.route("/logout")
@@ -68,15 +73,21 @@ def logout():
     logout_user()
     return redirect(url_for("index"))
 
-    
+
 @app.route("/")
 def index():
-    lnum = request.args.get('lnum')
+    lnum = request.args.get("lnum")
 
     if lnum:
-        drawings = Drawfile.query.order_by(Drawfile.locnum.asc(), Drawfile.drawnum.asc()).filter(Drawfile.locnum == lnum).all()
+        drawings = (
+            Drawfile.query.order_by(Drawfile.locnum.asc(), Drawfile.drawnum.asc())
+            .filter(Drawfile.locnum == lnum)
+            .all()
+        )
     else:
-        drawings = Drawfile.query.order_by(Drawfile.locnum.asc(), Drawfile.drawnum.asc()).all()
+        drawings = Drawfile.query.order_by(
+            Drawfile.locnum.asc(), Drawfile.drawnum.asc()
+        ).all()
     return render_template("index.html", drawings=drawings, title="Home Page")
 
 
@@ -101,7 +112,14 @@ def create():
         comments = form.comments.data
 
         project = Drawfile(
-            locnum=locnum, drawnum=drawnum, contractnum=contractnum, projectnum=projectnum, projectmngr=projectmngr, mainconsult=mainconsult, title=title, comments=comments
+            locnum=locnum,
+            drawnum=drawnum,
+            contractnum=contractnum,
+            projectnum=projectnum,
+            projectmngr=projectmngr,
+            mainconsult=mainconsult,
+            title=title,
+            comments=comments,
         )
         db.session.add(project)
         db.session.commit()
@@ -152,20 +170,19 @@ def delete(project_id):
     return redirect(url_for("index"))
 
 
-
 @app.route("/add_loc/", methods=("GET", "POST"))
 @login_required  # login required for this page
 def add_loc():
     form = LocationForm()
     if request.method == "POST":
         locnum = int(form.locnum.data)
-        locdescrip = (form.locdescrip.data)
+        locdescrip = form.locdescrip.data
 
         location = Drawloc(locnum=locnum, locdescrip=locdescrip)
         db.session.add(location)
         db.session.commit()
 
-        return redirect(url_for("index"))
+        return redirect(url_for("locations"))
 
     return render_template("addloc.html", form=form)
 
@@ -174,4 +191,6 @@ def add_loc():
 def locations():
     # drawings = Drawfile.query.all()
     location_list = Drawloc.query.order_by(Drawloc.locnum.asc()).all()
-    return render_template("locations.html", location_list=location_list, title="Location Categories")
+    return render_template(
+        "locations.html", location_list=location_list, title="Location Categories"
+    )

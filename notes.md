@@ -51,3 +51,9 @@ db.session.commit()
 
 - [My favorite method as of 2022](https://stackoverflow.com/a/49041392/747748)
 - [With this tweak](https://stackoverflow.com/a/53880407/747748)
+
+# git branching
+
+- [git checkout -b dev](https://stackoverflow.com/a/4470822/747748)
+- branch from a branch
+- `git checkout -b feature dev`
