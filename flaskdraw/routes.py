@@ -11,8 +11,15 @@ from flaskdraw.forms import (
 )
 from flaskdraw.models import Drawfile, Drawloc, User
 from flask_login import login_user, current_user, logout_user, login_required
+from datetime import datetime
+
+# Custom Filters
+@app.template_filter("my_multiplier")
+def datetime_format(value, format="%H:%M %d-%m-%y"):
+    return value.strftime(format)
 
 
+# Routes
 @app.route("/register", methods=["GET", "POST"])
 @login_required  # login required for this page
 def register():
@@ -143,6 +150,7 @@ def edit(project_id):
         mainconsult = request.form["mainconsult"]
         title = request.form["title"]
         comments = request.form["comments"]
+        date = request.form["daterecorded"]
 
         project.locnum = locnum
         project.drawnum = drawnum
@@ -152,6 +160,7 @@ def edit(project_id):
         project.mainconsult = mainconsult
         project.title = title
         project.comments = comments
+        project.date = datetime.strptime(date, "%Y-%m-%d")
 
         db.session.add(project)
         db.session.commit()

@@ -4,11 +4,11 @@
   <table class="table content-section">
     <thead>
       <tr>
-        <th scope="col">UCSB Drawing#</th> <!-- dont allow sort by this column currently -->
+        <th scope="col">UCSB Drawing#</th> 
         <th scope="col">Description</th>
         <th scope="col">Project Manager</th>
         <th scope="col">Consultant</th>
-        <th scope="col">Date</th>
+        <th scope="col">Date Recorded</th>
       </tr>
     </thead>
     <tbody>
@@ -20,8 +20,9 @@
           {{ draw.locnum }}-{{ draw.drawnum }}</a></td>
         <td>{{ draw.title }}</td>
         <td>{{ draw.projectmngr }}</td>
-        <td>{{ draw.mainconsult}}</td>
-        <td>1980</td>
+        <td>{{ draw.mainconsult }}</td>
+        <td>{{ draw.date | pretty_date  }}</td>
+
       </tr>
       {% endfor %}
       
