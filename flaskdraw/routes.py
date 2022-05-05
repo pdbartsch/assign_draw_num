@@ -21,7 +21,7 @@ def datetime_format(value, format="%H:%M %d-%m-%y"):
 
 # Routes
 @app.route("/register", methods=["GET", "POST"])
-@login_required  # login required for this page
+# @login_required  # login required for this page
 def register():
     if current_user.is_authenticated:
         return redirect(url_for("index"))
@@ -117,6 +117,7 @@ def create():
         mainconsult = form.mainconsult.data
         title = form.title.data
         comments = form.comments.data
+        datenow = datetime.now()
 
         project = Drawfile(
             locnum=locnum,
@@ -127,6 +128,7 @@ def create():
             mainconsult=mainconsult,
             title=title,
             comments=comments,
+            date=datenow,
         )
         db.session.add(project)
         db.session.commit()
@@ -140,7 +142,6 @@ def create():
 @login_required  # login required for this page
 def edit(project_id):
     project = Drawfile.query.get_or_404(project_id)
-
     if request.method == "POST":
         locnum = int(request.form["locnum"])
         drawnum = int(request.form["drawnum"])
@@ -150,7 +151,7 @@ def edit(project_id):
         mainconsult = request.form["mainconsult"]
         title = request.form["title"]
         comments = request.form["comments"]
-        date = request.form["daterecorded"]
+        daterecorded = request.form["daterecorded"]
 
         project.locnum = locnum
         project.drawnum = drawnum
@@ -160,13 +161,11 @@ def edit(project_id):
         project.mainconsult = mainconsult
         project.title = title
         project.comments = comments
-        project.date = datetime.strptime(date, "%Y-%m-%d")
+        project.date = datetime.strptime(daterecorded, "%Y-%m-%d")
 
         db.session.add(project)
         db.session.commit()
-
         return redirect(url_for("index"))
-
     return render_template("edit.html", project=project)
 
 

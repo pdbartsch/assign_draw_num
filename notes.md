@@ -16,7 +16,8 @@ flask run
 https://flask-sqlalchemy.palletsprojects.com/en/2.x/models/
 
 flask shell
-from app import db, Student, Drawloc, Drawfile
+from flaskdraw import app
+from flaskdraw.models import db, User, Drawloc, Drawfile
 db.create_all()
 
 ## db.drop_all()

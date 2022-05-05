@@ -103,12 +103,7 @@ class ProjectForm(FlaskForm):
         "Project Name", validators=[InputRequired(), Length(min=10, max=100)]
     )
     comments = TextAreaField("Comments", validators=[Length(max=200)])
-    daterecorded = DateField(
-        "Date of Record",
-        format="%d.%m.%Y",
-        default=datetime.today(),
-        validators=[DataRequired()],
-    )
+    daterecorded = DateField(validators=[DataRequired()])
 
 
 class LocationForm(FlaskForm):

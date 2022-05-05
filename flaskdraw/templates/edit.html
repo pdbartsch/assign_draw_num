@@ -1,95 +1,76 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1 style="width: 100%">
-        Edit {{ project.locnum }}-{{ project.drawnum }}'s Details
-    </h1>
-    <form method="post">
-
-        <p>
-            <label for="locnum">Location Number</label>
+<h1>
+    Edit {{ project.locnum }}-{{ project.drawnum }}'s Details
+</h1>
+<form method="post" class="row g-3">
+    <div class="col-md-6">
+            <label class="form-label" for="locnum">Location Number</label>
             <input type="number" name="locnum"
                     value="{{ project.locnum }}"
-
                     >
             </input>
-        </p>
-
-        <p>
-            <label for="drawnum">Drawing Number</label>
+    </div>
+    <div class="col-md-6">
+            <label class="form-label" for="drawnum">Drawing Number</label>
             <input type="number" name="drawnum"
                     value="{{ project.drawnum }}"
                     >
             </input>
-        </p>
-
-        <p>
-            <label for="contractnum">Contract Number</label>
+    </div>
+    <div class="col-md-6">
+            <label class="form-label" for="contractnum">Contract Number</label>
             <input type="text" name="contractnum"
                     value="{{ project.contractnum }}"
-
                     >
             </input>
-        </p>
-
-        <p>
-            <label for="projectnum">Project Number</label>
+    </div>
+    <div class="col-md-6">
+            <label class="form-label" for="projectnum">Project Number</label>
             <input type="text" name="projectnum"
                     value="{{ project.projectnum }}"
-
                     >
             </input>
-        </p>
-
-        <p>
-            <label for="projectmngr">Project Manager</label>
+    </div>
+    <div class="col-md-6">
+            <label class="form-label" for="projectmngr">Project Manager</label>
             <input type="text" name="projectmngr"
                     value="{{ project.projectmngr }}"
-
                     >
             </input>
-        </p>
-
-        <p>
-            <label for="mainconsult">Consultant</label>
+    </div>
+    <div class="col-md-6">
+            <label class="form-label" for="mainconsult">Consultant</label>
             <input type="text" name="mainconsult"
                     value="{{ project.mainconsult }}"
-
                     >
             </input>
-        </p>
-
-        <p>
-            <label for="title">Project Name</label>
+    </div>
+    <div class="col-12">
+            <label class="form-label" for="title">Project Name</label>
             <input type="text" name="title"
                     value="{{ project.title }}"
-
                     >
             </input>
-        </p>
-
-
-        <p>
-        <label for="comments">Comments</label>
+    </div>
+    <div class="col-12">
+        <label class="form-label" for="comments">Comments</label>
         <input type="textarea" name="comments"
             value="{{ project.comments }}"
-
             >
         </input>
-        </p>
-
-        <p>
-        <label for="daterecorded">Date</label>
+    </div>
+    <div class="col-12">
+        <label class="form-label" for="daterecorded">Date</label>
         <input type="date" name="daterecorded"
-            value="{{ project.daterecorded }}"
-
+            value="{{ project.date }}"
             >
         </input>
-        </p>
-
-        <p>
+    </div>
+    <div class="col-12">
             <button type="submit">Submit</button>
-        </p>
-    </form>
+    </div>
+</form>
 
 {% endblock content %}

@@ -1,18 +1,20 @@
 from sqlalchemy.sql import func
+
 # from flaskdraw import db
 from flaskdraw import db, login_manager
 from flask_login import UserMixin
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-    
+
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
-
 
     # defines how printed out
     def __repr__(self):
@@ -38,10 +40,7 @@ class Drawfile(db.Model):
     mainconsult = db.Column(db.String(100), nullable=True)
     title = db.Column(db.Text, nullable=False)
     comments = db.Column(db.Text, nullable=True)
-    date = db.Column(db.DateTime)
+    date = db.Column(db.Date)
 
     def __repr__(self):
         return f"<UCSB Drawing #{self.locnum}-{self.drawnum}: {self.title}>"
-
-
-
