@@ -84,7 +84,13 @@ def logout():
 
 @app.route("/")
 def index():
+    form = SearchForm()
+    # if form.validate_on_submit():
+
+ 
     lnum = request.args.get("lnum")
+    searched = request.args.get("searched")
+        
     if lnum:
         filtered_locations = True
         drawings = (
@@ -93,6 +99,14 @@ def index():
             .all()
         )
         subheading="Projects Associated with Location " + str(lnum) + ":"
+    elif searched:
+        filtered_locations = True
+        drawings = (
+            Drawfile.query.order_by(Drawfile.locnum.asc(), Drawfile.drawnum.asc())
+            .filter(Drawfile.title.like('%' + searched + '%'))
+            .all()
+        )
+        subheading="Projects Associated with Title like " + searched + ":"
     else:
         filtered_locations = False
         drawings = Drawfile.query.order_by(

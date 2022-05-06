@@ -85,16 +85,27 @@
                 {% block content %}{% endblock %}
             </div>
             <div class="col-md-4">
-                <div class="content-section">
+                <div class="content-section bg-light">
                     <h3>Search</h3>
-                    <form method="POST" action="{{ url_for('search')}}">
-                        {{ form.csrf_token }}
-                        <label for="searchtext01" class="form-label">Title</label>
-                        <input type="search" placeholder="Project Title" name="searched" id="searchtext01" class="form-control" aria-describedby="searchtext01HelpBlock">
+                </div>
+                <div class="content-section">
+                    <form method="GET|POST" action="{{ url_for('index')}}">
+                        <label for="searchtext01" class="form-label">by title:</label>
+                        <input type="search" placeholder="Title" name="searched" id="searchtext01" class="form-control" aria-describedby="searchtext01HelpBlock">
                         <div id="searchtext01HelpBlock" class="form-text">
                         Search by project title.
                         </div>
-                        <button type="submit" class="btn btn-primary">View Results / View All</button>
+                        <button type="submit" class="btn btn-secondary">Search by Title</button>
+                    </form>
+                </div>
+                <div class="content-section">
+                    <form method="GET|POST" action="{{ url_for('index')}}">
+                        <label for="searchnumber02" class="form-label">by location:</label>
+                        <input type="number" placeholder="Location Number" name="lnum" id="searchnumber02" class="form-control" aria-describedby="searchnumber02HelpBlock">
+                        <div id="searchnumber02HelpBlock" class="form-text">
+                        Search by project location.
+                        </div>
+                        <button type="submit" class="btn btn-secondary">Search by Location</button>
                     </form>
                 </div>
             </div>

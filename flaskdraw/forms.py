@@ -114,6 +114,7 @@ class LocationForm(FlaskForm):
 
 
 class SearchForm(FlaskForm):
+    lnum = IntegerField("Location Number", validators=[InputRequired()])
     searched = StringField("Searched", validators=[InputRequired()])
     submit = SubmitField("Submit")
 
