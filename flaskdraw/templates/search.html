@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
 {% block content%}
 <div class="content ">
-  {% if filtered_locations %}
-  <h4>{{ subheading }}</h4>
-  {% endif %}
+  <h2>Your Search Results:</h2>
+
   <table class="table content-section">
     <thead>
       <tr>
@@ -25,14 +24,13 @@
         <td>{{ draw.projectmngr }}</td>
         <td>{{ draw.mainconsult }}</td>
         <td>{{ draw.date | pretty_date  }}</td>
-        <!-- <td>{{ draw.date | date_to_year  }}</td> -->
 
       </tr>
       {% endfor %}
       
     </tbody>
   </table>
-      
+
 </div>
 {% endblock %}
 

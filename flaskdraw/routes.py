@@ -8,6 +8,7 @@ from flaskdraw.forms import (
     LoginForm,
     RegistrationForm,
     UpdateAccountForm,
+    SearchForm
 )
 from flaskdraw.models import Drawfile, Drawloc, User
 from flask_login import login_user, current_user, logout_user, login_required
@@ -84,19 +85,43 @@ def logout():
 @app.route("/")
 def index():
     lnum = request.args.get("lnum")
-
     if lnum:
+        filtered_locations = True
         drawings = (
             Drawfile.query.order_by(Drawfile.locnum.asc(), Drawfile.drawnum.asc())
             .filter(Drawfile.locnum == lnum)
             .all()
         )
+        subheading="Projects Associated with Location " + str(lnum) + ":"
     else:
+        filtered_locations = False
         drawings = Drawfile.query.order_by(
             Drawfile.locnum.asc(), Drawfile.drawnum.asc()
         ).all()
-    return render_template("index.html", drawings=drawings, title="Home Page")
+        subheading="Showing all Projects: "
+    return render_template("index.html", drawings=drawings, title="Home Page", filtered_locations=filtered_locations, subheading=subheading)
 
+#pass stuff to search div
+@app.context_processor
+def base():
+    form = SearchForm()
+    return dict(form=form)
+
+# search results
+@app.route("/search", methods=["POST"])
+def search():
+    form = SearchForm()
+    drawings = Drawfile.query
+    # get data from submitted form
+    searched = form.searched.data
+    if searched:
+        if form.validate_on_submit():
+            drawings = drawings.filter(Drawfile.title.like('%' + searched + '%'))
+            drawings = drawings.order_by(Drawfile.locnum.asc(), Drawfile.drawnum.asc()).all()
+            return render_template("search.html", form=form, searched=searched, drawings=drawings)
+    else:
+        drawings = drawings.order_by(Drawfile.locnum.asc(), Drawfile.drawnum.asc()).all()
+        return render_template("index.html", form=form, drawings=drawings)
 
 @app.route("/<int:project_id>/")
 def project(project_id):

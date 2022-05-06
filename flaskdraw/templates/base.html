@@ -86,15 +86,16 @@
             </div>
             <div class="col-md-4">
                 <div class="content-section">
-                    <h3>Search Bar</h3>
-                    <p class='text-muted'>Coming Soon!
-                        <ul class="list-group">
-                            <li class="list-group-item list-group-item-light">By Name</li>
-                            <li class="list-group-item list-group-item-light">By Location</li>
-                            <li class="list-group-item list-group-item-light">By PM</li>
-                            <li class="list-group-item list-group-item-light">etc</li>
-                        </ul>
-                    </p>
+                    <h3>Search</h3>
+                    <form method="POST" action="{{ url_for('search')}}">
+                        {{ form.csrf_token }}
+                        <label for="searchtext01" class="form-label">Title</label>
+                        <input type="search" placeholder="Project Title" name="searched" id="searchtext01" class="form-control" aria-describedby="searchtext01HelpBlock">
+                        <div id="searchtext01HelpBlock" class="form-text">
+                        Search by project title.
+                        </div>
+                        <button type="submit" class="btn btn-primary">View Results / View All</button>
+                    </form>
                 </div>
             </div>
         </div>

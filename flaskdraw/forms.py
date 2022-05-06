@@ -113,6 +113,12 @@ class LocationForm(FlaskForm):
     )
 
 
+class SearchForm(FlaskForm):
+    searched = StringField("Searched", validators=[InputRequired()])
+    submit = SubmitField("Submit")
+
+
+
 # # in form field specific custom validator:
 # class FourtyTwoForm(Form):
 #     num = IntegerField('Number')
