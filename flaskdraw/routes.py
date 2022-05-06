@@ -86,8 +86,6 @@ def logout():
 def index():
     form = SearchForm()
     # if form.validate_on_submit():
-
- 
     lnum = request.args.get("lnum")
     searched = request.args.get("searched")
         
@@ -109,9 +107,10 @@ def index():
         subheading="Projects Associated with Title like " + searched + ":"
     else:
         filtered_locations = False
-        drawings = Drawfile.query.order_by(
-            Drawfile.locnum.asc(), Drawfile.drawnum.asc()
-        ).all()
+        drawings = (
+            Drawfile.query.order_by(Drawfile.locnum.asc(), Drawfile.drawnum.asc())
+            .all()
+        )
         subheading="Showing all Projects: "
     return render_template("index.html", drawings=drawings, title="Home Page", filtered_locations=filtered_locations, subheading=subheading)
 
@@ -137,9 +136,15 @@ def search():
         drawings = drawings.order_by(Drawfile.locnum.asc(), Drawfile.drawnum.asc()).all()
         return render_template("index.html", form=form, drawings=drawings)
 
-@app.route("/<int:project_id>/")
-def project(project_id):
-    project = Drawfile.query.get_or_404(project_id)
+# @app.route("/<int:project_id>/")
+# def project(project_id):
+#     project = Drawfile.query.get_or_404(project_id)
+#     return render_template("project.html", project=project)
+
+@app.route("/<int:locnum>/<int:drawnum>")
+def project(locnum, drawnum):
+    # project = Drawfile.query.get_or_404(project_id)
+    project = Drawfile.query.filter(Drawfile.locnum==locnum, Drawfile.drawnum==drawnum).all()
     return render_template("project.html", project=project)
 
 

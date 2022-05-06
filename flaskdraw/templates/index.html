@@ -19,7 +19,7 @@
       {% for draw in drawings %}
 
       <tr>
-        <td scope="row"><a href="{{ url_for('project', project_id=draw.id)}}">
+        <td scope="row"><a href="{{ url_for('project', locnum=draw.locnum, drawnum=draw.drawnum) }}">
           {{ draw.locnum }}-{{ draw.drawnum }}</a></td>
         <td>{{ draw.title }}</td>
         <td>{{ draw.projectmngr }}</td>
