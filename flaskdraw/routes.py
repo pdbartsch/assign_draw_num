@@ -141,12 +141,17 @@ def search():
 #     project = Drawfile.query.get_or_404(project_id)
 #     return render_template("project.html", project=project)
 
-@app.route("/<int:locnum>/<int:drawnum>")
+@app.route("/<int:locnum>/<int:drawnum>/")
 def project(locnum, drawnum):
     # project = Drawfile.query.get_or_404(project_id)
     project = Drawfile.query.filter(Drawfile.locnum==locnum, Drawfile.drawnum==drawnum).all()
     return render_template("project.html", project=project)
 
+@app.route("/<int:locnum>/")
+def loc_group(locnum):
+    # project = Drawfile.query.get_or_404(project_id)
+    project = Drawfile.query.filter(Drawfile.locnum==locnum).all()
+    return render_template("project.html", project=project)
 
 @app.route("/create/", methods=("GET", "POST"))
 @login_required  # login required for this page
@@ -212,6 +217,22 @@ def edit(project_id):
         return redirect(url_for("index"))
     return render_template("edit.html", project=project)
 
+
+@app.route("/editloc/<int:locnum>", methods=("GET", "POST"))
+@login_required  # login required for this page
+def edit_loc(locnum):
+    row = Drawloc.query.filter(Drawloc.locnum == locnum).all()
+    if request.method == "POST":
+        locnum = int(request.form["locnum"])
+        locdescrip = request.form["locdescrip"]
+
+        row.locnum = locnum
+        row.locdescrip = locdescrip
+
+        db.session.add(row)
+        db.session.commit()
+        return redirect(url_for("locations"))
+    return render_template("edit_loc.html", row=row)
 
 @app.post("/<int:project_id>/delete/")
 @login_required  # login required for this page

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>
+    Edit Location {{ row.locnum }}'s Details
+</h3>
+<div class="content">
+        <p>{{row}}</p>
+        <table class="table content-section">
+                <thead>
+                        <tr>
+                        <th scope="col">Location #</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Buttons</th>
+                        </tr>
+                </thead>
+                <tbody>
+                        <tr>
+                        {% for r in row %}
+                        <td>{{ r.locnum | int }}</td>
+                        <td>{{ r.locdescrip }}</td>
+                        {% endfor %}
+                        <td> Submit </td>
+                        </tr>
+
+                </tbody>
+        </table>
+</div>
+
+
+<!-- 
+<form method="post" class="row g-3">
+        <div class="col-12">
+                <label class="form-label" for="locnum">Location Number</label>
+                <input type="number" name="locnum"
+                        value="{{ row.locnum }}"
+                        >
+                </input>
+        </div>
+        <div class="col-12">
+            <label class="form-label" for="locdescrip">Location Description</label>
+            <input type="textarea" name="locdescrip"
+                value="{{ row.locdescrip }}"
+                >
+            </input>
+        </div>
+        <div class="col-12">
+                <button type="submit">Submit</button>
+        </div>
+    </form> -->
+
+{% endblock content %}
