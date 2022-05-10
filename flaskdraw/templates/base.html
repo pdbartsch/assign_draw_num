@@ -39,6 +39,9 @@
                         <li class="nav-item">
                             <a class="nav-item nav-link" href="{{ url_for('locations') }}">Location Index</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-item nav-link" href="{{ url_for('drawings') }}">Drawings Example</a>
+                        </li>
                     </ul>
                     <!-- Navbar Right Side -->
                     <ul class="navbar-nav d-flex">
@@ -71,7 +74,8 @@
 
     <main role="main" class="container">
         <div class="row">
-            <div class="col-md-8">
+
+            <div class="col-md-9 order-first" >
                 {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                 {% for category, message in messages %}
@@ -84,7 +88,7 @@
                 {% endwith %}
                 {% block content %}{% endblock %}
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3 order-last" >
                 <div class="content-section bg-light">
                     <h3>Search</h3>
                 </div>

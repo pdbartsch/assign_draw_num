@@ -120,6 +120,56 @@ def index():
     )
 
 
+@app.route("/drawings/")
+def drawings():
+    drawings = (
+        Drawings.query.order_by(Drawings.locnum.asc(), Drawings.drawnum.asc())
+        .filter(Drawings.locnum == 525)
+        .all()
+    )
+    return render_template(
+        "drawings.html",
+        drawings=drawings,
+        title="Drawings",
+    )
+
+
+@app.route("/drawings/<int:locnum>/")
+def location_set(locnum):
+    drawings = (
+        Drawings.query.order_by(Drawings.locnum.asc(), Drawings.drawnum.asc())
+        .filter(Drawings.locnum == locnum)
+        .all()
+    )
+    return render_template(
+        "drawings.html",
+        drawings=drawings,
+        title="Drawing for location " + str(locnum),
+    )
+
+
+@app.route("/drawings/<int:locnum>/<int:drawnum>/")
+def drawing_set(locnum, drawnum):
+    drawings = (
+        Drawings.query.order_by(Drawings.locnum.asc(), Drawings.drawnum.asc())
+        .filter(Drawings.locnum == locnum, Drawings.drawnum == drawnum)
+        .all()
+    )
+    return render_template(
+        "drawings.html",
+        drawings=drawings,
+        title="Drawing Set " + str(locnum) + "-" + str(drawnum),
+    )
+
+
+# @app.route("/<int:locnum>/<int:drawnum>/")
+# def project(locnum, drawnum):
+#     # project = Drawfile.query.get_or_404(project_id)
+#     project = Drawfile.query.filter(
+#         Drawfile.locnum == locnum, Drawfile.drawnum == drawnum
+#     ).all()
+#     return render_template("project.html", project=project)
+
 # pass stuff to search div
 @app.context_processor
 def base():
