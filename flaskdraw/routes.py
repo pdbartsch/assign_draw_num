@@ -186,6 +186,16 @@ def create():
 
     return render_template("create.html", form=form)
 
+@app.route("/create/<int:locnum>", methods=("GET", "POST"))
+def newproject(locnum):
+    form = ProjectForm()
+    drawings = (
+    Drawfile.query.order_by(Drawfile.locnum.asc(), Drawfile.drawnum.desc())
+    .filter(Drawfile.locnum == locnum)
+    .limit(5)
+    .all()
+    )
+    return render_template("newproject.html", drawings=drawings)
 
 @app.route("/<int:project_id>/edit/", methods=("GET", "POST"))
 @login_required  # login required for this page
