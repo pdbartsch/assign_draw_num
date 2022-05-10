@@ -8,9 +8,9 @@ from flaskdraw.forms import (
     LoginForm,
     RegistrationForm,
     UpdateAccountForm,
-    SearchForm
+    SearchForm,
 )
-from flaskdraw.models import Drawfile, Drawloc, User
+from flaskdraw.models import Drawfile, Drawloc, User, Drawings
 from flask_login import login_user, current_user, logout_user, login_required
 from datetime import datetime
 
@@ -88,7 +88,7 @@ def index():
     # if form.validate_on_submit():
     lnum = request.args.get("lnum")
     searched = request.args.get("searched")
-        
+
     if lnum:
         filtered_locations = True
         drawings = (
@@ -96,29 +96,36 @@ def index():
             .filter(Drawfile.locnum == lnum)
             .all()
         )
-        subheading="Projects Associated with Location " + str(lnum) + ":"
+        subheading = "Projects Associated with Location " + str(lnum) + ":"
     elif searched:
         filtered_locations = True
         drawings = (
             Drawfile.query.order_by(Drawfile.locnum.asc(), Drawfile.drawnum.asc())
-            .filter(Drawfile.title.like('%' + searched + '%'))
+            .filter(Drawfile.title.like("%" + searched + "%"))
             .all()
         )
-        subheading="Projects Associated with Title like " + searched + ":"
+        subheading = "Projects Associated with Title like " + searched + ":"
     else:
         filtered_locations = False
-        drawings = (
-            Drawfile.query.order_by(Drawfile.locnum.asc(), Drawfile.drawnum.asc())
-            .all()
-        )
-        subheading="Showing all Projects: "
-    return render_template("index.html", drawings=drawings, title="Home Page", filtered_locations=filtered_locations, subheading=subheading)
+        drawings = Drawfile.query.order_by(
+            Drawfile.locnum.asc(), Drawfile.drawnum.asc()
+        ).all()
+        subheading = "Showing all Projects: "
+    return render_template(
+        "index.html",
+        drawings=drawings,
+        title="Home Page",
+        filtered_locations=filtered_locations,
+        subheading=subheading,
+    )
 
-#pass stuff to search div
+
+# pass stuff to search div
 @app.context_processor
 def base():
     form = SearchForm()
     return dict(form=form)
+
 
 # search results
 @app.route("/search", methods=["POST"])
@@ -129,29 +136,41 @@ def search():
     searched = form.searched.data
     if searched:
         if form.validate_on_submit():
-            drawings = drawings.filter(Drawfile.title.like('%' + searched + '%'))
-            drawings = drawings.order_by(Drawfile.locnum.asc(), Drawfile.drawnum.asc()).all()
-            return render_template("search.html", form=form, searched=searched, drawings=drawings)
+            drawings = drawings.filter(Drawfile.title.like("%" + searched + "%"))
+            drawings = drawings.order_by(
+                Drawfile.locnum.asc(), Drawfile.drawnum.asc()
+            ).all()
+            return render_template(
+                "search.html", form=form, searched=searched, drawings=drawings
+            )
     else:
-        drawings = drawings.order_by(Drawfile.locnum.asc(), Drawfile.drawnum.asc()).all()
+        drawings = drawings.order_by(
+            Drawfile.locnum.asc(), Drawfile.drawnum.asc()
+        ).all()
         return render_template("index.html", form=form, drawings=drawings)
+
 
 # @app.route("/<int:project_id>/")
 # def project(project_id):
 #     project = Drawfile.query.get_or_404(project_id)
 #     return render_template("project.html", project=project)
 
+
 @app.route("/<int:locnum>/<int:drawnum>/")
 def project(locnum, drawnum):
     # project = Drawfile.query.get_or_404(project_id)
-    project = Drawfile.query.filter(Drawfile.locnum==locnum, Drawfile.drawnum==drawnum).all()
+    project = Drawfile.query.filter(
+        Drawfile.locnum == locnum, Drawfile.drawnum == drawnum
+    ).all()
     return render_template("project.html", project=project)
+
 
 @app.route("/<int:locnum>/")
 def loc_group(locnum):
     # project = Drawfile.query.get_or_404(project_id)
-    project = Drawfile.query.filter(Drawfile.locnum==locnum).all()
+    project = Drawfile.query.filter(Drawfile.locnum == locnum).all()
     return render_template("project.html", project=project)
+
 
 @app.route("/create/", methods=("GET", "POST"))
 @login_required  # login required for this page
@@ -186,16 +205,18 @@ def create():
 
     return render_template("create.html", form=form)
 
+
 @app.route("/create/<int:locnum>", methods=("GET", "POST"))
 def newproject(locnum):
     form = ProjectForm()
     drawings = (
-    Drawfile.query.order_by(Drawfile.locnum.asc(), Drawfile.drawnum.desc())
-    .filter(Drawfile.locnum == locnum)
-    .limit(5)
-    .all()
+        Drawfile.query.order_by(Drawfile.locnum.asc(), Drawfile.drawnum.desc())
+        .filter(Drawfile.locnum == locnum)
+        .limit(5)
+        .all()
     )
     return render_template("newproject.html", drawings=drawings)
+
 
 @app.route("/<int:project_id>/edit/", methods=("GET", "POST"))
 @login_required  # login required for this page
@@ -243,6 +264,7 @@ def edit_loc(locnum):
         db.session.commit()
         return redirect(url_for("locations"))
     return render_template("edit_loc.html", row=row)
+
 
 @app.post("/<int:project_id>/delete/")
 @login_required  # login required for this page

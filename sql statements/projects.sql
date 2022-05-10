@@ -1,6 +1,5 @@
 -- SQLite
-INSERT INTO "drawfile" ("locnum", "drawnum", "contractnum", "projectnum", "projectmngr", "mainconsult", "title", "comments", "date") VALUES 
-
+INSERT INTO drawfile (locnum, drawnum, contractnum, projectnum, projectmngr, mainconsult, title, comments, date) VALUES
 (10,187,"406  25",null,"Tom Tomeoni","Tom Tomeoni","Lagoon Area Study",null,'1989-12-20'),
 (10,189,"030325S  987527",null,"Moe Hurtado","Penfield And Smith  Stantec","Los Carneros Fiber Optics Conduit",null,'2002-12-18'),
 (10,191," 070167S",null,"Mark Peppers","Mark Peppers","Low Pressure Drop Filter Installation",null,'2006-09-20'),

@@ -8,7 +8,7 @@ flask shell
 # haven't figured out date format yet
 
 from flaskdraw import app, db
-from flaskdraw.models import User, Drawloc, Drawfile
+from flaskdraw.models import User, Drawloc, Drawfile, Drawings
 db.drop_all()
 db.create_all()
 

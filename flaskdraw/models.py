@@ -1,6 +1,3 @@
-from sqlalchemy.sql import func
-
-# from flaskdraw import db
 from flaskdraw import db, login_manager
 from flask_login import UserMixin
 
@@ -44,3 +41,23 @@ class Drawfile(db.Model):
 
     def __repr__(self):
         return f"<UCSB Drawing #{self.locnum}-{self.drawnum}: {self.title}>"
+
+
+class Drawings(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    oldname = db.Column(db.String(255), nullable=True)
+    newname = db.Column(db.String(255), nullable=True)
+    locnum = db.Column(db.Integer, nullable=True)
+    drawnum = db.Column(db.Integer, nullable=True)
+    project_title = db.Column(db.String(255), nullable=True)
+    project_number = db.Column(db.String(50), nullable=True)
+    project_year = db.Column(db.Integer, nullable=True)
+    sheet_title = db.Column(db.String(255), nullable=True)
+    sheet_number = db.Column(db.String(255), nullable=True)
+    discipline = db.Column(db.String(255), nullable=True)
+    drawing_version = db.Column(db.String(255), nullable=True)
+    notes = db.Column(db.String(255), nullable=True)
+    physical_location = db.Column(db.String(255), nullable=True)
+
+    def __repr__(self):
+        return f"<UCSB Drawing #{self.locnum}-{self.drawnum}: {self.title}: c.{self.project_year}>"
