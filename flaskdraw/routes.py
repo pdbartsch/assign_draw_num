@@ -122,6 +122,7 @@ def index():
 
 @app.route("/drawings/")
 def drawings():
+    
     drawings = (
         Drawings.query.order_by(Drawings.locnum.asc(), Drawings.drawnum.asc())
         .filter(Drawings.locnum == 525)
@@ -161,15 +162,6 @@ def drawing_set(locnum, drawnum):
         title="Drawing Set " + str(locnum) + "-" + str(drawnum),
     )
 
-
-# @app.route("/<int:locnum>/<int:drawnum>/")
-# def project(locnum, drawnum):
-#     # project = Drawfile.query.get_or_404(project_id)
-#     project = Drawfile.query.filter(
-#         Drawfile.locnum == locnum, Drawfile.drawnum == drawnum
-#     ).all()
-#     return render_template("project.html", project=project)
-
 # pass stuff to search div
 @app.context_processor
 def base():
@@ -200,19 +192,17 @@ def search():
         return render_template("index.html", form=form, drawings=drawings)
 
 
-# @app.route("/<int:project_id>/")
-# def project(project_id):
-#     project = Drawfile.query.get_or_404(project_id)
-#     return render_template("project.html", project=project)
-
-
 @app.route("/<int:locnum>/<int:drawnum>/")
 def project(locnum, drawnum):
     # project = Drawfile.query.get_or_404(project_id)
     project = Drawfile.query.filter(
         Drawfile.locnum == locnum, Drawfile.drawnum == drawnum
     ).all()
-    return render_template("project.html", project=project)
+    numofdrawings = Drawfile.query.filter(
+        Drawings.locnum == locnum, Drawings.drawnum == drawnum
+    ).count()
+
+    return render_template("project.html", project=project, numofdrawings=numofdrawings)
 
 
 @app.route("/<int:locnum>/")
