@@ -122,16 +122,28 @@ def index():
 
 @app.route("/drawings/")
 def drawings():
-    
-    drawings = (
-        Drawings.query.order_by(Drawings.locnum.asc(), Drawings.drawnum.asc())
-        .filter(Drawings.locnum == 525)
-        .all()
-    )
+    locnum = request.args.get("locnum")
+    drawnum = request.args.get("drawnum")
+    if locnum and drawnum:
+        drawings = (
+            Drawings.query.order_by(Drawings.locnum.asc(), Drawings.drawnum.asc())
+            .filter(Drawings.locnum == locnum, Drawings.drawnum == drawnum)
+            .all()
+        )
+    elif locnum:
+        drawings = (
+            Drawings.query.order_by(Drawings.locnum.asc(), Drawings.drawnum.asc())
+            .filter(Drawings.locnum == locnum)
+            .all()
+        )
+    else:
+        drawings = None
+
     return render_template(
         "drawings.html",
         drawings=drawings,
-        title="Drawings",
+        title="Drawing results:",
+        heading = "Result of drawing search:"
     )
 
 
@@ -145,7 +157,7 @@ def location_set(locnum):
     return render_template(
         "drawings.html",
         drawings=drawings,
-        title="Drawing for location " + str(locnum),
+        title="Drawing results for location #" + str(locnum),
     )
 
 
@@ -198,11 +210,8 @@ def project(locnum, drawnum):
     project = Drawfile.query.filter(
         Drawfile.locnum == locnum, Drawfile.drawnum == drawnum
     ).all()
-    numofdrawings = Drawfile.query.filter(
-        Drawings.locnum == locnum, Drawings.drawnum == drawnum
-    ).count()
 
-    return render_template("project.html", project=project, numofdrawings=numofdrawings)
+    return render_template("project.html", project=project)
 
 
 @app.route("/<int:locnum>/")

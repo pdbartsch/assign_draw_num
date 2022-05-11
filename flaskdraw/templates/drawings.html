@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content%}
 
-
+<h3>{{ heading }}</h3>
   <table class="table content-section">
     <thead>
       <tr>
@@ -12,16 +12,21 @@
       </tr>
     </thead>
     <tbody>
-
-      {% for draw in drawings %}
-
-      <tr>
-        <td scope="row">{{ draw.locnum }}-{{ draw.drawnum }}-{{ draw.sheet_number }}</td>
-        <td>{{ draw.project_title }}</td>
-        <td>{{ draw.sheet_title }}</td>
-        <td>{{ draw.project_year }}</td>
-      </tr>
-      {% endfor %}
+      {% if drawings %}
+        {% for draw in drawings %}
+        <tr>
+          <td scope="row"><a href="{{ 'https://drawings.facilities.ucsb.edu/drawings/{locnum}/{newname}'.format(locnum = draw.locnum, newname = draw.newname) }}" target="_blank">
+            {{ draw.locnum }}-{{ draw.drawnum }}-{{ draw.sheet_number }}</a></td>
+          <td>{{ draw.project_title }}</td>
+          <td>{{ draw.sheet_title }}</td>
+          <td>{{ draw.project_year }}</td>
+        </tr>
+        {% endfor %}
+      {% else %}
+        <tr>
+          <td>Your query returned no results</td>
+        </tr>
+      {% endif %}
       
     </tbody>
   </table>
