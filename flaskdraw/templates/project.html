@@ -13,6 +13,7 @@
     <p><b>Consultant:</b> {{ p.mainconsult }}</p>
     <p><b>Comments:</b> {{ p.comments }}</p>
     <p><b>Calendar Year:</b> {{ p.date | pretty_date  }}</p>
+    
 
     {% if current_user.is_authenticated %}
     <hr>
@@ -31,5 +32,6 @@
     {% endif %}
   </div>
   {% endfor %}
+  <p><b>Number of drawings in set:</b> {{ numofdrawings }}</p>
 </div>
 {% endblock content %}
