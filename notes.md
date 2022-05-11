@@ -57,3 +57,11 @@ https://flask-sqlalchemy.palletsprojects.com/en/2.x/models/
 - `git checkout -b feature dev`
 
 try: http://localhost:5000/drawings/525/601/
+
+# testing
+
+pytest -v
+or
+python pytest -v
+https://testdriven.io/blog/flask-pytest/
+https://realpython.com/python-testing/

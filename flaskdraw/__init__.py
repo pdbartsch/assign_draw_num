@@ -24,3 +24,11 @@ login_manager.login_message_category = "info"
 
 from flaskdraw import routes
 from flaskdraw import filters
+
+
+
+def create_app(config_filename):
+    app = Flask(__name__)
+    app.config.from_pyfile(config_filename)
+
+    db = SQLAlchemy(app)
