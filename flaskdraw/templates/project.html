@@ -3,6 +3,7 @@
 
 <div class="container">
 
+
   {% for p in project %}
   <div class= "content-section">
 
@@ -10,7 +11,8 @@
     <p><b>Project Name:</b> {{ p.title }}</p>
     <p><b>Project Manager:</b> {{ p.projectmngr }}</p>
     <p><b>Consultant:</b> {{ p.mainconsult }}</p>
-    <p><b>Date Assigned:</b> {{ p.date | pretty_date  }}</p>
+
+    <p><b>Date Assigned:</b> {{ p.date }}</p>
     {% if p.comments %}
     <p><b>Comments:</b> {{ p.comments }}</p>
     {% endif %}
@@ -21,15 +23,15 @@
     <p><b>Contract Number:</b> {{ p.contractnum }}</p>
     {% endif %}
     <p><b>Number of drawings in set:</b> coming soon </p>
-    <button type="button" class="form-control-file"><a href="{{ url_for('drawings', locnum=p.locnum, drawnum=p.drawnum) }}">See Drawings</a></button>
+    <button type="button" class="form-control-file"><a href="{{ url_for('drawproj.drawings', locnum=p.locnum, drawnum=p.drawnum) }}">See Drawings</a></button>
     
 
     {% if current_user.is_authenticated %}
     <hr>
     
-    <button type="button" class="form-control-file"><a href="{{ url_for('edit', project_id=p.id) }}">Edit</a></button>
+    <button type="button" class="form-control-file"><a href="{{ url_for('drawproj.edit', project_id=p.id) }}">Edit</a></button>
 
-    <form method="POST" class="btn" action="{{ url_for('delete', project_id=p.id) }}">
+    <form method="POST" class="btn" action="{{ url_for('drawproj.delete', project_id=p.id) }}">
       <input
         type="submit"
         value="Delete Project"

@@ -27,7 +27,7 @@
     <header class="site-header">
         <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
             <div class="container">
-                <a class="navbar-brand" href="{{ url_for('index') }}">UCSB Drawing Numbers</a>
+                <a class="navbar-brand" href="{{ url_for('main.index') }}">UCSB Drawing Numbers</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" 
                     aria-controls="navbarSupportedContent" 
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -37,33 +37,33 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-item nav-link" href="{{ url_for('locations') }}">Location Index</a>
+                            <a class="nav-item nav-link" href="{{ url_for('drawproj.locations') }}">Location Index</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-item nav-link" href="{{ url_for('drawings') }}">Drawings Example</a>
+                            <a class="nav-item nav-link" href="{{ url_for('drawproj.drawings') }}">Drawings Example</a>
                         </li>
                     </ul>
                     <!-- Navbar Right Side -->
                     <ul class="navbar-nav d-flex">
                         {% if current_user.is_authenticated %}
                         <li class="nav-item:">
-                            <a class="nav-item nav-link" href="{{ url_for('create') }}">New Drawing Number</a>
+                            <a class="nav-item nav-link" href="{{ url_for('drawproj.create') }}">New Drawing Number</a>
                         </li>
                         <li class="nav-item:">
-                            <a class="nav-item nav-link" href="{{ url_for('add_loc') }}">New Location</a>
+                            <a class="nav-item nav-link" href="{{ url_for('drawproj.add_loc') }}">New Location</a>
                         </li>
                         <li class="nav-item:">
-                            <a class="nav-item nav-link" href="{{ url_for('account') }}">Account</a>
+                            <a class="nav-item nav-link" href="{{ url_for('users.account') }}">Account</a>
                         </li>
                         <li class="nav-item:">
-                            <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>
+                            <a class="nav-item nav-link" href="{{ url_for('users.logout') }}">Logout</a>
                         </li>
                         {% else %}
                         <li class="nav-item:">
-                            <a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>
+                            <a class="nav-item nav-link" href="{{ url_for('users.login') }}">Login</a>
                         </li>
                         <li class="nav-item:">
-                            <a class="nav-item nav-link" href="{{ url_for('register') }}">Register</a>
+                            <a class="nav-item nav-link" href="{{ url_for('users.register') }}">Register</a>
                         </li>
                         {% endif %}
                     </ul>
@@ -93,7 +93,7 @@
                     <h3>Search</h3>
                 </div>
                 <div class="content-section">
-                    <form method="GET|POST" action="{{ url_for('index')}}">
+                    <form method="GET|POST" action="{{ url_for('main.index')}}">
                         <label for="searchtext01" class="form-label">by title:</label>
                         <input type="search" placeholder="Title" name="searched" id="searchtext01" class="form-control" aria-describedby="searchtext01HelpBlock">
                         <div id="searchtext01HelpBlock" class="form-text">
@@ -103,7 +103,7 @@
                     </form>
                 </div>
                 <div class="content-section">
-                    <form method="GET|POST" action="{{ url_for('index')}}">
+                    <form method="GET|POST" action="{{ url_for('main.index')}}">
                         <label for="searchnumber02" class="form-label">by location:</label>
                         <input type="number" placeholder="Location Number" name="lnum" id="searchnumber02" class="form-control" aria-describedby="searchnumber02HelpBlock">
                         <div id="searchnumber02HelpBlock" class="form-text">

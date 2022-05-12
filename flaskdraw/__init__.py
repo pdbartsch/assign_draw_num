@@ -19,16 +19,23 @@ app.config["SECRET_KEY"] = SECRET_KEY
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
-login_manager.login_view = "login"
+login_manager.login_view = "users.login"
 login_manager.login_message_category = "info"
 
-from flaskdraw import routes
-from flaskdraw import filters
+from flaskdraw.users.routes import users
+from flaskdraw.drawproj.routes import drawproj
+from flaskdraw.main.routes import main
+
+# from flaskdraw.utils.filters import utils
+
+app.register_blueprint(users)
+app.register_blueprint(drawproj)
+app.register_blueprint(main)
+# app.register_blueprint(utils)
 
 
+# def create_app(config_filename):
+#     app = Flask(__name__)
+#     app.config.from_pyfile(config_filename)
 
-def create_app(config_filename):
-    app = Flask(__name__)
-    app.config.from_pyfile(config_filename)
-
-    db = SQLAlchemy(app)
+#     db = SQLAlchemy(app)

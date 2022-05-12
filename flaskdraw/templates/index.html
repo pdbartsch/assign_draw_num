@@ -19,13 +19,12 @@
       {% for draw in drawings %}
 
       <tr>
-        <td scope="row"><a href="{{ url_for('project', locnum=draw.locnum, drawnum=draw.drawnum) }}">
+        <td scope="row"><a href="{{ url_for('main.project', locnum=draw.locnum, drawnum=draw.drawnum) }}">
           {{ draw.locnum }}-{{ draw.drawnum }}</a></td>
         <td>{{ draw.title }}</td>
         <td>{{ draw.projectmngr }}</td>
         <td>{{ draw.mainconsult }}</td>
-        <td>{{ draw.date | pretty_date  }}</td>
-        <!-- <td>{{ draw.date | date_to_year  }}</td> -->
+        <td>{{ draw.date }}</td>
 
       </tr>
       {% endfor %}
