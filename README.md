@@ -6,7 +6,7 @@
 
 #### Lookup Scanned Drawings
 
-- will replace the scanned drawings application which is currently using php, html, and light javascript
+- will replace the [current scanned drawings application](https://drawings.facilities.ucsb.edu/index.php) which is currently using php, html, and light javascript
 
 ## Tech used
 
