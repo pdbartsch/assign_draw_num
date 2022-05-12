@@ -24,7 +24,7 @@
         <td>{{ draw.title }}</td>
         <td>{{ draw.projectmngr }}</td>
         <td>{{ draw.mainconsult }}</td>
-        <td>{{ draw.date }}</td>
+        <td>{{ draw.date|string|truncate(5,true) }}</td>
 
       </tr>
       {% endfor %}

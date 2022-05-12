@@ -7,7 +7,8 @@ flask shell
 
 # haven't figured out date format yet
 
-from flaskdraw import app, db
+from flaskdraw import create_app, db
+app = create_app()
 from flaskdraw.models import User, Drawloc, Drawfile, Drawings
 db.drop_all()
 db.create_all()
@@ -35,6 +36,9 @@ db.session.commit()
 - [generate requirements.txt file]
   `pip freeze > requirements.txt`
 
+- [install dependencies from requirements.txt file]
+  `pip install -r requirements.txt`
+
 - [main tutorial](https://www.digitalocean.com/community/tutorials/how-to-use-flask-sqlalchemy-to-interact-with-databases-in-a-flask-application)
 - [flask package structure](https://medium.com/thedevproject/flask-project-structure-the-right-choice-to-start-4553740fad98)
 - [Flask application setup](https://flask.palletsprojects.com/en/1.1.x/tutorial/factory/)
@@ -60,6 +64,8 @@ try: http://localhost:5000/drawings/525/601/
 
 # testing
 
+pytest --cov -v
+or
 pytest -v
 or
 python pytest -v
