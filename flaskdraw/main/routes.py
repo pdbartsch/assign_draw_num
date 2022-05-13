@@ -1,6 +1,7 @@
 from flask import Blueprint
 
 from flask import render_template, url_for, flash, redirect, request, abort
+from flask import current_app
 
 from flaskdraw.drawproj.forms import (
     SearchForm,
@@ -17,6 +18,9 @@ def index():
     # if form.validate_on_submit():
     lnum = request.args.get("lnum")
     searched = request.args.get("searched")
+    # note1=current_app.config['dbparams']
+    # note2=current_app.config['dbconnection_string']
+
 
     if lnum:
         filtered_locations = True
@@ -46,6 +50,8 @@ def index():
         title="Home Page",
         filtered_locations=filtered_locations,
         subheading=subheading,
+        # note1=note1,
+        # note2=note2
     )
 
 

@@ -71,3 +71,8 @@ or
 python pytest -v
 https://testdriven.io/blog/flask-pytest/
 https://realpython.com/python-testing/
+
+## generate a secret key
+
+`>python> import os`
+`>python> os.urandom(32)`

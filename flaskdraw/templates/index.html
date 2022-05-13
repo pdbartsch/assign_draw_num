@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 {% block content%}
 
-  {% if filtered_locations %}
+
   <h4>{{ subheading }}</h4>
+  {% if filtered_locations %}
+    <p>Filtered</p>
   {% endif %}
+
   <table class="table content-section">
     <thead>
       <tr>
