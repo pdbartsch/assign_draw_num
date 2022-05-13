@@ -6,6 +6,7 @@ from flask import current_app
 from flaskdraw.drawproj.forms import (
     SearchForm,
 )
+
 from flaskdraw.models import Drawfile
 from flask_login import login_user, login_required
 
@@ -100,3 +101,24 @@ def search():
             Drawfile.locnum.asc(), Drawfile.drawnum.asc()
         ).all()
         return render_template("index.html", form=form, drawings=drawings)
+
+
+# Here’s how you define a management command in Flask
+####################################################
+# @main.cli.command('resetdb')
+# def resetdb_command():
+#     """Destroys and creates the database + tables."""
+
+#     from sqlalchemy_utils import database_exists, create_database, drop_database
+#     if database_exists(DB_URL):
+#         print('Deleting database.')
+#         drop_database(DB_URL)
+#     if not database_exists(DB_URL):
+#         print('Creating database.')
+#         create_database(DB_URL)
+
+#     print('Creating tables.')
+#     db.create_all()
+#     print('Shiny!')
+####################################
+# flask resetdb
