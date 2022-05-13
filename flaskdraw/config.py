@@ -1,7 +1,7 @@
 import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-use_local_database = False
+use_local_database = True
 
 class Config:
     if use_local_database:
