@@ -19,9 +19,6 @@ def index():
     # if form.validate_on_submit():
     lnum = request.args.get("lnum")
     searched = request.args.get("searched")
-    # note1=current_app.config['dbparams']
-    # note2=current_app.config['dbconnection_string']
-
 
     if lnum:
         filtered_locations = True
