@@ -1,6 +1,7 @@
 set FLASK_APP=run.py
 set FLASK_ENV=development
 flask run
+
 flask shell
 
 # populate the database with some dummy data

@@ -5,6 +5,7 @@ from flaskdraw import db
 from flaskdraw.drawproj.forms import (
     LocationForm,
     ProjectForm,
+    DrawingsForm
 )
 
 from flaskdraw.models import Drawfile, Drawloc, User, Drawings
@@ -102,6 +103,38 @@ def create():
 
     return render_template("create.html", form=form)
 
+@drawproj.route("/add_drawing/", methods=("GET", "POST"))
+@login_required  # login required for this page
+def add_drawing():
+    form = ProjectForm()
+    if request.method == "POST":
+        locnum = int(form.locnum.data)
+        drawnum = int(form.drawnum.data)
+        contractnum = form.contractnum.data
+        projectnum = form.projectnum.data
+        projectmngr = form.projectmngr.data
+        mainconsult = form.mainconsult.data
+        title = form.title.data
+        comments = form.comments.data
+        datenow = datetime.now()
+
+        project = Drawfile(
+            locnum=locnum,
+            drawnum=drawnum,
+            contractnum=contractnum,
+            projectnum=projectnum,
+            projectmngr=projectmngr,
+            mainconsult=mainconsult,
+            title=title,
+            comments=comments,
+            date=datenow,
+        )
+        db.session.add(project)
+        db.session.commit()
+
+        return redirect(url_for("main.index"))
+
+    return render_template("create.html", form=form)
 
 @drawproj.route("/create/<int:locnum>", methods=("GET", "POST"))
 def newproject(locnum):
