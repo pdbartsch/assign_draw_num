@@ -41,7 +41,7 @@ def index():
         drawings = Drawfile.query.order_by(
             Drawfile.locnum.asc(), Drawfile.drawnum.asc()
         ).all()
-        subheading = "Showing all Projects: "
+        subheading = "All Projects: "
     return render_template(
         "index.html",
         drawings=drawings,

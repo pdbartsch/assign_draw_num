@@ -2,7 +2,8 @@
 {% block content%}
 
 <h3>{{ heading }}</h3>
-  <table class="table content-section">
+<div class="table-responsive">
+  <table id="draws_list" class="table content-section table-hover table-bordered">
     <thead>
       <tr>
         <th scope="col">UCSB Drawing#</th> 
@@ -30,7 +31,7 @@
       
     </tbody>
   </table>
-
+</div>
 {% endblock %}
 
 

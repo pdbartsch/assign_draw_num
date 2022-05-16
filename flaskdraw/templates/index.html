@@ -7,8 +7,10 @@
     <p>Filtered</p>
   {% endif %}
 
-  <table class="table content-section">
-    <thead>
+<div class="table-responsive">
+  <table id="proj_list" class="table content-section table-hover table-bordered align-middle">
+    <caption>Filtered List of UCSB Construction Projects</caption>
+    <thead class="table-light">
       <tr>
         <th scope="col">UCSB Drawing#</th> 
         <th scope="col">Description</th>
@@ -34,7 +36,7 @@
       
     </tbody>
   </table>
-
+</div>
 {% endblock %}
 
 
