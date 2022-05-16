@@ -56,7 +56,7 @@ class Drawings(db.Model):
     sheet_number = db.Column(db.String(255), nullable=True)
     discipline = db.Column(db.String(255), nullable=True)
     drawing_version = db.Column(db.String(255), nullable=True)
-    notes = db.Column(db.String(255), nullable=True)
+    notes = db.Column(db.Text, nullable=True)
     physical_location = db.Column(db.String(255), nullable=True)
 
     def __repr__(self):

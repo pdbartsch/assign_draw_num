@@ -106,35 +106,41 @@ def create():
 @drawproj.route("/add_drawing/", methods=("GET", "POST"))
 @login_required  # login required for this page
 def add_drawing():
-    form = ProjectForm()
+    form = DrawingsForm()
     if request.method == "POST":
+        oldname = form.oldname.data
+        newname = form.newname.data
         locnum = int(form.locnum.data)
         drawnum = int(form.drawnum.data)
-        contractnum = form.contractnum.data
-        projectnum = form.projectnum.data
-        projectmngr = form.projectmngr.data
-        mainconsult = form.mainconsult.data
-        title = form.title.data
-        comments = form.comments.data
-        datenow = datetime.now()
+        project_title = form.project_title.data
+        project_number = form.project_number.data
+        project_year = form.project_year.data
+        sheet_title = form.sheet_title.data
+        sheet_number = form.sheet_number.data
+        discipline = form.discipline.data
+        drawing_version = form.drawing_version.data
+        notes = form.notes.data
 
-        project = Drawfile(
-            locnum=locnum,
-            drawnum=drawnum,
-            contractnum=contractnum,
-            projectnum=projectnum,
-            projectmngr=projectmngr,
-            mainconsult=mainconsult,
-            title=title,
-            comments=comments,
-            date=datenow,
+        drawing = Drawings(
+            oldname = oldname,
+            newname = newname,
+            locnum = locnum,
+            drawnum = drawnum,
+            project_number = project_number,
+            sheet_number = sheet_number,
+            project_year = project_year,
+            project_title = project_title,
+            sheet_title = sheet_title,
+            discipline = discipline,
+            drawing_version = drawing_version,
+            notes = notes
         )
-        db.session.add(project)
+        db.session.add(drawing)
         db.session.commit()
 
         return redirect(url_for("main.index"))
 
-    return render_template("create.html", form=form)
+    return render_template("add_drawing.html", form=form)
 
 @drawproj.route("/create/<int:locnum>", methods=("GET", "POST"))
 def newproject(locnum):
