@@ -3,13 +3,11 @@
 
 
   <h4>{{ subheading }}</h4>
-  {% if filtered_locations %}
-    <p>Filtered</p>
-  {% endif %}
 
 <div class="table-responsive">
   <table id="proj_list" class="table content-section table-hover table-bordered align-middle">
-    <caption>Filtered List of UCSB Construction Projects</caption>
+
+    
     <thead class="table-light">
       <tr>
         <th scope="col">UCSB Drawing#</th> 
@@ -34,9 +32,18 @@
       </tr>
       {% endfor %}
       
+      {% if filtered_locations %}
+      <caption>Filtered List of UCSB Construction Projects</caption>
+      {% else %}
+      <caption>List of UCSB Construction Projects</caption>
+      {% endif %}
+      
     </tbody>
+    
   </table>
+
 </div>
+
 {% endblock %}
 
 

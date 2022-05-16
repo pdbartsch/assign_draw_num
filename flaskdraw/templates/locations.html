@@ -1,13 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="table-responsive">
+<div class="table-responsive content-section">
   <table id="loc_list" class="table content-section table-hover table-bordered">
     <caption>List of all UCSB Drawing Location Categories</caption>
     <thead class="table-dark">
       <tr>
         <th scope="col">Location #</th>
         <th scope="col">Description</th>
-        <!-- <th scope="col"></th> -->
+        
+        {% if current_user.is_authenticated %}
+        <th scope="col"> </th>
+        {% endif %}
       </tr>
     </thead>
     <tbody>

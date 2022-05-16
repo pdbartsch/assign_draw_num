@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>
+        Edit UCSB Drawing# {{ project.locnum }}-{{ project.drawnum }}'s Details
+</h3>
+<form method="post" class="row g-3 container-fluid">
+        <div class="col-md-8">
+                <label for="locnum" class="col-md-4 col-form-label" for="locnum">Location Number</label>
+                <input type="number" name="locnum"
+                        value="{{ project.locnum }}"
+                        id="locnum">
+                </input>
+        </div>
+        <div class="col-md-8">
+                <label for="drawnum" class="col-md-4 col-form-label" for="drawnum">Drawing Number</label>
+                <input type="number" name="drawnum"
+                        value="{{ project.drawnum }}"
+                        id="drawnum">
+                </input>
+        </div>
+        <div class="col-md-8">
+                <label for="contractnum" class="col-md-4 col-form-label" for="contractnum">Contract Number</label>
+                <input type="text" name="contractnum"
+                        value="{{ project.contractnum }}"
+                        id="contractnum">
+                </input>
+        </div>
+
+        <div class="col-md-8">
+                <label for="projectmngr" class="col-md-4 col-form-label" for="projectmngr">Project Manager</label>
+                <input type="text" name="projectmngr"
+                        value="{{ project.projectmngr }}"
+                        id="projectmngr">
+                </input>
+        </div>
+        <div class="col-md-8">
+                <label for="mainconsult" class="col-md-4 col-form-label" for="mainconsult">Consultant</label>
+                <input type="text" name="mainconsult"
+                        value="{{ project.mainconsult }}"
+                        id="mainconsult">
+                </input>
+        </div>
+        <div class="col-md-8">
+                <label for="projectnum" class="col-md-4 col-form-label" for="projectnum">Project Number</label>
+                <input type="text" name="projectnum"
+                        value="{{ project.projectnum }}"
+                        id="projectnum">
+                </input>
+        </div>
+
+        <div class="col-md-8">
+                <label for="title" class="col-md-4 col-form-label" for="title">Project Name</label>
+                <input type="text" name="title"
+                        value="{{ project.title }}"
+                        id="title">
+                </input>
+        </div>
+        <div class="col-md-8">
+                <label for="comments" class="col-md-4 col-form-label" for="comments">Comments</label>
+                <input type="textarea" name="comments"
+                value="{{ project.comments }}"
+                id="comments">
+                </input>
+        </div>
+        <div class="col-md-8">
+                <label for="daterecorded" class="col-md-4 col-form-label" for="daterecorded">Date</label>
+                <input type="date" name="daterecorded"
+                value="{{ project.date }}"
+                id="daterecorded">
+                </input>
+        </div>
+        <div class="col-12">
+                <button type="submit">Submit</button>
+        </div>
+</form>
+
+{% endblock content %}

@@ -77,10 +77,10 @@
         </nav>
     </header>
 
-    <main role="main" class="container">
+    <main role="main" class="container-sm">
         <div class="row">
 
-            <div class="col-md-9 order-first" >
+            <div class="col-md-9 order-first content-section" >
                 {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                 {% for category, message in messages %}

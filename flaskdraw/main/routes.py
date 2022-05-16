@@ -48,8 +48,6 @@ def index():
         title="Home Page",
         filtered_locations=filtered_locations,
         subheading=subheading,
-        # note1=note1,
-        # note2=note2
     )
 
 

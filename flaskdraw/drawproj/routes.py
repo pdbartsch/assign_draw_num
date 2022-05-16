@@ -34,6 +34,7 @@ def drawings():
     else:
         drawings = None
 
+
     return render_template(
         "drawings.html",
         drawings=drawings,
@@ -154,9 +155,9 @@ def newproject(locnum):
     return render_template("newproject.html", drawings=drawings)
 
 
-@drawproj.route("/<int:project_id>/edit/", methods=("GET", "POST"))
+@drawproj.route("/<int:project_id>/editproj/", methods=("GET", "POST"))
 @login_required  # login required for this page
-def edit(project_id):
+def edit_proj(project_id):
     project = Drawfile.query.get_or_404(project_id)
     if request.method == "POST":
         locnum = int(request.form["locnum"])
@@ -182,7 +183,7 @@ def edit(project_id):
         db.session.add(project)
         db.session.commit()
         return redirect(url_for("main.index"))
-    return render_template("edit.html", project=project)
+    return render_template("edit_proj.html", project=project)
 
 
 @drawproj.route("/editloc/<int:locnum>", methods=("GET", "POST"))
