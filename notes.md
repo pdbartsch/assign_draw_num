@@ -77,3 +77,6 @@ https://realpython.com/python-testing/
 
 `>python> import os`
 `>python> os.urandom(32)`
+
+sort_args = request.args.getlist("\_sort")
+https://programtalk.com/python-examples/flask.request.args.getlist/
