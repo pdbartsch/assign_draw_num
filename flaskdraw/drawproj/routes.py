@@ -2,7 +2,12 @@ from flask import Blueprint
 
 from flask import render_template, url_for, redirect, request
 from flaskdraw import db
-from flaskdraw.drawproj.forms import LocationForm, ProjectForm, DrawingsForm
+from flaskdraw.drawproj.forms import (
+    LocationForm,
+    ProjectForm,
+    DrawingsForm,
+    DrawingsSearchForm,
+)
 
 from flaskdraw.models import Drawfile, Drawloc, User, Drawings
 from flask_login import login_user, login_required
@@ -142,19 +147,62 @@ def add_drawing():
 
 @drawproj.route("/search_drawings/", methods=("GET", "POST"))
 def search_drawings():
-    form = DrawingsForm()
-    if request.method == "POST":
-        locnum = int(form.locnum.data)
-        drawnum = int(form.drawnum.data)
-        project_title = form.project_title.data
-        project_number = form.project_number.data
-        sheet_title = form.sheet_title.data
-        sheet_number = form.sheet_number.data
-        discipline = form.discipline.data
+    form = DrawingsSearchForm()
+    # drawings = Drawings.query
+    q = []
 
-        return redirect(url_for("main.index"))
+    if request.method == "POST":
+        if form.locnum.data:
+            # locnum = int(form.locnum.data)
+            locnum = str(form.locnum.data)
+            q.append(locnum)
+        if form.drawnum.data:
+            # drawnum = int(form.drawnum.data)
+            drawnum = str(form.drawnum.data)
+            q.append(drawnum)
+        if form.project_title.data:
+            project_title = form.project_title.data
+            q.append(project_title)
+        if form.project_number.data:
+            project_number = form.project_number.data
+            q.append(project_number)
+        if form.sheet_title.data:
+            sheet_title = form.sheet_title.data
+            q.append(sheet_title)
+        if form.sheet_number.data:
+            sheet_number = form.sheet_number.data
+            q.append(sheet_number)
+        if form.discipline.data:
+            discipline = form.discipline.data
+            q.append(discipline)
+
+        return render_template("drawings.html", q=q, s=", ".join(q))
 
     return render_template("search_drawings.html", form=form)
+
+
+# search results
+# @main.route("/search", methods=["POST"])
+# def search():
+#     form = SearchForm()
+#     drawings = Drawfile.query
+#     # get data from submitted form
+#     searched = form.searched.data
+
+#     if searched:
+#         if form.validate_on_submit():
+#             drawings = drawings.filter(Drawfile.title.like("%" + searched + "%"))
+#             drawings = drawings.order_by(
+#                 Drawfile.locnum.asc(), Drawfile.drawnum.asc()
+#             ).all()
+#             return render_template(
+#                 "search.html", form=form, searched=searched, drawings=drawings
+#             )
+#     else:
+#         drawings = drawings.order_by(
+#             Drawfile.locnum.asc(), Drawfile.drawnum.asc()
+#         ).all()
+#         return render_template("index.html", form=form, drawings=drawings)
 
 
 @drawproj.route("/create/<int:locnum>", methods=("GET", "POST"))
