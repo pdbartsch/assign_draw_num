@@ -2,11 +2,7 @@ from flask import Blueprint
 
 from flask import render_template, url_for, redirect, request
 from flaskdraw import db
-from flaskdraw.drawproj.forms import (
-    LocationForm,
-    ProjectForm,
-    DrawingsForm
-)
+from flaskdraw.drawproj.forms import LocationForm, ProjectForm, DrawingsForm
 
 from flaskdraw.models import Drawfile, Drawloc, User, Drawings
 from flask_login import login_user, login_required
@@ -103,6 +99,7 @@ def create():
 
     return render_template("create.html", form=form)
 
+
 @drawproj.route("/add_drawing/", methods=("GET", "POST"))
 @login_required  # login required for this page
 def add_drawing():
@@ -122,18 +119,18 @@ def add_drawing():
         notes = form.notes.data
 
         drawing = Drawings(
-            oldname = oldname,
-            newname = newname,
-            locnum = locnum,
-            drawnum = drawnum,
-            project_number = project_number,
-            sheet_number = sheet_number,
-            project_year = project_year,
-            project_title = project_title,
-            sheet_title = sheet_title,
-            discipline = discipline,
-            drawing_version = drawing_version,
-            notes = notes
+            oldname=oldname,
+            newname=newname,
+            locnum=locnum,
+            drawnum=drawnum,
+            project_number=project_number,
+            sheet_number=sheet_number,
+            project_year=project_year,
+            project_title=project_title,
+            sheet_title=sheet_title,
+            discipline=discipline,
+            drawing_version=drawing_version,
+            notes=notes,
         )
         db.session.add(drawing)
         db.session.commit()
@@ -141,6 +138,24 @@ def add_drawing():
         return redirect(url_for("main.index"))
 
     return render_template("add_drawing.html", form=form)
+
+
+@drawproj.route("/search_drawings/", methods=("GET", "POST"))
+def search_drawings():
+    form = DrawingsForm()
+    if request.method == "POST":
+        locnum = int(form.locnum.data)
+        drawnum = int(form.drawnum.data)
+        project_title = form.project_title.data
+        project_number = form.project_number.data
+        sheet_title = form.sheet_title.data
+        sheet_number = form.sheet_number.data
+        discipline = form.discipline.data
+
+        return redirect(url_for("main.index"))
+
+    return render_template("drawings.html", form=form)
+
 
 @drawproj.route("/create/<int:locnum>", methods=("GET", "POST"))
 def newproject(locnum):
