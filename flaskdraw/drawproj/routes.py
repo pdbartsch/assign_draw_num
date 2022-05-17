@@ -154,7 +154,7 @@ def search_drawings():
 
         return redirect(url_for("main.index"))
 
-    return render_template("drawings.html", form=form)
+    return render_template("search_drawings.html", form=form)
 
 
 @drawproj.route("/create/<int:locnum>", methods=("GET", "POST"))
