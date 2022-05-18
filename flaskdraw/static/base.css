@@ -15,3 +15,23 @@ body {
   border-radius: 3px;
   margin-bottom: 20px;
 }
+
+/* dividers on large screen */
+@media only screen and (min-width: 992px) {
+  .navbar .navbar-nav .nav-item .nav-link {
+    padding: 0 0.5em;
+  }
+  .navbar .navbar-nav .nav-item:not(:last-child) .nav-link {
+    border-right: 1px solid #333333;
+  }
+}
+
+/* dividers on large screen */
+@media only screen and (min-width: 992px) {
+  .navbar .navbar-nav .nav-item .nav-link {
+    padding: 0 0.5em;
+  }
+  .navbar .navbar-nav .d-flex .nav-item:not(:last-child) .nav-link {
+    border-right: 1px solid #333333;
+  }
+}

@@ -1,3 +1,4 @@
+import os
 from flask import Blueprint
 
 from flask import render_template, url_for, flash, redirect, request, abort
@@ -19,6 +20,15 @@ def index():
     # if form.validate_on_submit():
     lnum = request.args.get("lnum")
     searched = request.args.get("searched")
+
+    key = os.environ.get("SECRET_KEY")
+    sqlmods = os.environ.get("TRACK_MODIFICATIONS")
+    DB_URL=os.environ.get("DB_URL")
+    DB_USER=os.environ.get("DB_USER")
+    DB_PW=os.environ.get("DB_PW")
+    DB_DB=os.environ.get("DB_DB")
+    DB_PROJECT_ID=os.environ.get("DB_PROJECT_ID")
+    DB_INSTANCE_NAME=os.environ.get("DB_INSTANCE_NAME")
 
     if lnum:
         filtered_locations = True
@@ -48,6 +58,7 @@ def index():
         title="Home Page",
         filtered_locations=filtered_locations,
         subheading=subheading,
+        key=key,
     )
 
 

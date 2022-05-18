@@ -1,6 +1,5 @@
 from pandas import isnull
 from flaskdraw.models import User, Drawfile, Drawloc, Drawings
-import bcrypt
 from flask_bcrypt import generate_password_hash
 
 

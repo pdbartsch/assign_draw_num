@@ -49,13 +49,13 @@
                     <ul class="navbar-nav d-flex">
                         {% if current_user.is_authenticated %}
                         <li class="nav-item:">
+                            <a class="nav-item nav-link" href="{{ url_for('drawproj.create') }}">Assign Drawing Number</a>
+                        </li>
+                        <li class="nav-item:">
                             <a class="nav-item nav-link" href="{{ url_for('drawproj.add_drawing') }}">Add Drawing</a>
                         </li>
                         <li class="nav-item:">
-                            <a class="nav-item nav-link" href="{{ url_for('drawproj.create') }}">New Drawing Number</a>
-                        </li>
-                        <li class="nav-item:">
-                            <a class="nav-item nav-link" href="{{ url_for('drawproj.add_loc') }}">New Location</a>
+                            <a class="nav-item nav-link" href="{{ url_for('drawproj.add_loc') }}">Add Location</a>
                         </li>
                         <li class="nav-item:">
                             <a class="nav-item nav-link" href="{{ url_for('users.account') }}">Account</a>

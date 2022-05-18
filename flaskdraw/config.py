@@ -3,7 +3,11 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 use_local_database = True
 
+
 class Config:
+    SECRET_KEY=os.environ.get("SECRET_KEY")
+    SQLALCHEMY_TRACK_MODIFICATIONS=False
+
     if use_local_database:
         SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basedir, "database.db")
     else:
@@ -20,8 +24,7 @@ class Config:
 
         SQLALCHEMY_DATABASE_URI = DB_URL
 
-    SECRET_KEY = os.environ.get("SECRET_KEY")
-    SQLALCHEMY_TRACK_MODIFICATIONS=os.environ.get("TRACK_MODS")
+
 
 
 
