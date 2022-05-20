@@ -29,7 +29,7 @@ class Drawloc(db.Model):
 
 class Drawfile(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    locnum = db.Column(db.Integer, db.ForeignKey("drawloc.locnum"), nullable=False)
+    locnum = db.Column(db.Integer, nullable=False)
     drawnum = db.Column(db.Integer, nullable=False)
     contractnum = db.Column(db.String(50), nullable=True)
     projectnum = db.Column(db.String(10), nullable=True)

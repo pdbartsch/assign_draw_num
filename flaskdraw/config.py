@@ -18,11 +18,9 @@ class Config:
         DB_PROJECT_ID=os.environ.get("DB_PROJECT_ID") 
         DB_INSTANCE_NAME=os.environ.get("DB_INSTANCE_NAME")
         
-        DB_URL = 'postgresql+psycopg2://root:'+DB_PW+'@'+DB_URL+'/'+DB_DB+'?host=/cloudsql/'+DB_PROJECT_ID+':'+DB_INSTANCE_NAME
-        # DB_URL = "postgresql+psycopg2://{user}:{pw}@{url}/{db}".format(user=DB_USER,pw=DB_PW,url=DB_URL,db=DB_DB)
-        # DB_URL=postgres://user:password@/dbname?host=/path/to/db
+        CONN_DB = "mysql+pymysql://"+DB_USER+":"+DB_PW+"@"+DB_URL+"/"+DB_DB
 
-        SQLALCHEMY_DATABASE_URI = DB_URL
+        SQLALCHEMY_DATABASE_URI = CONN_DB
 
 
 
