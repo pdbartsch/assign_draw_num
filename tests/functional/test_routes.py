@@ -163,6 +163,7 @@ def test_not_logged_in(client):
     assert b"Add Drawing" not in response.data, "Protected Navbar Link Check 02"
     assert b"Add Location" not in response.data, "Protected Navbar Link Check 03"
 
-def test_temp_env_var(client):
-    key = os.environ.get("SECRET_KEY")
-    assert key == "testingkey"
+
+# def test_temp_env_var(client):
+#     key = os.environ.get("SECRET_KEY")
+#     assert key == "testingkey"
