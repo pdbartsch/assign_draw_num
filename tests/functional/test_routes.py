@@ -1,5 +1,7 @@
+from http import client
 from urllib import response
 from flask import url_for, request
+from flaskdraw.models import User
 
 
 def test_home_page(client):
@@ -117,7 +119,7 @@ def test_login_page(client):
     assert response.status_code == 200
 
 
-def test_register_page(client):
+def test_register_page_get(client):
     """
     GIVEN a Flask application configured for testing
     WHEN the register page is requested (GET)
@@ -127,23 +129,47 @@ def test_register_page(client):
     response = client.get(url_for("users.register"))
     assert response.status_code == 200
 
+def test_register_page_post(client):
+    response = client.post(
+        url_for("users.register"),
+        follow_redirects=True
+        )
+    assert response.status_code == 200
 
-def test_logging_in_test_user(client):
-    """Login helper function"""
-    return client.post(
+def test_login_page_get(client):
+    """
+    GIVEN a Flask application configured for testing
+    WHEN the register page is requested (GET)
+    THEN check that the response is valid
+    """
+
+    response = client.get(url_for("users.login"))
+    assert response.status_code == 200
+
+def test_login_page_post(client):
+    response = client.post(
         url_for("users.login"),
-        data=dict(email="osospdb@gmail.com", password="testing"),
-        follow_redirects=True,
-    )
+        follow_redirects=True
+        )
+    assert response.status_code == 200
 
 
-# the following tests require user to be logged in:
-# def test_create_project(client):
-#     """
-#     GIVEN a Flask application configured for testing
-#     WHEN the create new project page is requested (GET)
-#     THEN check that the response is valid
-#     """
-#     login(client)
-#     response = client.get(url_for("drawproj.create"))
-#     assert response.status_code == 200
+def test_not_logged_in(client):
+    """
+    GIVEN a Flask application configured for testing and no user logged in
+    WHEN the '/' page is requested (GET)
+    THEN check that the response doesn't contain protected links
+    """
+    response = client.get(url_for("main.index"))
+    assert b"Assign Drawing Number" not in response.data, "Protected Navbar Link Check 01"
+    assert b"Add Drawing" not in response.data, "Protected Navbar Link Check 02"
+    assert b"Add Location" not in response.data, "Protected Navbar Link Check 03"
+
+# def test_logged_in(client):
+#     user = User.query.get(1)
+#     with app.test_client(user=user) as client:
+#         # This request has user 1 already logged in!
+#         response = client.get(url_for("main.index"))
+#         assert b"Assign Drawing Number" not in response.data, "Protected Navbar Link Check 01"
+#         assert b"Add Drawing" not in response.data, "Protected Navbar Link Check 02"
+#         assert b"Add Location" not in response.data, "Protected Navbar Link Check 03"
