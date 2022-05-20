@@ -1,7 +1,5 @@
-from http import client
-from urllib import response
-from flask import url_for, request
-from flaskdraw.models import User
+from flask import url_for
+import os
 
 
 def test_home_page(client):
@@ -165,11 +163,6 @@ def test_not_logged_in(client):
     assert b"Add Drawing" not in response.data, "Protected Navbar Link Check 02"
     assert b"Add Location" not in response.data, "Protected Navbar Link Check 03"
 
-# def test_logged_in(client):
-#     user = User.query.get(1)
-#     with app.test_client(user=user) as client:
-#         # This request has user 1 already logged in!
-#         response = client.get(url_for("main.index"))
-#         assert b"Assign Drawing Number" not in response.data, "Protected Navbar Link Check 01"
-#         assert b"Add Drawing" not in response.data, "Protected Navbar Link Check 02"
-#         assert b"Add Location" not in response.data, "Protected Navbar Link Check 03"
+def test_temp_env_var(client):
+    key = os.environ.get("SECRET_KEY")
+    assert key == "testingkey"

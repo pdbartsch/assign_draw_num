@@ -11,7 +11,7 @@ except ImportError:
 # possible scopes are session, function, class, module and package
 # Autouse fixtures are a convenient way to make all tests automatically request them.
 @pytest.fixture(scope="session", autouse=True)
-def s_and_t():
+def setup_and_teardown():
     # Will be executed before the first test
     old_environ = dict(os.environ)
     os.environ.update(TEMP_ENV_VARS)
