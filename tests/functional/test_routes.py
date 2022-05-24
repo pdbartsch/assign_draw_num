@@ -35,6 +35,20 @@ def test_home_page_searched_parameter(client):
     """
     response = client.get(url_for("main.index", searched="library"))
     assert response.status_code == 200
+    assert (
+        b"Projects Associated with Title like library" in response.data
+    ), "Header check"
+
+
+def test_home_page_lnum_parameter(client):
+    """
+    GIVEN a Flask application configured for testing
+    WHEN the '/?lnum=525' page is requested (GET)
+    THEN check that the response is valid
+    """
+    response = client.get(url_for("main.index", lnum=525))
+    assert response.status_code == 200
+    assert b"Projects Associated with Location 525" in response.data, "Header check"
 
 
 def test_home_page_post(client):
@@ -51,7 +65,7 @@ def test_home_page_post(client):
 def test_location_list_page(client):
     """
     GIVEN a Flask application configured for testing
-    WHEN the locations page is requested (GET)
+    WHEN the locations (/locs/) page is requested (GET)
     THEN check that the response is valid
     """
     response = client.get(url_for("drawproj.locations"), follow_redirects=True)
@@ -127,12 +141,11 @@ def test_register_page_get(client):
     response = client.get(url_for("users.register"))
     assert response.status_code == 200
 
+
 def test_register_page_post(client):
-    response = client.post(
-        url_for("users.register"),
-        follow_redirects=True
-        )
+    response = client.post(url_for("users.register"), follow_redirects=True)
     assert response.status_code == 200
+
 
 def test_login_page_get(client):
     """
@@ -144,11 +157,9 @@ def test_login_page_get(client):
     response = client.get(url_for("users.login"))
     assert response.status_code == 200
 
+
 def test_login_page_post(client):
-    response = client.post(
-        url_for("users.login"),
-        follow_redirects=True
-        )
+    response = client.post(url_for("users.login"), follow_redirects=True)
     assert response.status_code == 200
 
 
@@ -159,7 +170,9 @@ def test_not_logged_in(client):
     THEN check that the response doesn't contain protected links
     """
     response = client.get(url_for("main.index"))
-    assert b"Assign Drawing Number" not in response.data, "Protected Navbar Link Check 01"
+    assert (
+        b"Assign Drawing Number" not in response.data
+    ), "Protected Navbar Link Check 01"
     assert b"Add Drawing" not in response.data, "Protected Navbar Link Check 02"
     assert b"Add Location" not in response.data, "Protected Navbar Link Check 03"
 
