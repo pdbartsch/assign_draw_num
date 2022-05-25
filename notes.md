@@ -81,3 +81,7 @@ https://realpython.com/python-testing/
 sort_args = request.args.getlist("\_sort")
 https://programtalk.com/python-examples/flask.request.args.getlist/
 http://localhost:5000/?searched=lib&lnum=11
+
+# Possible future additions
+
+- [text search across multiple fields](https://pythonhosted.org/Flask-WhooshAlchemy/)

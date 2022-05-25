@@ -27,11 +27,23 @@ def setup_and_teardown():
 @pytest.fixture
 def app():
     app = create_app()
+
+    return app
+
+
+@pytest.fixture
+def client(app):
+    """Configures the app for testing
+
+    Sets app config variable ``TESTING`` to ``True``
+
+    :return: App for testing
+    """
+
     app.config.update({
         "TESTING": True, 
         "SECRET_KEY": "testingkey"
         })
-    return app
+    client = app.test_client()
 
-
-
+    yield client

@@ -1,6 +1,10 @@
 from flask import url_for
-import os
 
+
+def test_landing_aliases(client):
+    # tests that aliases return same results
+    landing = client.get("/")
+    assert client.get(url_for("main.index")).data == landing.data
 
 def test_home_page(client):
     """
@@ -9,12 +13,22 @@ def test_home_page(client):
     THEN check that the response is valid
     """
     response = client.get(url_for("main.index"))
+    html = response.data.decode()
+    # test for successful request
     assert response.status_code == 200
-    assert b"All Projects" in response.data, "Header check"
-    assert b"Location Index" in response.data, "navbar location check"
-    assert b"Search Drawings" in response.data, "navbar drawings search check"
-    assert b"Filter by title" in response.data, "search bar title check"
-    assert b"Filter by location" in response.data, "search bar location check"
+    # test navbar links when logged out
+    assert "href=\"/locs/\">Location Index</a>" in html, "location navbar link check"
+    assert "href=\"/search_drawings/\">Search Drawings</a>" in html, "search drawings navbar link check"
+    assert "href=\"/login\">Login</a>" in html, "login navbar link check"
+    assert "href=\"/register\">Register</a>" in html, "register navbar link check"
+    # test navbar classes
+    assert "nav-item nav-link" in html, "navbar class check"
+    # test homepage content
+    assert "All Projects" in html, "Header check"
+    # test search results
+    assert "Filter by title" in html, "search bar title check"
+    assert "Filter by location" in html, "search bar location check"
+
 
 
 def test_home_page_lnum_parameter(client):

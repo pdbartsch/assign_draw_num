@@ -2,7 +2,6 @@
 from flaskdraw.models import User, Drawfile, Drawloc, Drawings
 from flask_bcrypt import generate_password_hash
 
-
 def test_new_users():
     """
     GIVEN a User model
