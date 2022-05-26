@@ -2,6 +2,7 @@
 from flaskdraw.models import User, Drawfile, Drawloc, Drawings
 from flask_bcrypt import generate_password_hash
 
+
 def test_new_users():
     """
     GIVEN a User model
@@ -9,11 +10,11 @@ def test_new_users():
     THEN check the username, email and hashed_password are correctly defined
     """
     user = User(
-        username="pdbar", email="pdbartsch@gmail.com", password="FlaskIsAwesome"
+        username="testuser", email="testuser@testing.com", password="FlaskIsAwesome"
     )
     hashed_password = generate_password_hash(user.password).decode("utf-8")
-    assert user.username == "pdbar"
-    assert user.email == "pdbartsch@gmail.com"
+    assert user.username == "testuser"
+    assert user.email == "testuser@testing.com"
     assert hashed_password != user.password
 
 
