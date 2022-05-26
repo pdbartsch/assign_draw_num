@@ -1,5 +1,3 @@
-![Build Status](https://circleci.com/gh/pdbartsch/assign_draw_num.png?circle-token=:circle-token)
-
 ## This web app will eventually have the following functionality:
 
 ### Combine the following which are currently two separate interfaces
