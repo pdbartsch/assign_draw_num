@@ -12,5 +12,5 @@
 
 ## Tech used
 
-- Python, flask, sqlalchemy, pytest, flask blueprints, google cloud sql
+- Python, flask, sqlalchemy, pytest, flask blueprints, google cloud sql, datatables.net
 - see requirements.txt

@@ -13,7 +13,7 @@ users = Blueprint("users", __name__)
 
 
 @users.route("/register", methods=["GET", "POST"])
-# @login_required  # login required for this page
+@login_required  # login required for this page
 def register():
     if current_user.is_authenticated:
         return redirect(url_for("main.index"))

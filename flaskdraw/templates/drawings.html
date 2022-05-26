@@ -19,7 +19,7 @@
       {% if drawings %}
         {% for draw in drawings %}
         <tr>
-          <td scope="row"><a href="{{ 'https://drawings.facilities.ucsb.edu/drawings/{locnum}/{newname}'.format(locnum = draw.locnum, newname = draw.newname) }}" target="_blank">
+          <td scope="row"><a href="{{ '{url}/{locnum}/{newname}'.format(url = base_drawings_url, locnum = draw.locnum, newname = draw.newname) }}" target="_blank">
             {{ draw.locnum }}-{{ draw.drawnum }}-{{ draw.sheet_number }}</a></td>
           <td>{{ draw.project_title }}</td>
           <td>{{ draw.sheet_title }}</td>

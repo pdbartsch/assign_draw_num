@@ -52,8 +52,7 @@ https://flask-sqlalchemy.palletsprojects.com/en/2.x/models/
 
 # table sorting
 
-- [My favorite method as of 2022](https://stackoverflow.com/a/49041392/747748)
-- [With this tweak](https://stackoverflow.com/a/53880407/747748)
+- [data tables](https://datatables.net/)
 
 # git branching
 
@@ -82,6 +81,17 @@ sort_args = request.args.getlist("\_sort")
 https://programtalk.com/python-examples/flask.request.args.getlist/
 http://localhost:5000/?searched=lib&lnum=11
 
-# Possible future additions
+# deploy
 
-- [text search across multiple fields](https://pythonhosted.org/Flask-WhooshAlchemy/)
+- [link 1](http://exploreflask.com/en/latest/deployment.html)
+- []()
+- []()
+- []()
+- []()
+
+# todo
+
+- remember me login page
+- user groups with certain permissions ... after this I'll show the registration page again
+- implement drawing search
+- [possibly add text search across multiple fields](https://pythonhosted.org/Flask-WhooshAlchemy/)

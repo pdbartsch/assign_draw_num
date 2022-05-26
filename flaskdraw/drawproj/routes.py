@@ -1,3 +1,4 @@
+import os
 from flask import Blueprint
 
 from flask import render_template, url_for, redirect, request
@@ -14,6 +15,7 @@ from flask_login import login_user, login_required
 from datetime import datetime
 
 drawproj = Blueprint("drawproj", __name__)
+base_drawings_url = os.environ.get("base_drawings_url")
 
 
 @drawproj.route("/drawings/")
@@ -35,12 +37,12 @@ def drawings():
     else:
         drawings = None
 
-
     return render_template(
         "drawings.html",
         drawings=drawings,
         title="Drawing results:",
         heading="Result of drawing search:",
+        base_drawings_url=base_drawings_url,
     )
 
 
@@ -55,6 +57,7 @@ def location_set(locnum):
         "drawings.html",
         drawings=drawings,
         title="Drawing results for location #" + str(locnum),
+        base_drawings_url=base_drawings_url,
     )
 
 
@@ -69,6 +72,7 @@ def drawing_set(locnum, drawnum):
         "drawings.html",
         drawings=drawings,
         title="Drawing Set " + str(locnum) + "-" + str(drawnum),
+        base_drawings_url=base_drawings_url,
     )
 
 
