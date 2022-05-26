@@ -1,9 +1,10 @@
 import os
 import pytest
 from flaskdraw import create_app
+from flaskdraw.config import Config
 
 try:
-    from .temp_env_var import TEMP_ENV_VARS, ENV_VARS_TO_SUSPEND
+    from tests.pytest_config import TEMP_ENV_VARS, ENV_VARS_TO_SUSPEND
 except ImportError:
     TEMP_ENV_VARS = {}
     ENV_VARS_TO_SUSPEND = []
@@ -26,7 +27,7 @@ def setup_and_teardown():
 
 @pytest.fixture
 def app():
-    app = create_app()
+    app = create_app(Config)
 
     return app
 
