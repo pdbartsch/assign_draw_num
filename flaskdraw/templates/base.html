@@ -17,6 +17,8 @@
     <!-- include main css using url_for to help locate the file within the static directory -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='base.css') }}">
 
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
     {% if title%}
       <title>{{ title }}</title>
     {% else %}

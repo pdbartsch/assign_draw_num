@@ -5,7 +5,7 @@
 
 
   {% for p in project %}
-  <div class= "content-section">
+  <div>
 
     <h2>UCSB Drawing #{{ p.locnum }}-{{ p.drawnum }}</h2>
     <p><b>Project Name:</b> {{ p.title }}</p>
@@ -24,6 +24,7 @@
     {% endif %}
     <p><b>Number of drawings in set:</b> coming soon </p>
     <button type="button" class="form-control-file"><a href="{{ url_for('drawproj.drawings', locnum=p.locnum, drawnum=p.drawnum) }}">See Drawings</a></button>
+    <hr>
     
 
     {% if current_user.is_authenticated %}
