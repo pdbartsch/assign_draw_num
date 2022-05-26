@@ -3,7 +3,7 @@ import pytest
 from flaskdraw import create_app
 
 try:
-    from.temp_env_var import TEMP_ENV_VARS, ENV_VARS_TO_SUSPEND
+    from .temp_env_var import TEMP_ENV_VARS, ENV_VARS_TO_SUSPEND
 except ImportError:
     TEMP_ENV_VARS = {}
     ENV_VARS_TO_SUSPEND = []
@@ -34,16 +34,10 @@ def app():
 @pytest.fixture
 def client(app):
     """Configures the app for testing
-
-    Sets app config variable ``TESTING`` to ``True``
-
+    Sets app configs
     :return: App for testing
     """
-
-    app.config.update({
-        "TESTING": True, 
-        "SECRET_KEY": "testingkey"
-        })
+    app.config.update({"TESTING": True, "SECRET_KEY": "testingkey"})
     client = app.test_client()
 
     yield client

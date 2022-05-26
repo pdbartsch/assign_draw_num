@@ -6,6 +6,7 @@ def test_landing_aliases(client):
     landing = client.get("/")
     assert client.get(url_for("main.index")).data == landing.data
 
+
 def test_home_page(client):
     """
     GIVEN a Flask application configured for testing
@@ -17,10 +18,12 @@ def test_home_page(client):
     # test for successful request
     assert response.status_code == 200
     # test navbar links when logged out
-    assert "href=\"/locs/\">Location Index</a>" in html, "location navbar link check"
-    assert "href=\"/search_drawings/\">Search Drawings</a>" in html, "search drawings navbar link check"
-    assert "href=\"/login\">Login</a>" in html, "login navbar link check"
-    assert "href=\"/register\">Register</a>" in html, "register navbar link check"
+    assert 'href="/locs/">Location Index</a>' in html, "location navbar link check"
+    assert (
+        'href="/search_drawings/">Search Drawings</a>' in html
+    ), "search drawings navbar link check"
+    assert 'href="/login">Admin Login</a>' in html, "login navbar link check"
+    # assert "href=\"/register\">Register</a>" in html, "register navbar link check"
     # test navbar classes
     assert "nav-item nav-link" in html, "navbar class check"
     # test homepage content
@@ -28,7 +31,6 @@ def test_home_page(client):
     # test search results
     assert "Filter by title" in html, "search bar title check"
     assert "Filter by location" in html, "search bar location check"
-
 
 
 def test_home_page_lnum_parameter(client):
@@ -145,15 +147,16 @@ def test_login_page(client):
     assert response.status_code == 200
 
 
-def test_register_page_get(client):
-    """
-    GIVEN a Flask application configured for testing
-    WHEN the register page is requested (GET)
-    THEN check that the response is valid
-    """
+# requires login now
+# def test_register_page_get(client):
+#     """
+#     GIVEN a Flask application configured for testing
+#     WHEN the register page is requested (GET)
+#     THEN check that the response is valid
+#     """
 
-    response = client.get(url_for("users.register"))
-    assert response.status_code == 200
+#     response = client.get(url_for("users.register"))
+#     assert response.status_code == 200
 
 
 def test_register_page_post(client):
