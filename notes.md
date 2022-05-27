@@ -72,6 +72,8 @@ python pytest -v
 https://testdriven.io/blog/flask-pytest/
 https://realpython.com/python-testing/
 
+- [check out the test configuration section](https://www.patricksoftwareblog.com/testing-a-flask-application-using-pytest/)
+
 ## generate a secret key
 
 `>python> import os`

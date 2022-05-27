@@ -3,31 +3,28 @@ from flaskdraw.models import User, Drawfile, Drawloc, Drawings
 from flask_bcrypt import generate_password_hash
 
 
-def test_new_users():
+def test_new_user(new_user):
     """
-    GIVEN a User model
+    GIVEN a User model and user defined in conftest.py
     WHEN a new User is created
     THEN check the username, email and hashed_password are correctly defined
     """
-    user = User(
-        username="testuser", email="testuser@testing.com", password="FlaskIsAwesome"
-    )
-    hashed_password = generate_password_hash(user.password).decode("utf-8")
-    assert user.username == "testuser"
-    assert user.email == "testuser@testing.com"
-    assert hashed_password != user.password
+
+    hashed_password = generate_password_hash(new_user.password).decode("utf-8")
+    assert new_user.username == "testuser"
+    assert new_user.email == "testuser@testing.com"
+    assert hashed_password != new_user.password
 
 
-def test_new_location():
+def test_new_location(new_location):
     """
-    GIVEN Drawloc model
+    GIVEN Drawloc model and location defined in conftest.py
     WHEN a new location is created
     THEN check the fields are correctly defined
     """
-    ilp = Drawloc(locnum=506, locdescrip="Interactive Learning Pavillion")
-    # assert ilp.id > 0
-    assert ilp.locnum == 506
-    assert ilp.locdescrip == "Interactive Learning Pavillion"
+
+    assert new_location.locnum == 506
+    assert new_location.locdescrip == "Interactive Learning Pavillion"
 
 
 def test_new_project():

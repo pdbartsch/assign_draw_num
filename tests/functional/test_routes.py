@@ -1,3 +1,5 @@
+import os
+from urllib import response
 from flask import url_for
 
 
@@ -136,27 +138,16 @@ def test_drawing_search_page(client):
     assert b"Search For Drawings:" in response.data, "Home page header check"
 
 
-def test_login_page(client):
+# requires login
+def test_register_page_get(client):
     """
     GIVEN a Flask application configured for testing
-    WHEN the login page is requested (GET)
+    WHEN the register page is requested (GET)
     THEN check that the response is valid
     """
 
-    response = client.get(url_for("users.login"))
+    response = client.get(url_for("users.register"))
     assert response.status_code == 200
-
-
-# requires login now
-# def test_register_page_get(client):
-#     """
-#     GIVEN a Flask application configured for testing
-#     WHEN the register page is requested (GET)
-#     THEN check that the response is valid
-#     """
-
-#     response = client.get(url_for("users.register"))
-#     assert response.status_code == 200
 
 
 def test_register_page_post(client):
@@ -167,7 +158,7 @@ def test_register_page_post(client):
 def test_login_page_get(client):
     """
     GIVEN a Flask application configured for testing
-    WHEN the register page is requested (GET)
+    WHEN the login page is requested (GET)
     THEN check that the response is valid
     """
 
@@ -194,6 +185,21 @@ def test_not_logged_in(client):
     assert b"Add Location" not in response.data, "Protected Navbar Link Check 03"
 
 
-# def test_temp_env_var(client):
-#     key = os.environ.get("SECRET_KEY")
-#     assert key == "testingkey"
+def test_assign_drawing_number(client):
+    response = client.get(url_for("drawproj.create"), follow_redirects=True)
+    assert response.status_code == 200
+
+
+def test_add_drawing(client):
+    response = client.get(url_for("drawproj.add_drawing"), follow_redirects=True)
+    assert response.status_code == 200
+
+
+def test_add_location(client):
+    response = client.get(url_for("drawproj.add_loc"), follow_redirects=True)
+    assert response.status_code == 200
+
+
+def test_logout(client):
+    response = client.get(url_for("users.logout"), follow_redirects=True)
+    assert response.status_code == 200

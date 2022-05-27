@@ -1,44 +1,40 @@
 import os
 import pytest
 from flaskdraw import create_app
-from flaskdraw.config import Config
-
-try:
-    from tests.pytest_config import TEMP_ENV_VARS, ENV_VARS_TO_SUSPEND
-except ImportError:
-    TEMP_ENV_VARS = {}
-    ENV_VARS_TO_SUSPEND = []
-
-# possible scopes are session, function, class, module and package
-# Autouse fixtures are a convenient way to make all tests automatically request them.
-@pytest.fixture(scope="session", autouse=True)
-def setup_and_teardown():
-    # Will be executed before the first test
-    old_environ = dict(os.environ)
-    os.environ.update(TEMP_ENV_VARS)
-    for env_var in ENV_VARS_TO_SUSPEND:
-        os.environ.pop(env_var, default=None)
-
-    yield
-    # Will be executed after the last test
-    os.environ.clear()
-    os.environ.update(old_environ)
+from flaskdraw.config import TestConfig
+from flaskdraw.models import User, Drawfile, Drawings, Drawloc
 
 
 @pytest.fixture
 def app():
-    app = create_app(Config)
+    app = create_app(TestConfig)
 
-    return app
+    # other setup can go here
+
+    yield app
+
+    # clean up / reset resources here
 
 
 @pytest.fixture
 def client(app):
-    """Configures the app for testing
-    Sets app configs
-    :return: App for testing
-    """
-    app.config.update({"TESTING": True, "SECRET_KEY": "testingkey"})
-    client = app.test_client()
+    return app.test_client()
 
-    yield client
+
+@pytest.fixture()
+def runner(app):
+    return app.test_cli_runner()
+
+
+@pytest.fixture(scope="module")
+def new_user():
+    user = User(
+        username="testuser", email="testuser@testing.com", password="FlaskIsAwesome"
+    )
+    return user
+
+
+@pytest.fixture(scope="module")
+def new_location():
+    ilp_bldg = Drawloc(locnum=506, locdescrip="Interactive Learning Pavillion")
+    return ilp_bldg
