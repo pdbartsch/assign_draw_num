@@ -74,6 +74,11 @@ https://realpython.com/python-testing/
 
 - [check out the test configuration section](https://www.patricksoftwareblog.com/testing-a-flask-application-using-pytest/)
 
+# coverage report
+
+- `coverage report -m`
+- `coverage html`
+
 ## generate a secret key
 
 `>python> import os`

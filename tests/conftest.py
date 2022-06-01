@@ -36,5 +36,25 @@ def new_user():
 
 @pytest.fixture(scope="module")
 def new_location():
-    ilp_bldg = Drawloc(locnum=506, locdescrip="Interactive Learning Pavillion")
-    return ilp_bldg
+    location = Drawloc(locnum=506, locdescrip="Interactive Learning Pavillion")
+    return location
+
+
+
+@pytest.fixture(scope="module")
+def new_project():
+    project = Drawfile(
+        locnum = 525, drawnum = 701, projectmngr = 'Paul David Bartsch', 
+        mainconsult = 'Landon Bartsch', title = "Parker's New Castle", projectnum="548FM5"
+        )
+    return project
+
+@pytest.fixture(scope="module")
+def new_drawing():
+    drawing = Drawings(
+        id=1, oldname='34_348_0.pdf', newname='34_348_CIV_0_26726.pdf', locnum=34, drawnum=348, 
+        project_title='PARKING LOT 38', project_number="FM805/18-7", project_year=2004, sheet_title='CIVIL SITE PLAN', 
+        sheet_number='C_1_5', discipline='CIVIL', drawing_version='RECORD', 
+        notes='Original file name was: R_G8_0034_0348_NO_0000.TIF Original drawer was: 31', physical_location='Original Ucsb Drawer 31'
+        )
+    return drawing
