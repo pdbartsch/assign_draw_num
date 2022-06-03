@@ -1,4 +1,4 @@
-# Ignore all HTML files:
+
 *.html
 *.env
 *.flaskenv
