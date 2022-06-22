@@ -204,3 +204,29 @@ def test_logout(client):
     response = client.get(url_for("users.logout"), follow_redirects=True)
     assert response.status_code == 200
 
+def test_drawproj_page(client):
+    response = client.get(url_for("drawproj.location_set",locnum=525), follow_redirects=True)
+    assert response.status_code == 200
+
+def test_drawproj_drawings_locnum(client):
+    response = client.get(url_for("drawproj.drawings",locnum=525), follow_redirects=True)
+    assert response.status_code == 200
+
+def test_drawproj_drawings_drawnum(client):
+    response = client.get(url_for("drawproj.drawings",drawnum=101), follow_redirects=True)
+    assert response.status_code == 200
+    assert b"Your query returned no results" in response.data, "Should NOT return results"
+
+def test_drawproj_drawings_draw_n_locnums(client):
+    response = client.get(url_for("drawproj.drawings",drawnum=101,locnum=525), follow_redirects=True)
+    assert response.status_code == 200
+    assert b"Your query returned no results" not in response.data, "Should return results"
+
+def test_drawproj_drawings_nonsense(client):
+    response = client.get(url_for("drawproj.drawings",nonsense=101), follow_redirects=True)
+    assert response.status_code == 200
+    assert b"Your query returned no results" in response.data, "Should NOT return results"
+
+
+
+

@@ -151,20 +151,20 @@ def add_drawing():
 
 
 @drawproj.route("/search_drawings/", methods=("GET", "POST"))
-def search_drawings():
+def search_drawings(): # https://stackoverflow.com/a/27810889/747748
     form = DrawingsSearchForm()
     # drawings = Drawings.query
     q = []
 
     if request.method == "POST":
         if form.locnum.data:
-            # locnum = int(form.locnum.data)
             locnum = str(form.locnum.data)
             q.append(locnum)
+            # q.append(Drawings.locnum == form.locnum.data)
         if form.drawnum.data:
-            # drawnum = int(form.drawnum.data)
             drawnum = str(form.drawnum.data)
             q.append(drawnum)
+            # q.append(Drawings.drawnum == form.drawnum.data)
         if form.project_title.data:
             project_title = form.project_title.data
             q.append(project_title)
@@ -181,34 +181,42 @@ def search_drawings():
             discipline = form.discipline.data
             q.append(discipline)
 
-        return render_template("drawings.html", q=q, s=", ".join(q))
+        s=", ".join(q)
+        # drawings = (
+        #     Drawings.query.order_by(Drawings.locnum.asc(), Drawings.drawnum.asc())
+        #     .filter(s)
+        #     .all()
+        # )
+        return render_template("drawings.html", q=q, s=s)
 
     return render_template("search_drawings.html", form=form)
 
-
-# search results
-# @main.route("/search", methods=["POST"])
-# def search():
-#     form = SearchForm()
-#     drawings = Drawfile.query
-#     # get data from submitted form
-#     searched = form.searched.data
-
-#     if searched:
-#         if form.validate_on_submit():
-#             drawings = drawings.filter(Drawfile.title.like("%" + searched + "%"))
-#             drawings = drawings.order_by(
-#                 Drawfile.locnum.asc(), Drawfile.drawnum.asc()
-#             ).all()
-#             return render_template(
-#                 "search.html", form=form, searched=searched, drawings=drawings
-#             )
+# @drawproj.route("/drawings/")
+# def drawings():
+#     locnum = request.args.get("locnum")
+#     drawnum = request.args.get("drawnum")
+#     if locnum and drawnum:
+#         drawings = (
+#             Drawings.query.order_by(Drawings.locnum.asc(), Drawings.drawnum.asc())
+#             .filter(Drawings.locnum == locnum, Drawings.drawnum == drawnum)
+#             .all()
+#         )
+#     elif locnum:
+#         drawings = (
+#             Drawings.query.order_by(Drawings.locnum.asc(), Drawings.drawnum.asc())
+#             .filter(Drawings.locnum == locnum)
+#             .all()
+#         )
 #     else:
-#         drawings = drawings.order_by(
-#             Drawfile.locnum.asc(), Drawfile.drawnum.asc()
-#         ).all()
-#         return render_template("index.html", form=form, drawings=drawings)
+#         drawings = None
 
+#     return render_template(
+#         "drawings.html",
+#         drawings=drawings,
+#         title="Drawing results:",
+#         heading="Result of drawing search:",
+#         base_drawings_url=base_drawings_url,
+#     )
 
 @drawproj.route("/create/<int:locnum>", methods=("GET", "POST"))
 def newproject(locnum):
