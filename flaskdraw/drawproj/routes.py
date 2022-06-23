@@ -189,8 +189,9 @@ def search_drawings():  # https://stackoverflow.com/a/27810889/747748
             form=form,
             drawings=drawings,
             base_drawings_url=base_drawings_url,
+            drawing_search_sidebar=True,
         )
-    return render_template("search_drawings.html", form=form)
+    return render_template("drawings.html", form=form, drawing_search_sidebar=True)
 
 
 @drawproj.route("/create/<int:locnum>", methods=("GET", "POST"))
