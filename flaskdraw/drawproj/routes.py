@@ -2,6 +2,7 @@ import os
 from flask import Blueprint
 
 from flask import render_template, url_for, redirect, request
+from sqlalchemy import text
 from flaskdraw import db
 from flaskdraw.drawproj.forms import (
     LocationForm,
@@ -151,72 +152,46 @@ def add_drawing():
 
 
 @drawproj.route("/search_drawings/", methods=("GET", "POST"))
-def search_drawings(): # https://stackoverflow.com/a/27810889/747748
+def search_drawings():  # https://stackoverflow.com/a/27810889/747748
     form = DrawingsSearchForm()
-    # drawings = Drawings.query
+
     q = []
 
     if request.method == "POST":
+
+        # search across multiple optional fields
         if form.locnum.data:
-            locnum = str(form.locnum.data)
-            q.append(locnum)
-            # q.append(Drawings.locnum == form.locnum.data)
+            q.append("Drawings.locnum == " + str(form.locnum.data))
         if form.drawnum.data:
-            drawnum = str(form.drawnum.data)
-            q.append(drawnum)
-            # q.append(Drawings.drawnum == form.drawnum.data)
+            q.append("Drawings.drawnum == " + str(form.drawnum.data))
         if form.project_title.data:
-            project_title = form.project_title.data
-            q.append(project_title)
+            q.append('Drawings.project_title LIKE("%' + form.project_title.data + '%")')
         if form.project_number.data:
-            project_number = form.project_number.data
-            q.append(project_number)
+            q.append("Drawings.project_number == " + str(form.project_number.data))
         if form.sheet_title.data:
-            sheet_title = form.sheet_title.data
-            q.append(sheet_title)
+            q.append('Drawings.sheet_title LIKE("%' + form.sheet_title.data + '%")')
         if form.sheet_number.data:
-            sheet_number = form.sheet_number.data
-            q.append(sheet_number)
+            q.append('Drawings.sheet_number LIKE("%' + form.sheet_number.data + '%")')
         if form.discipline.data:
-            discipline = form.discipline.data
-            q.append(discipline)
+            q.append('Drawings.discipline LIKE("%' + form.discipline.data + '%")')
+        s = " AND ".join(q)
 
-        s=", ".join(q)
-        # drawings = (
-        #     Drawings.query.order_by(Drawings.locnum.asc(), Drawings.drawnum.asc())
-        #     .filter(s)
-        #     .all()
-        # )
-        return render_template("drawings.html", q=q, s=s)
+        drawings = (
+            Drawings.query.order_by(Drawings.locnum.asc(), Drawings.drawnum.asc())
+            .filter(text(s))
+            .all()
+        )
 
+        # .filter(text(*q))     .order_by(Drawings.locnum.asc(), Drawings.drawnum.asc())
+
+        return render_template(
+            "drawings.html",
+            form=form,
+            drawings=drawings,
+            base_drawings_url=base_drawings_url,
+        )
     return render_template("search_drawings.html", form=form)
 
-# @drawproj.route("/drawings/")
-# def drawings():
-#     locnum = request.args.get("locnum")
-#     drawnum = request.args.get("drawnum")
-#     if locnum and drawnum:
-#         drawings = (
-#             Drawings.query.order_by(Drawings.locnum.asc(), Drawings.drawnum.asc())
-#             .filter(Drawings.locnum == locnum, Drawings.drawnum == drawnum)
-#             .all()
-#         )
-#     elif locnum:
-#         drawings = (
-#             Drawings.query.order_by(Drawings.locnum.asc(), Drawings.drawnum.asc())
-#             .filter(Drawings.locnum == locnum)
-#             .all()
-#         )
-#     else:
-#         drawings = None
-
-#     return render_template(
-#         "drawings.html",
-#         drawings=drawings,
-#         title="Drawing results:",
-#         heading="Result of drawing search:",
-#         base_drawings_url=base_drawings_url,
-#     )
 
 @drawproj.route("/create/<int:locnum>", methods=("GET", "POST"))
 def newproject(locnum):
