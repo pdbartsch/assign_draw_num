@@ -203,4 +203,3 @@ def test_add_location(client):
 def test_logout(client):
     response = client.get(url_for("users.logout"), follow_redirects=True)
     assert response.status_code == 200
-
