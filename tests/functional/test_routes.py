@@ -17,24 +17,21 @@ def test_home_page(client):
     """
     response = client.get(url_for("main.index"))
     html = response.data.decode()
-    # test for successful request
     assert response.status_code == 200
-    # test navbar links when logged out
     assert 'href="/locations/">Locations</a>' in html, "location navbar link check"
     assert 'href="/projects/">Projects</a>' in html, "projects navbar link check"
     assert (
-        'href="/search_drawings/">Record Drawings</a>' in html
+        'href="/search_drawings/">Drawings</a>' in html
     ), "search drawings navbar link check"
     assert 'href="/login">Admin Login</a>' in html, "login navbar link check"
-    # assert "href=\"/register\">Register</a>" in html, "register navbar link check"
-    # test navbar classes
     assert "nav-item nav-link" in html, "navbar class check"
-    # test homepage content
-    # assert "All Projects" in html, "Header check"
-    # test search results
-    assert "Filter by title" in html, "search bar title check"
-    assert "Filter by location" in html, "search bar location check"
 
+# test for sql injection
+def test_login_page_post_sql_injection(client):
+    response = client.post(url_for("users.login"), follow_redirects=True, data={"username": "admin' or '1'='1", "email": "admin' or '1'='1", "password": "admin"})
+    assert response.status_code == 200
+    assert b"Login" in response.data, "login page check"
+    assert b"Login unsuccessful. Please check email and password." in response.data, "login error check"
 
 def test_home_page_lnum_parameter(client):
     """
@@ -89,7 +86,7 @@ def test_location_list_page(client):
     """
     response = client.get(url_for("drawproj.locations"), follow_redirects=True)
     assert response.status_code == 200
-    assert b"Location List" in response.data
+    assert b"Location Categories:" in response.data
 
 
 def test_drawings_page(client):

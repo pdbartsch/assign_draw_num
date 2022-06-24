@@ -42,7 +42,7 @@ def drawings():
         "drawings.html",
         drawings=drawings,
         title="Drawing results:",
-        heading="Result of drawing search:",
+        subheading="Result of drawing search:",
         base_drawings_url=base_drawings_url,
     )
 
@@ -57,7 +57,8 @@ def location_set(locnum):
     return render_template(
         "drawings.html",
         drawings=drawings,
-        title="Drawing results for location #" + str(locnum),
+        title="Drawing search results",
+        subheading="Drawing results for location #" + str(locnum) + ":",
         base_drawings_url=base_drawings_url,
     )
 
@@ -72,7 +73,8 @@ def drawing_set(locnum, drawnum):
     return render_template(
         "drawings.html",
         drawings=drawings,
-        title="Drawing Set " + str(locnum) + "-" + str(drawnum),
+        title="Drawing search results",
+        subheading="Drawing Set " + str(locnum) + "-" + str(drawnum) + ":",
         base_drawings_url=base_drawings_url,
     )
 
@@ -290,6 +292,6 @@ def add_loc():
 def locations():
     location_list = Drawloc.query.order_by(Drawloc.locnum.asc()).all()
     return render_template(
-        "locations.html", location_list=location_list, title="Location Categories", sidebar='locationpage'
+        "locations.html", location_list=location_list, title="Location Categories", sidebar='locationpage', subheading='Location Categories:'
     )
 
