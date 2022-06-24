@@ -17,7 +17,7 @@ def index():
     return render_template(
         "index.html",
         title="Home Page",
-        heading="Welcome to the FlaskDraw home page!",
+        sidebar="homepage"
     )
 
 @main.route("/projects/")
