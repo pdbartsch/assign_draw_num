@@ -43,9 +43,9 @@ def index():
         ).all()
         subheading = "All Projects: "
     return render_template(
-        "index.html",
+        "projects.html",
         drawings=drawings,
-        title="Home Page",
+        title="Projects Page",
         filtered_locations=filtered_locations,
         subheading=subheading,
     )
@@ -79,20 +79,20 @@ def base():
 @main.route("/search", methods=["POST"])
 def search():
     form = SearchForm()
-    drawings = Drawfile.query
+    project_list = Drawfile.query
     # get data from submitted form
     searched = form.searched.data
     if searched:
         if form.validate_on_submit():
-            drawings = drawings.filter(Drawfile.title.like("%" + searched + "%"))
-            drawings = drawings.order_by(
+            project_list = project_list.filter(Drawfile.title.like("%" + searched + "%"))
+            project_list = project_list.order_by(
                 Drawfile.locnum.asc(), Drawfile.drawnum.asc()
             ).all()
             return render_template(
-                "search.html", form=form, searched=searched, drawings=drawings
+                "projects.html", form=form, searched=searched, project_list=project_list
             )
     else:
-        drawings = drawings.order_by(
+        project_list = project_list.order_by(
             Drawfile.locnum.asc(), Drawfile.drawnum.asc()
         ).all()
-        return render_template("index.html", form=form, drawings=drawings)
+        return render_template("projects.html", form=form, project_list=project_list)

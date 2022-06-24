@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content%}
+
+
+  <h6>{{ key }}</h6>
+
+
+  <h4>{{ subheading }}</h4>
+
+<div class="table-responsive">
+  <table id="proj_list" class="table table-hover table-bordered align-middle">
+
+    
+    <thead class="table-light">
+      <tr>
+        <th scope="col">UCSB Drawing#</th> 
+        <th scope="col">Description</th>
+        <th scope="col">Project Manager</th>
+        <th scope="col">Consultant</th>
+        <th scope="col">Date Recorded</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      {% for project in project_list %}
+
+      <tr>
+        <td scope="row"><a href="{{ url_for('main.project', locnum=project.locnum, drawnum=project.drawnum) }}">
+          {{ project.locnum }}-{{ project.drawnum }}</a></td>
+        <td>{{ project.title }}</td>
+        <td>{{ project.projectmngr }}</td>
+        <td>{{ project.mainconsult }}</td>
+        <td>{{ project.date|string|truncate(5,true) }}</td>
+
+      </tr>
+      {% endfor %}
+      
+      {% if filtered_locations %}
+      <caption>Filtered List of UCSB Construction Projects</caption>
+      {% else %}
+      <caption>List of UCSB Construction Projects</caption>
+      {% endif %}
+      
+    </tbody>
+    
+  </table>
+
+</div>
+
+{% endblock %}
+
+

@@ -23,6 +23,10 @@
           <td>{{ draw.project_year }}</td>
         </tr>
         {% endfor %}
+      {% elif no_search %}
+      <tr>
+        <td>Begin your search on the right -></td>
+      </tr>
       {% else %}
         <tr>
           <td>Your query returned no results</td>

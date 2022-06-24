@@ -182,6 +182,11 @@ def search_drawings():  # https://stackoverflow.com/a/27810889/747748
             .all()
         )
 
+        if s == "":
+            no_search = True
+        else:
+            no_search = False
+
         # .filter(text(*q))     .order_by(Drawings.locnum.asc(), Drawings.drawnum.asc())
 
         return render_template(
@@ -190,8 +195,9 @@ def search_drawings():  # https://stackoverflow.com/a/27810889/747748
             drawings=drawings,
             base_drawings_url=base_drawings_url,
             drawing_search_sidebar=True,
+            no_search=no_search,
         )
-    return render_template("drawings.html", form=form, drawing_search_sidebar=True)
+    return render_template("drawings.html", form=form, drawing_search_sidebar=True, no_search=True)
 
 
 @drawproj.route("/create/<int:locnum>", methods=("GET", "POST"))
@@ -282,8 +288,12 @@ def add_loc():
 
 @drawproj.route("/locs/")
 def locations():
-    # drawings = Drawfile.query.all()
     location_list = Drawloc.query.order_by(Drawloc.locnum.asc()).all()
     return render_template(
         "locations.html", location_list=location_list, title="Location Categories"
     )
+
+@drawproj.route("/projects/")
+def projects():
+    project_list = Drawfile.query.order_by(Drawfile.locnum.asc(), Drawfile.drawnum.asc()).all()
+    return render_template("projects.html", project_list=project_list, title="Projects")
