@@ -20,7 +20,7 @@ def test_home_page(client):
     # test for successful request
     assert response.status_code == 200
     # test navbar links when logged out
-    assert 'href="/locs/">Locations</a>' in html, "location navbar link check"
+    assert 'href="/locations/">Locations</a>' in html, "location navbar link check"
     assert 'href="/projects/">Projects</a>' in html, "projects navbar link check"
     assert (
         'href="/search_drawings/">Record Drawings</a>' in html

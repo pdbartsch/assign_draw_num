@@ -194,10 +194,10 @@ def search_drawings():  # https://stackoverflow.com/a/27810889/747748
             form=form,
             drawings=drawings,
             base_drawings_url=base_drawings_url,
-            drawing_search_sidebar=True,
+            sidebar='drawingsearch',
             no_search=no_search,
         )
-    return render_template("drawings.html", form=form, drawing_search_sidebar=True, no_search=True)
+    return render_template("drawings.html", form=form, sidebar='drawingsearch', no_search=True)
 
 
 @drawproj.route("/create/<int:locnum>", methods=("GET", "POST"))
@@ -286,10 +286,10 @@ def add_loc():
     return render_template("addloc.html", form=form)
 
 
-@drawproj.route("/locs/")
+@drawproj.route("/locations/")
 def locations():
     location_list = Drawloc.query.order_by(Drawloc.locnum.asc()).all()
     return render_template(
-        "locations.html", location_list=location_list, title="Location Categories"
+        "locations.html", location_list=location_list, title="Location Categories", sidebar='locationpage'
     )
 

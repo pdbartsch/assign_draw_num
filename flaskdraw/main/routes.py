@@ -55,6 +55,7 @@ def projects():
         title="Projects Page",
         filtered_locations=filtered_locations,
         subheading=subheading,
+        sidebar='projectsearch'
     )
 
 
@@ -65,14 +66,14 @@ def project(locnum, drawnum):
         Drawfile.locnum == locnum, Drawfile.drawnum == drawnum
     ).all()
 
-    return render_template("project.html", project=project)
+    return render_template("project.html", project=project, sidebar='projectsearch')
 
 
 @main.route("/projects/<int:locnum>/")
 def loc_group(locnum):
     # project = Drawfile.query.get_or_404(project_id)
     project = Drawfile.query.filter(Drawfile.locnum == locnum).all()
-    return render_template("project.html", project=project)
+    return render_template("project.html", project=project, sidebar='projectsearch')
 
 
 # pass stuff to search div
@@ -96,10 +97,10 @@ def search():
                 Drawfile.locnum.asc(), Drawfile.drawnum.asc()
             ).all()
             return render_template(
-                "projects.html", form=form, searched=searched, project_list=project_list
+                "projects.html", form=form, searched=searched, project_list=project_list, sidebar='projectsearch'
             )
     else:
         project_list = project_list.order_by(
             Drawfile.locnum.asc(), Drawfile.drawnum.asc()
         ).all()
-        return render_template("projects.html", form=form, project_list=project_list)
+        return render_template("projects.html", form=form, project_list=project_list, sidebar='projectsearch')

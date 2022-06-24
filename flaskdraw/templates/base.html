@@ -22,7 +22,7 @@
     {% if title%}
       <title>{{ title }}</title>
     {% else %}
-      <title>UCSB Drawing Number</title>
+      <title>UCSB D&CS Records</title>
     {% endif %}
 </head>
 
@@ -31,7 +31,7 @@
     <header class="site-header">
         <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
             <div class="container">
-                <a class="navbar-brand" href="{{ url_for('main.index') }}">UCSB Drawing Numbers</a>
+                <a class="navbar-brand" href="{{ url_for('main.index') }}">UCSB D&CS Records</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" 
                     aria-controls="navbarSupportedContent" 
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -47,7 +47,7 @@
                             <a class="nav-item nav-link" href="{{ url_for('main.projects') }}">Projects</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-item nav-link" href="{{ url_for('drawproj.search_drawings') }}">Record Drawings</a>
+                            <a class="nav-item nav-link" href="{{ url_for('drawproj.search_drawings') }}">Drawings</a>
                         </li>
                     </ul>
                     <!-- Navbar Right Side -->
@@ -98,16 +98,14 @@
                 {% endwith %}
                 {% block content %}{% endblock %}
             </div>
+
             <div class="col-md-3 order-last content-section" >
-                <!-- <div class="content-section bg-light">
-                    <h3>Search</h3>
-                </div> -->
-                {% if drawing_search_sidebar %}
-                {% block drawing_search_sidebar %}
+
+                {% if sidebar == 'drawingsearch' %}
                 <h2>Search For Drawings:</h2>
                 <form method="post" class="row g-3">
                     {{ form.csrf_token }}
-                
+            
                     <div class="col-md-6">
                         <label class="form-label">{{ form.locnum.label }}</label>
                         {{ form.locnum(class_="form-control") }}
@@ -185,15 +183,13 @@
                         </ul>
                         {% endif %}
                     </div>
-                
+            
                     <div class="col-12">
                         <button type="submit" class="btn btn-primary">Search</button>
                     </div>
-                
+            
                 </form>
-                {% endblock drawing_search_sidebar %}
-                {% else %}
-                {% block project_search_sidebar %}
+                {% elif sidebar == 'projectsearch' %}
                 <div class="content-section">
                     <form method="GET|POST" action="{{ url_for('main.projects')}}">
                         <label for="searchtext01" class="form-label">Filter by title:</label>
@@ -207,9 +203,19 @@
                         <button type="submit" class="btn btn-secondary">Filter by Location</button>
                     </form>
                 </div>
-                {% endblock project_search_sidebar %}
+                {% elif sidebar == 'locationpage' %}
+                <div class="content-section">
+                    <h2>Location Explanation</h2>
+                    <p>This is the default sidebar.</p>
+                </div>
+                {% else %}
+                <div class="content-section">
+                    <h2>Default Sidebar</h2>
+                    <p>This is the default sidebar.</p>
+                </div>
                 {% endif %}
             </div>
+
         </div>
     </main>
 
