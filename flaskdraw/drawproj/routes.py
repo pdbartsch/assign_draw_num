@@ -293,7 +293,3 @@ def locations():
         "locations.html", location_list=location_list, title="Location Categories"
     )
 
-@drawproj.route("/projects/")
-def projects():
-    project_list = Drawfile.query.order_by(Drawfile.locnum.asc(), Drawfile.drawnum.asc()).all()
-    return render_template("projects.html", project_list=project_list, title="Projects")

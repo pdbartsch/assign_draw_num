@@ -30,7 +30,7 @@ def test_home_page(client):
     # test navbar classes
     assert "nav-item nav-link" in html, "navbar class check"
     # test homepage content
-    assert "All Projects" in html, "Header check"
+    # assert "All Projects" in html, "Header check"
     # test search results
     assert "Filter by title" in html, "search bar title check"
     assert "Filter by location" in html, "search bar location check"
@@ -52,7 +52,7 @@ def test_home_page_searched_parameter(client):
     WHEN the '/?searched=library' page is requested (GET)
     THEN check that the response is valid
     """
-    response = client.get(url_for("main.index", searched="library"))
+    response = client.get(url_for("main.projects", searched="library"))
     assert response.status_code == 200
     assert (
         b"Projects Associated with Title like library" in response.data
@@ -65,7 +65,7 @@ def test_home_page_lnum_parameter(client):
     WHEN the '/?lnum=525' page is requested (GET)
     THEN check that the response is valid
     """
-    response = client.get(url_for("main.index", lnum=525))
+    response = client.get(url_for("main.projects", lnum=525))
     assert response.status_code == 200
     assert b"Projects Associated with Location 525" in response.data, "Header check"
 
@@ -109,7 +109,7 @@ def test_list_projects_one_locnum(client):
     WHEN the '/locnum' page is requested (GET)
     THEN check that the response is valid
     """
-    response = client.get("/525", follow_redirects=True)
+    response = client.get("/projects/525", follow_redirects=True)
     assert response.status_code == 200
     assert b"UCSB Drawing #525-" in response.data, "UCSB Drawing Numbers header check"
 
@@ -120,7 +120,7 @@ def test_list_single_project(client):
     WHEN the '/locnum/drawnum' page is requested (GET)
     THEN check that the response is valid
     """
-    response = client.get("/525/120", follow_redirects=True)
+    response = client.get("/projects/525/120", follow_redirects=True)
     assert response.status_code == 200
     assert (
         b"UCSB Drawing #525-120" in response.data
