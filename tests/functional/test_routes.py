@@ -6,7 +6,7 @@ from flask import url_for
 def test_landing_aliases(client):
     # tests that aliases return same results
     landing = client.get("/")
-    assert client.get(url_for("main.index")).data == landing.data
+    assert client.get(url_for("bp_main.index")).data == landing.data
 
 
 def test_home_page(client):
@@ -15,7 +15,7 @@ def test_home_page(client):
     WHEN the '/' page is requested (GET)
     THEN check that the response is valid
     """
-    response = client.get(url_for("main.index"))
+    response = client.get(url_for("bp_main.index"))
     html = response.data.decode()
     assert response.status_code == 200
     assert 'href="/locations/">Locations</a>' in html, "location navbar link check"
@@ -28,43 +28,10 @@ def test_home_page(client):
 
 # test for sql injection
 def test_login_page_post_sql_injection(client):
-    response = client.post(url_for("users.login"), follow_redirects=True, data={"username": "admin' or '1'='1", "email": "admin' or '1'='1", "password": "admin"})
+    response = client.post(url_for("bp_users.login"), follow_redirects=True, data={"username": "admin' or '1'='1", "email": "admin' or '1'='1", "password": "admin"})
     assert response.status_code == 200
     assert b"Login" in response.data, "login page check"
     assert b"Login unsuccessful. Please check email and password." in response.data, "login error check"
-
-def test_home_page_lnum_parameter(client):
-    """
-    GIVEN a Flask application configured for testing
-    WHEN the '/?lnum=525' page is requested (GET)
-    THEN check that the response is valid
-    """
-    response = client.get(url_for("main.index", lnum=525))
-    assert response.status_code == 200
-
-
-def test_home_page_searched_parameter(client):
-    """
-    GIVEN a Flask application configured for testing
-    WHEN the '/?searched=library' page is requested (GET)
-    THEN check that the response is valid
-    """
-    response = client.get(url_for("main.projects", searched="library"))
-    assert response.status_code == 200
-    assert (
-        b"Projects Associated with Title like library" in response.data
-    ), "Header check"
-
-
-def test_home_page_lnum_parameter(client):
-    """
-    GIVEN a Flask application configured for testing
-    WHEN the '/?lnum=525' page is requested (GET)
-    THEN check that the response is valid
-    """
-    response = client.get(url_for("main.projects", lnum=525))
-    assert response.status_code == 200
-    assert b"Projects Associated with Location 525" in response.data, "Header check"
 
 
 def test_home_page_post(client):
@@ -73,7 +40,7 @@ def test_home_page_post(client):
     WHEN the '/' page is posted to (POST)
     THEN check that a '405' status code is returned
     """
-    response = client.post(url_for("main.index"))
+    response = client.post(url_for("bp_main.index"))
     assert response.status_code == 405, "this home page shouldn't allow post requests"
     assert b"All Projects:" not in response.data, "if this failed then the page loaded"
 
@@ -84,7 +51,7 @@ def test_location_list_page(client):
     WHEN the locations (/locs/) page is requested (GET)
     THEN check that the response is valid
     """
-    response = client.get(url_for("drawproj.locations"), follow_redirects=True)
+    response = client.get(url_for("bp_locations.locations"), follow_redirects=True)
     assert response.status_code == 200
     assert b"Location Categories:" in response.data
 
@@ -95,7 +62,7 @@ def test_drawings_page(client):
     WHEN the drawings page is requested (GET)
     THEN check that the response is valid
     """
-    response = client.get(url_for("drawproj.drawings"), follow_redirects=True)
+    response = client.get(url_for("bp_drawings.drawings"), follow_redirects=True)
     assert response.status_code == 200
     assert b"Result of drawing search:" in response.data, "Home page header check"
 
@@ -131,7 +98,7 @@ def test_drawing_search_page(client):
     THEN check that the response is valid
     """
 
-    response = client.get(url_for("drawproj.search_drawings"))
+    response = client.get(url_for("bp_drawings.search_drawings"))
     assert response.status_code == 200
     assert b"Search For Drawings:" in response.data, "Home page header check"
 
@@ -144,12 +111,12 @@ def test_register_page_get(client):
     THEN check that the response is valid
     """
 
-    response = client.get(url_for("users.register"))
+    response = client.get(url_for("bp_users.register"))
     assert response.status_code == 200
 
 
 def test_register_page_post(client):
-    response = client.post(url_for("users.register"), follow_redirects=True)
+    response = client.post(url_for("bp_users.register"), follow_redirects=True)
     assert response.status_code == 200
 
 
@@ -160,12 +127,12 @@ def test_login_page_get(client):
     THEN check that the response is valid
     """
 
-    response = client.get(url_for("users.login"))
+    response = client.get(url_for("bp_users.login"))
     assert response.status_code == 200
 
 
 def test_login_page_post(client):
-    response = client.post(url_for("users.login"), follow_redirects=True)
+    response = client.post(url_for("bp_users.login"), follow_redirects=True)
     assert response.status_code == 200
 
 
@@ -175,7 +142,7 @@ def test_not_logged_in(client):
     WHEN the '/' page is requested (GET)
     THEN check that the response doesn't contain protected links
     """
-    response = client.get(url_for("main.index"))
+    response = client.get(url_for("bp_main.index"))
     assert (
         b"Assign Drawing Number" not in response.data
     ), "Protected Navbar Link Check 01"
@@ -184,42 +151,42 @@ def test_not_logged_in(client):
 
 
 def test_assign_drawing_number(client):
-    response = client.get(url_for("drawproj.create"), follow_redirects=True)
+    response = client.get(url_for("bp_projects.newproject"), follow_redirects=True)
     assert response.status_code == 200
 
 
 def test_add_drawing(client):
-    response = client.get(url_for("drawproj.add_drawing"), follow_redirects=True)
+    response = client.get(url_for("bp_drawings.add_drawing"), follow_redirects=True)
     assert response.status_code == 200
 
 
 def test_add_location(client):
-    response = client.get(url_for("drawproj.add_loc"), follow_redirects=True)
+    response = client.get(url_for("bp_locations.add_loc"), follow_redirects=True)
     assert response.status_code == 200
 
 
 def test_logout(client):
-    response = client.get(url_for("users.logout"), follow_redirects=True)
+    response = client.get(url_for("bp_users.logout"), follow_redirects=True)
     assert response.status_code == 200
 
 
 def test_drawproj_page(client):
     response = client.get(
-        url_for("drawproj.location_set", locnum=525), follow_redirects=True
+        url_for("bp_locations.location_set", locnum=525), follow_redirects=True
     )
     assert response.status_code == 200
 
 
 def test_drawproj_drawings_locnum(client):
     response = client.get(
-        url_for("drawproj.drawings", locnum=525), follow_redirects=True
+        url_for("bp_drawings.drawings", locnum=525), follow_redirects=True
     )
     assert response.status_code == 200
 
 
 def test_drawproj_drawings_drawnum(client):
     response = client.get(
-        url_for("drawproj.drawings", drawnum=101), follow_redirects=True
+        url_for("bp_drawings.drawings", drawnum=101), follow_redirects=True
     )
     assert response.status_code == 200
     assert (
@@ -229,7 +196,7 @@ def test_drawproj_drawings_drawnum(client):
 
 def test_drawproj_drawings_draw_n_locnums(client):
     response = client.get(
-        url_for("drawproj.drawings", drawnum=101, locnum=525), follow_redirects=True
+        url_for("bp_drawings.drawings", drawnum=101, locnum=525), follow_redirects=True
     )
     assert response.status_code == 200
     assert (
@@ -239,7 +206,7 @@ def test_drawproj_drawings_draw_n_locnums(client):
 
 def test_drawproj_drawings_nonsense(client):
     response = client.get(
-        url_for("drawproj.drawings", nonsense=101), follow_redirects=True
+        url_for("bp_drawings.drawings", nonsense=101), follow_redirects=True
     )
     assert response.status_code == 200
     assert (

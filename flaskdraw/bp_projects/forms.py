@@ -12,8 +12,6 @@ from wtforms.validators import (
     Optional,
 )
 
-
-
 class ProjectForm(FlaskForm):
     locnum = IntegerField("Location Number", validators=[InputRequired()])
     drawnum = IntegerField("Drawing Number", validators=[InputRequired()])

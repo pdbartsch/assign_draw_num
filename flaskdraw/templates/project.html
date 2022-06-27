@@ -23,16 +23,16 @@
     <p><b>Contract Number:</b> {{ p.contractnum }}</p>
     {% endif %}
     <p><b>Number of drawings in set:</b> coming soon </p>
-    <button type="button" class="form-control-file"><a href="{{ url_for('drawproj.drawings', locnum=p.locnum, drawnum=p.drawnum) }}">See Drawings</a></button>
+    <button type="button" class="form-control-file"><a href="{{ url_for('bp_drawings.drawings', locnum=p.locnum, drawnum=p.drawnum) }}">See Drawings</a></button>
     <hr>
     
 
     {% if current_user.is_authenticated %}
     <hr>
     
-    <button type="button" class="form-control-file"><a href="{{ url_for('drawproj.edit_proj', project_id=p.id) }}">Edit</a></button>
+    <button type="button" class="form-control-file"><a href="{{ url_for('bp_projects.edit_proj', project_id=p.id) }}">Edit</a></button>
 
-    <form method="POST" class="btn" action="{{ url_for('drawproj.delete', project_id=p.id) }}">
+    <form method="POST" class="btn" action="{{ url_for('bp_projects.delete', project_id=p.id) }}">
       <input
         type="submit"
         value="Delete Project"

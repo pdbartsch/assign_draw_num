@@ -111,7 +111,7 @@ def add_drawing():
         db.session.add(drawing)
         db.session.commit()
 
-        return redirect(url_for("main.index"))
+        return redirect(url_for("bp_main.index"))
 
     return render_template("add_drawing.html", form=form)
 
