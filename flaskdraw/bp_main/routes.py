@@ -3,7 +3,7 @@ from flask import Blueprint
 from flask import render_template, url_for, flash, redirect, request, abort
 from flask import current_app
 from sqlalchemy import text
-from flaskdraw.drawproj.forms import (
+from flaskdraw.bp_drawings.forms import (
     SearchForm,
     ProjectSearchForm
 )

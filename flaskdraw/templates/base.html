@@ -63,20 +63,20 @@
                             <a class="nav-item nav-link" href="{{ url_for('drawproj.add_loc') }}">Add Location</a>
                         </li>
                         <li class="nav-item:">
-                            <a class="nav-item nav-link" href="{{ url_for('users.account') }}">Account</a>
+                            <a class="nav-item nav-link" href="{{ url_for('bp_users.account') }}">Account</a>
                         </li>
                         <li class="nav-item:">
-                            <a class="nav-item nav-link" href="{{ url_for('users.logout') }}">Logout</a>
+                            <a class="nav-item nav-link" href="{{ url_for('bp_users.logout') }}">Logout</a>
                         </li>
                         {% else %}
                         <li class="nav-item:">
                             <a class="nav-item nav-link" href="https://www.dfss.ucsb.edu/">DFSS Home</a>
                         </li>
                         <li class="nav-item:">
-                            <a class="nav-item nav-link" href="{{ url_for('users.login') }}">Admin Login</a>
+                            <a class="nav-item nav-link" href="{{ url_for('bp_users.login') }}">Admin Login</a>
                         </li>
                         <!-- <li class="nav-item:">
-                            <a class="nav-item nav-link" href="{{ url_for('users.register') }}">Register</a>
+                            <a class="nav-item nav-link" href="{{ url_for('bp_users.register') }}">Register</a>
                         </li> -->
                         {% endif %}
                     </ul>

@@ -1,7 +1,7 @@
 from flask import Blueprint
 from flask import render_template, url_for, flash, redirect, request
 from flaskdraw import db, bcrypt
-from flaskdraw.users.forms import (
+from flaskdraw.bp_users.forms import (
     LoginForm,
     RegistrationForm,
     UpdateAccountForm,
@@ -9,10 +9,10 @@ from flaskdraw.users.forms import (
 from flaskdraw.models import User
 from flask_login import login_user, current_user, logout_user, login_required
 
-users = Blueprint("users", __name__)
+bp_users = Blueprint("bp_users", __name__)
 
 
-@users.route("/register", methods=["GET", "POST"])
+@bp_users.route("/register", methods=["GET", "POST"])
 @login_required  # login required for this page
 def register():
     if current_user.is_authenticated:
@@ -32,7 +32,7 @@ def register():
     return render_template("register.html", title="Register", form=form)
 
 
-@users.route("/login", methods=["GET", "POST"])
+@bp_users.route("/login", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for("main.index"))
@@ -49,7 +49,7 @@ def login():
     return render_template("login.html", title="Login", form=form)
 
 
-@users.route("/account", methods=["GET", "POST"])
+@bp_users.route("/account", methods=["GET", "POST"])
 # @login_required  # login required for this page
 def account():
     form = UpdateAccountForm()
@@ -67,7 +67,7 @@ def account():
     return render_template("account.html", title="Account", form=form)
 
 
-@users.route("/logout")
+@bp_users.route("/logout")
 def logout():
     logout_user()
     return redirect(url_for("main.index"))
