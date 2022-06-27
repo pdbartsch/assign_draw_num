@@ -168,8 +168,6 @@ def search_drawings():  # https://stackoverflow.com/a/27810889/747748
             q.append("Drawings.drawnum == " + str(form.drawnum.data))
         if form.project_title.data:
             q.append('Drawings.project_title LIKE("%' + form.project_title.data + '%")')
-        if form.project_number.data:
-            q.append("Drawings.project_number == " + str(form.project_number.data))
         if form.sheet_title.data:
             q.append('Drawings.sheet_title LIKE("%' + form.sheet_title.data + '%")')
         if form.sheet_number.data:
@@ -178,16 +176,18 @@ def search_drawings():  # https://stackoverflow.com/a/27810889/747748
             q.append('Drawings.discipline LIKE("%' + form.discipline.data + '%")')
         s = " AND ".join(q)
 
-        drawings = (
-            Drawings.query.order_by(Drawings.locnum.asc(), Drawings.drawnum.asc())
-            .filter(text(s))
-            .all()
-        )
+
 
         if s == "":
             no_search = True
+            drawings = None
         else:
             no_search = False
+            drawings = (
+                Drawings.query.order_by(Drawings.locnum.asc(), Drawings.drawnum.asc())
+                .filter(text(s))
+                .all()
+                )
 
         # .filter(text(*q))     .order_by(Drawings.locnum.asc(), Drawings.drawnum.asc())
 

@@ -97,9 +97,7 @@ class DrawingsSearchForm(FlaskForm):
         ],
         validators=[Optional()],
     )
-    project_number = StringField(
-        label="Project Number", validators=[Length(max=40), Optional()]
-    )
+
 
 
 class ProjectForm(FlaskForm):
@@ -131,3 +129,16 @@ class SearchForm(FlaskForm):
     lnum = IntegerField("Location Number", validators=[InputRequired()])
     searched = StringField("Searched", validators=[InputRequired()])
     submit = SubmitField("Submit")
+
+class ProjectSearchForm(FlaskForm):
+    lnum = IntegerField("Location Number", validators=[InputRequired()])
+    drawnum = IntegerField("Drawing Number", validators=[InputRequired()])
+    projectmngr = StringField(
+        "Project Manager", validators=[InputRequired(), Length(min=3, max=100)]
+    )
+    mainconsult = StringField(
+        "Consultant", validators=[InputRequired(), Length(min=3, max=100)]
+    )
+    title = StringField(
+        "Project Name", validators=[InputRequired(), Length(min=10, max=100)]
+    )

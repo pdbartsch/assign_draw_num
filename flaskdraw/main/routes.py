@@ -2,9 +2,10 @@ from flask import Blueprint
 
 from flask import render_template, url_for, flash, redirect, request, abort
 from flask import current_app
-
+from sqlalchemy import text
 from flaskdraw.drawproj.forms import (
     SearchForm,
+    ProjectSearchForm
 )
 
 from flaskdraw.models import Drawfile
@@ -104,3 +105,48 @@ def search():
             Drawfile.locnum.asc(), Drawfile.drawnum.asc()
         ).all()
         return render_template("projects.html", form=form, project_list=project_list, sidebar='projectsearch')
+
+
+# ProjectSearchForm
+
+@main.route("/search_projects/", methods=("GET", "POST"))
+def search_drawings(): 
+    form = ProjectSearchForm()
+
+    q = []
+
+    if request.method == "POST":
+
+        # search across multiple optional fields
+        if form.lnum.data:
+            q.append("project_list.locnum == " + str(form.lnum.data))
+        if form.drawnum.data:
+            q.append("Drawfile.drawnum == " + str(form.drawnum.data))
+        if form.projectmngr.data:
+            q.append('Drawfile.projectmngr LIKE("%' + form.projectmngr.data + '%")')
+        if form.mainconsult.data:
+            q.append('Drawfile.mainconsult LIKE("%' + form.mainconsult.data + '%")')
+        if form.title.data:
+            q.append('Drawfile.title LIKE("%' + form.title.data + '%")')
+ 
+        s = " AND ".join(q)
+
+        if s == "":
+            no_search = True
+            project_list = None
+        else:
+            no_search = False
+            project_list = (
+                Drawfile.query.order_by(Drawfile.lnum.asc(), Drawfile.drawnum.asc())
+                .filter(text(s))
+                .all()
+                )
+
+        return render_template(
+            "projects.html",
+            form=form,
+            project_list=project_list,
+            sidebar='projectsearch',
+            no_search=no_search,
+        )
+    return render_template("projects.html", form=form, sidebar='projectsearch', no_search=True)
