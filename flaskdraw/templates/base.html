@@ -184,17 +184,72 @@
                 </form>
                 {% elif sidebar == 'projectsearch' %}
                 <h4>Search For Projects:</h4>
-                    <form method="GET|POST" action="{{ url_for('main.projects')}}">
-                        <label for="searchtext01" class="form-label">Filter by title:</label>
-                        <input type="search" placeholder="Title" name="searched" id="searchtext01" class="form-control" aria-describedby="searchtext01HelpBlock">
-                        <button type="submit" class="btn btn-secondary">Filter by Title</button>
-                    </form>
-                    <hr>
-                    <form method="GET|POST" action="{{ url_for('main.projects')}}">
-                        <label for="searchnumber02" class="form-label">Filter by location:</label>
-                        <input type="number" placeholder="Location Number" name="lnum" id="searchnumber02" class="form-control" aria-describedby="searchnumber02HelpBlock">
-                        <button type="submit" class="btn btn-secondary">Filter by Location</button>
-                    </form>
+                <form method="post" class="row g-3">
+                    {{ form.csrf_token }}
+            
+                    <div class="col-md-6">
+                        <label class="form-label">{{ form.lnum.label }}</label>
+                        {{ form.lnum(class_="form-control") }}
+                        {% if form.lnum.errors %}
+                        <ul class="errors">
+                        {% for error in form.lnum.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">{{ form.drawnum.label }}</label>
+                        {{ form.drawnum(class_="form-control") }}
+                        {% if form.drawnum.errors %}
+                        <ul class="errors">
+                        {% for error in form.drawnum.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">{{ form.title.label }}</label>
+                        {{ form.title(class_="form-control") }}
+                        {% if form.title.errors %}
+                        <ul class="errors">
+                        {% for error in form.title.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">{{ form.projectmngr.label }}</label>
+                        {{ form.projectmngr(class_="form-control") }}
+                        {% if form.projectmngr.errors %}
+                        <ul class="errors">
+                        {% for error in form.projectmngr.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">{{ form.mainconsult.label }}</label>
+                        {{ form.mainconsult(class_="form-control") }}
+                        {% if form.mainconsult.errors %}
+                        <ul class="errors">
+                        {% for error in form.mainconsult.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+            
+                </form>
+                <!-- <form method="GET|POST" action="{{ url_for('main.projects')}}"> -->
+
 
                 {% elif sidebar == 'locationpage' %}
 

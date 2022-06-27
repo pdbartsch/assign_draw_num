@@ -294,4 +294,3 @@ def locations():
     return render_template(
         "locations.html", location_list=location_list, title="Location Categories", sidebar='locationpage', subheading='Location Categories:'
     )
-

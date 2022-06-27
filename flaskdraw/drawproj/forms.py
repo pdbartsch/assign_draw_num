@@ -131,14 +131,14 @@ class SearchForm(FlaskForm):
     submit = SubmitField("Submit")
 
 class ProjectSearchForm(FlaskForm):
-    lnum = IntegerField("Location Number", validators=[InputRequired()])
-    drawnum = IntegerField("Drawing Number", validators=[InputRequired()])
+    lnum = IntegerField("Location Number", validators=[Optional()])
+    drawnum = IntegerField("Drawing Number", validators=[Optional()])
     projectmngr = StringField(
-        "Project Manager", validators=[InputRequired(), Length(min=3, max=100)]
+        "Project Manager", validators=[Optional(), Length(max=100)]
     )
     mainconsult = StringField(
-        "Consultant", validators=[InputRequired(), Length(min=3, max=100)]
+        "Consultant", validators=[Optional(), Length(max=100)]
     )
     title = StringField(
-        "Project Name", validators=[InputRequired(), Length(min=10, max=100)]
+        "Project Name", validators=[Optional(), Length(max=100)]
     )

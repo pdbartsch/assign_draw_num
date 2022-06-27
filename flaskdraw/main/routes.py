@@ -21,45 +21,6 @@ def index():
         sidebar="homepage"
     )
 
-@main.route("/projects/")
-def projects():
-    form = SearchForm()
-    # if form.validate_on_submit():
-    lnum = request.args.get("lnum")
-    searched = request.args.get("searched")
-
-    if lnum:
-        filtered_locations = True
-        project_list = (
-            Drawfile.query.order_by(Drawfile.locnum.asc(), Drawfile.drawnum.asc())
-            .filter(Drawfile.locnum == lnum)
-            .all()
-        )
-        subheading = "Projects Associated with Location " + str(lnum) + ":"
-    elif searched:
-        filtered_locations = True
-        project_list = (
-            Drawfile.query.order_by(Drawfile.locnum.asc(), Drawfile.drawnum.asc())
-            .filter(Drawfile.title.like("%" + searched + "%"))
-            .all()
-        )
-        subheading = "Projects Associated with Title like " + searched + ":"
-    else:
-        filtered_locations = False
-        project_list = Drawfile.query.order_by(
-            Drawfile.locnum.asc(), Drawfile.drawnum.asc()
-        ).all()
-        subheading = "All Projects: "
-    return render_template(
-        "projects.html",
-        project_list=project_list,
-        title="Projects Page",
-        filtered_locations=filtered_locations,
-        subheading=subheading,
-        sidebar='projectsearch'
-    )
-
-
 @main.route("/projects/<int:locnum>/<int:drawnum>/")
 def project(locnum, drawnum):
     # project = Drawfile.query.get_or_404(project_id)
@@ -80,37 +41,12 @@ def loc_group(locnum):
 # pass stuff to search div
 @main.context_processor
 def base():
-    form = SearchForm()
+    form = ProjectSearchForm()
     return dict(form=form)
 
 
-# search results
-@main.route("/projects/search", methods=["POST"])
-def search():
-    form = SearchForm()
-    project_list = Drawfile.query
-    # get data from submitted form
-    searched = form.searched.data
-    if searched:
-        if form.validate_on_submit():
-            project_list = project_list.filter(Drawfile.title.like("%" + searched + "%"))
-            project_list = project_list.order_by(
-                Drawfile.locnum.asc(), Drawfile.drawnum.asc()
-            ).all()
-            return render_template(
-                "projects.html", form=form, searched=searched, project_list=project_list, sidebar='projectsearch'
-            )
-    else:
-        project_list = project_list.order_by(
-            Drawfile.locnum.asc(), Drawfile.drawnum.asc()
-        ).all()
-        return render_template("projects.html", form=form, project_list=project_list, sidebar='projectsearch')
-
-
-# ProjectSearchForm
-
-@main.route("/search_projects/", methods=("GET", "POST"))
-def search_drawings(): 
+@main.route("/projects/", methods=("GET", "POST"))
+def projects(): 
     form = ProjectSearchForm()
 
     q = []
@@ -119,7 +55,7 @@ def search_drawings():
 
         # search across multiple optional fields
         if form.lnum.data:
-            q.append("project_list.locnum == " + str(form.lnum.data))
+            q.append("Drawfile.locnum == " + str(form.lnum.data))
         if form.drawnum.data:
             q.append("Drawfile.drawnum == " + str(form.drawnum.data))
         if form.projectmngr.data:
@@ -137,7 +73,7 @@ def search_drawings():
         else:
             no_search = False
             project_list = (
-                Drawfile.query.order_by(Drawfile.lnum.asc(), Drawfile.drawnum.asc())
+                Drawfile.query.order_by(Drawfile.locnum.asc(), Drawfile.drawnum.asc())
                 .filter(text(s))
                 .all()
                 )
