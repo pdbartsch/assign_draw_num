@@ -4,37 +4,109 @@
   {% if filtered_locations %}
   <h4>{{ subheading }}</h4>
   {% endif %}
-  <table class="table content-section">
-    <thead>
-      <tr>
-        <th scope="col">UCSB Drawing#</th> 
-        <th scope="col">Description</th>
-        <th scope="col">Project Manager</th>
-        <th scope="col">Consultant</th>
-        <th scope="col">Date Recorded</th>
-      </tr>
-    </thead>
-    <tbody>
-
-
-      {% for draw in drawings %}
-
-      <tr>
-        <td scope="row"><a href="{{ url_for('bp_projects.project', locnum=draw.locnum, drawnum=draw.drawnum) }}">
-          {{ draw.locnum }}-{{ draw.drawnum }}</a></td>
-        <td>{{ draw.title }}</td>
-        <td>{{ draw.projectmngr }}</td>
-        <td>{{ draw.mainconsult }}</td>
-        <td>{{ draw.date }}</td>
-
-
-      </tr>
-      {% endfor %}
-      
-    </tbody>
-  </table>
-      
+  <h2>Assign a Drawing Number to a New Project</h2>
+  <form method="post" class="row g-3">
+      {{ form.csrf_token }}
+  
+      <div class="col-md-6">
+          <label class="form-label">{{ form.locnum.label }}</label>
+          {{ form.locnum(class_="form-control") }}
+          {% if form.locnum.errors %}
+          <ul class="errors">
+          {% for error in form.locnum.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+          </ul>
+          {% endif %}
+      </div>
+      <div class="col-md-6">
+          <label class="form-label">{{ form.drawnum.label }}</label>
+          {{ form.drawnum(class_="form-control") }}
+          {% if form.drawnum.errors %}
+          <ul class="errors">
+          {% for error in form.drawnum.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+          </ul>
+          {% endif %}
+      </div>
+  
+      <div class="col-md-6">
+          <label class="form-label">{{ form.contractnum.label }}</label>
+          {{ form.contractnum(class_="form-control") }}
+          {% if form.contractnum.errors %}
+          <ul class="errors">
+          {% for error in form.contractnum.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+          </ul>
+          {% endif %}
+      </div>
+      <div class="col-md-6">
+          <label class="form-label">{{ form.projectnum.label }}</label>
+          {{ form.projectnum(class_="form-control") }}
+          {% if form.projectnum.errors %}
+          <ul class="errors">
+          {% for error in form.projectnum.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+          </ul>
+          {% endif %}
+      </div>
+  
+      <div class="col-md-6">
+          <label class="form-label">{{ form.projectmngr.label }}</label>
+          {{ form.projectmngr(class_="form-control") }}
+          {% if form.projectmngr.errors %}
+          <ul class="errors">
+          {% for error in form.projectmngr.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+          </ul>
+          {% endif %}
+      </div>
+      <div class="col-md-6">
+          <label class="form-label">{{ form.mainconsult.label }}</label>
+          {{ form.mainconsult(class_="form-control") }}
+          {% if form.mainconsult.errors %}
+          <ul class="errors">
+          {% for error in form.mainconsult.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+          </ul>
+          {% endif %}
+      </div>
+  
+      <div class="col-12">
+          <label class="form-label">{{ form.title.label }}</label>
+          {{ form.title(class_="form-control") }}
+          {% if form.title.errors %}
+          <ul class="errors">
+          {% for error in form.title.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+          </ul>
+          {% endif %}
+      </div>
+      <div class="col-12">
+          <label class="form-label">{{ form.comments.label }}</label>
+          {{ form.comments(class_="form-control") }}
+          {% if form.comments.errors %}
+          <ul class="errors">
+          {% for error in form.comments.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+          </ul>
+          {% endif %}
+      </div>
+  
+      <div class="col-12">
+          <button type="submit" class="btn btn-primary">Add UCSB Drawing Number</button>
+      </div>
+  
+    </form>
+    
 </div>
-{% endblock %}
+{% endblock content%}
 
 

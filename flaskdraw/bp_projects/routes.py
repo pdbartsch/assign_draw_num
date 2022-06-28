@@ -4,11 +4,7 @@ from flask import Blueprint
 from flask import render_template, url_for, redirect, request
 from sqlalchemy import text
 from flaskdraw import bp_projects, db
-from flaskdraw.bp_projects.forms import (
-    ProjectForm,
-    ProjectSearchForm
-
-)
+from flaskdraw.bp_projects.forms import ProjectForm, ProjectSearchForm
 
 from flaskdraw.models import Drawfile, Drawloc, Drawings
 from flask_login import login_user, login_required
@@ -17,12 +13,16 @@ from datetime import datetime
 bp_projects = Blueprint("bp_projects", __name__)
 base_drawings_url = os.environ.get("base_drawings_url")
 
+
 @bp_projects.route("/projects/<int:locnum>/")
 def loc_group(locnum):
     form = ProjectSearchForm()
     # project = Drawfile.query.get_or_404(project_id)
     project = Drawfile.query.filter(Drawfile.locnum == locnum).all()
-    return render_template("project.html", project=project, sidebar='projectsearch', form=form)
+    return render_template(
+        "project.html", project=project, sidebar="projectsearch", form=form
+    )
+
 
 @bp_projects.route("/projects/<int:locnum>/<int:drawnum>/")
 def project(locnum, drawnum):
@@ -31,28 +31,34 @@ def project(locnum, drawnum):
         Drawfile.locnum == locnum, Drawfile.drawnum == drawnum
     ).all()
 
-    return render_template("project.html", project=project, sidebar='projectsearch', form=form)
+    return render_template(
+        "project.html", project=project, sidebar="projectsearch", form=form
+    )
+
 
 @bp_projects.route("/projects/", methods=("GET", "POST"))
-def projects(): 
+def projects():
 
     form = ProjectSearchForm()
     q = []
 
-
-
     if request.method == "POST":
-        if form.lnum.data:
-            q.append("Drawfile.locnum == " + str(form.lnum.data))
-        if form.drawnum.data:
-            q.append("Drawfile.drawnum == " + str(form.drawnum.data))
-        if form.projectmngr.data:
-            q.append('Drawfile.projectmngr LIKE("%' + form.projectmngr.data + '%")')
-        if form.mainconsult.data:
-            q.append('Drawfile.mainconsult LIKE("%' + form.mainconsult.data + '%")')
-        if form.title.data:
-            q.append('Drawfile.title LIKE("%' + form.title.data + '%")')
-        s = " AND ".join(q)
+        locnum = request.args.get("locnum")
+        if locnum:
+            no_search = False
+            project_list = Drawfile.query.filter(Drawfile.locnum == locnum).all()
+        else:
+            if form.lnum.data:
+                q.append("Drawfile.locnum == " + str(form.lnum.data))
+            if form.drawnum.data:
+                q.append("Drawfile.drawnum == " + str(form.drawnum.data))
+            if form.projectmngr.data:
+                q.append('Drawfile.projectmngr LIKE("%' + form.projectmngr.data + '%")')
+            if form.mainconsult.data:
+                q.append('Drawfile.mainconsult LIKE("%' + form.mainconsult.data + '%")')
+            if form.title.data:
+                q.append('Drawfile.title LIKE("%' + form.title.data + '%")')
+            s = " AND ".join(q)
         if s == "":
             no_search = True
             project_list = None
@@ -62,15 +68,17 @@ def projects():
                 Drawfile.query.order_by(Drawfile.locnum.asc(), Drawfile.drawnum.asc())
                 .filter(text(s))
                 .all()
-                )
+            )
         return render_template(
             "projects.html",
             form=form,
             project_list=project_list,
-            sidebar='projectsearch',
+            sidebar="projectsearch",
             no_search=no_search,
         )
-    return render_template("projects.html", form=form, sidebar='projectsearch', no_search=True)
+    return render_template(
+        "projects.html", form=form, sidebar="projectsearch", no_search=True
+    )
 
 
 @bp_projects.route("/create/", methods=("GET", "POST"))
@@ -106,6 +114,7 @@ def create():
 
     return render_template("create.html", form=form)
 
+
 @bp_projects.route("/create/<int:locnum>", methods=("GET", "POST"))
 def newproject(locnum):
     form = ProjectForm()
@@ -115,7 +124,9 @@ def newproject(locnum):
         .limit(5)
         .all()
     )
-    return render_template("newproject.html", drawings=drawings, form=form)
+    return render_template(
+        "newproject.html", drawings=drawings, form=form, sidebar="addproject"
+    )
 
 
 @bp_projects.route("/<int:project_id>/editproj/", methods=("GET", "POST"))
@@ -156,4 +167,3 @@ def delete(project_id):
     db.session.delete(project)
     db.session.commit()
     return redirect(url_for("bp_main.index"))
-

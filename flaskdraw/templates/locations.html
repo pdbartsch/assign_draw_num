@@ -11,17 +11,19 @@
         
         {% if current_user.is_authenticated %}
         <th scope="col"> </th>
+        <th scope="col"> </th>
         {% endif %}
       </tr>
     </thead>
     <tbody>
   {% for location in location_list %}
   <tr>
-    <td scope="row"><a href="{{ url_for('bp_projects.projects', locnum=location.locnum)}}">
+    <td scope="row"><a href="{{ url_for('bp_projects.projects')}}{{location.locnum | string}}">
       {{ location.locnum | int }}</a></td>
     <td>{{ location.locdescrip }}</td>
     {% if current_user.is_authenticated %}
     <td><button type="button" class="form-control-file"><a href="{{ url_for('bp_locations.edit_loc', locnum=location.locnum) }}">Edit</a></button></td>
+    <td><button type="button" class="form-control-file"><a href="{{ url_for('bp_projects.create')}}{{location.locnum | string}}">New Project</a></button></td>
     {% endif %}
   </tr>
   {% endfor %}
