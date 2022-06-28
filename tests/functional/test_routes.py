@@ -26,12 +26,23 @@ def test_home_page(client):
     assert 'href="/login">Admin Login</a>' in html, "login navbar link check"
     assert "nav-item nav-link" in html, "navbar class check"
 
+
 # test for sql injection
 def test_login_page_post_sql_injection(client):
-    response = client.post(url_for("bp_users.login"), follow_redirects=True, data={"username": "admin' or '1'='1", "email": "admin' or '1'='1", "password": "admin"})
+    response = client.post(
+        url_for("bp_users.login"),
+        follow_redirects=True,
+        data={
+            "username": "admin' or '1'='1",
+            "email": "admin' or '1'='1",
+            "password": "admin",
+        },
+    )
     assert response.status_code == 200
     assert b"Login" in response.data, "login page check"
-    assert b"Login unsuccessful. Please check email and password." in response.data, "login error check"
+    assert (
+        b"Login unsuccessful. Please check email and password." in response.data
+    ), "login error check"
 
 
 def test_home_page_post(client):
@@ -151,7 +162,7 @@ def test_not_logged_in(client):
 
 
 def test_assign_drawing_number(client):
-    response = client.get(url_for("bp_projects.newproject"), follow_redirects=True)
+    response = client.get(url_for("bp_projects.create"), follow_redirects=True)
     assert response.status_code == 200
 
 
@@ -172,7 +183,7 @@ def test_logout(client):
 
 def test_drawproj_page(client):
     response = client.get(
-        url_for("bp_locations.location_set", locnum=525), follow_redirects=True
+        url_for("bp_drawings.location_set", locnum=525), follow_redirects=True
     )
     assert response.status_code == 200
 
