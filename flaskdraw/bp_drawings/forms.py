@@ -11,9 +11,10 @@ from wtforms.validators import (
     Optional,
 )
 
+
 class DrawingsForm(FlaskForm):
     oldname = StringField(label="Old Name", validators=[Optional()])
-    newname = StringField(label="New Name", validators=[InputRequired()])
+    newname = StringField(label="File Name", validators=[InputRequired()])
     locnum = IntegerField(label="Location Number", validators=[InputRequired()])
     drawnum = IntegerField(label="Drawing Number", validators=[InputRequired()])
     project_title = StringField(
@@ -52,6 +53,7 @@ class DrawingsForm(FlaskForm):
     drawing_version = SelectField(
         label="Drawing Version",
         choices=[
+            ("", ""),
             ("bid", "Bid"),
             ("partial_construct", "Partial Construction"),
             ("full_construct", "100% Construction"),
@@ -61,6 +63,7 @@ class DrawingsForm(FlaskForm):
         validators=[InputRequired()],
     )
     notes = StringField(label="Notes", validators=[Optional()])
+
 
 class DrawingsSearchForm(FlaskForm):
     locnum = IntegerField(label="Location Number", validators=[Optional()])

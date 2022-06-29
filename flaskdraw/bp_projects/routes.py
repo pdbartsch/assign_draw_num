@@ -20,7 +20,7 @@ def loc_group(locnum):
     # project = Drawfile.query.get_or_404(project_id)
     project = Drawfile.query.filter(Drawfile.locnum == locnum).all()
     return render_template(
-        "project.html", project=project, sidebar="projectsearch", form=form
+        "project_cards.html", project=project, sidebar="projectsearch", form=form
     )
 
 
@@ -32,7 +32,7 @@ def project(locnum, drawnum):
     ).all()
 
     return render_template(
-        "project.html", project=project, sidebar="projectsearch", form=form
+        "project_cards.html", project=project, sidebar="projectsearch", form=form
     )
 
 

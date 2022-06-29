@@ -81,7 +81,6 @@ def drawing_set(locnum, drawnum):
 def add_drawing():
     form = DrawingsForm()
     if request.method == "POST":
-        oldname = form.oldname.data
         newname = form.newname.data
         locnum = int(form.locnum.data)
         drawnum = int(form.drawnum.data)
@@ -95,7 +94,6 @@ def add_drawing():
         notes = form.notes.data
 
         drawing = Drawings(
-            oldname=oldname,
             newname=newname,
             locnum=locnum,
             drawnum=drawnum,
@@ -159,3 +157,9 @@ def search_drawings():  # https://stackoverflow.com/a/27810889/747748
             no_search=no_search,
         )
     return render_template("drawings.html", form=form, sidebar='drawingsearch', no_search=True)
+
+
+
+
+
+    

@@ -3,19 +3,9 @@
 <form method="post" class="row g-3">
     {{ form.csrf_token }}
 
-    <div class="col-md-6">
-        <label class="form-label">{{ form.oldname.label }}</label>
-        {{ form.oldname(class_="form-control") }}
-        {% if form.oldname.errors %}
-        <ul class="errors">
-        {% for error in form.oldname.errors %}
-        <li>{{ error }}</li>
-        {% endfor %}
-        </ul>
-        {% endif %}
-    </div>
 
-    <div class="col-md-6">
+
+    <div class="col-md-12">
         <label class="form-label">{{ form.newname.label }}</label>
         {{ form.newname(class_="form-control") }}
         {% if form.newname.errors %}

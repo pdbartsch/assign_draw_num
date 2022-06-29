@@ -51,7 +51,6 @@ def test_new_drawing(new_drawing):
 
 
     assert new_drawing.id == 1
-    assert new_drawing.oldname == "34_348_0.pdf"
     assert new_drawing.newname == "34_348_CIV_0_26726.pdf"
     assert new_drawing.locnum == 34
     assert new_drawing.drawnum == 348
