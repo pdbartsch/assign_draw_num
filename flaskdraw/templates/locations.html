@@ -3,7 +3,6 @@
 <div class="table-responsive">
   <h4>{{ subheading }}</h4>
   <table id="loc_list" class="table table-hover table-bordered">
-    <caption>List of all UCSB Drawing Location Categories</caption>
     <thead>
       <tr>
         <th scope="col">Location #</th>
@@ -22,8 +21,8 @@
       {{ location.locnum | int }}</a></td>
     <td>{{ location.locdescrip }}</td>
     {% if current_user.is_authenticated %}
-    <td><button type="button" class="form-control-file"><a href="{{ url_for('bp_locations.edit_loc', locnum=location.locnum) }}">Edit</a></button></td>
-    <td><button type="button" class="form-control-file"><a href="{{ url_for('bp_projects.create')}}{{location.locnum | string}}">New Project</a></button></td>
+    <td><button type="button" class="form-control-file"><a href="{{ url_for('bp_locations.edit_loc', locnum=location.locnum)}}">Edit</a></button></td>
+    <td><button type="button" class="form-control-file"><a href="{{ url_for('bp_projects.newproject')}}{{location.locnum | string}}">New Project</a></button></td>
     {% endif %}
   </tr>
   {% endfor %}

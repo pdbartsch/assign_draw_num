@@ -4,9 +4,7 @@ from flask import Blueprint
 from flask import render_template, url_for, redirect, request
 from sqlalchemy import text
 from flaskdraw import bp_projects, db
-from flaskdraw.bp_locations.forms import (
-    LocationForm
-)
+from flaskdraw.bp_locations.forms import LocationForm
 
 from flaskdraw.models import Drawfile, Drawloc, Drawings
 from flask_login import login_user, login_required
@@ -20,7 +18,11 @@ base_drawings_url = os.environ.get("base_drawings_url")
 def locations():
     location_list = Drawloc.query.order_by(Drawloc.locnum.asc()).all()
     return render_template(
-        "locations.html", location_list=location_list, title="Location Categories", sidebar='locationpage', subheading='Location Categories:'
+        "locations.html",
+        location_list=location_list,
+        title="Location Categories",
+        sidebar="locationpage",
+        subheading="Location Categories:",
     )
 
 
@@ -36,7 +38,7 @@ def add_loc():
         db.session.add(location)
         db.session.commit()
 
-        return redirect(url_for("drawproj.locations"))
+        return redirect(url_for("bp_locations.locations"))
 
     return render_template("addloc.html", form=form)
 
@@ -96,4 +98,3 @@ def delete(project_id):
     db.session.delete(project)
     db.session.commit()
     return redirect(url_for("bp_main.index"))
-

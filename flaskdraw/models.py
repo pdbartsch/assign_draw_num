@@ -30,7 +30,7 @@ class Drawloc(db.Model):
 class Drawfile(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     locnum = db.Column(db.Integer, nullable=False)
-    drawnum = db.Column(db.Integer, nullable=False)
+    drawnum = db.Column("drawnum", db.Integer, nullable=False)
     contractnum = db.Column(db.String(50), nullable=True)
     projectnum = db.Column(db.String(10), nullable=True)
     projectmngr = db.Column(db.String(100), nullable=True)
@@ -41,6 +41,9 @@ class Drawfile(db.Model):
 
     def __repr__(self):
         return f"<UCSB Drawing #{self.locnum}-{self.drawnum}: {self.title}>"
+
+    # def __repr__(self):
+    #     return f"{self.drawnum}"
 
 
 class Drawings(db.Model):

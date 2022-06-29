@@ -154,21 +154,9 @@ def test_not_logged_in(client):
     THEN check that the response doesn't contain protected links
     """
     response = client.get(url_for("bp_main.index"))
-    assert (
-        b"Assign Drawing Number" not in response.data
-    ), "Protected Navbar Link Check 01"
+
     assert b"Add Drawing" not in response.data, "Protected Navbar Link Check 02"
     assert b"Add Location" not in response.data, "Protected Navbar Link Check 03"
-
-
-def test_assign_drawing_number(client):
-    response = client.get(url_for("bp_projects.create"), follow_redirects=True)
-    assert response.status_code == 200
-
-
-def test_add_drawing(client):
-    response = client.get(url_for("bp_drawings.add_drawing"), follow_redirects=True)
-    assert response.status_code == 200
 
 
 def test_add_location(client):

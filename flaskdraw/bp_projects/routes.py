@@ -81,9 +81,44 @@ def projects():
     )
 
 
+# @bp_projects.route("/create/", methods=("GET", "POST"))
+# @login_required  # login required for this page
+# def create():
+#     form = ProjectForm()
+#     if request.method == "POST":
+#         locnum = int(form.locnum.data)
+#         drawnum = int(form.drawnum.data)
+#         contractnum = form.contractnum.data
+#         projectnum = form.projectnum.data
+#         projectmngr = form.projectmngr.data
+#         mainconsult = form.mainconsult.data
+#         title = form.title.data
+#         comments = form.comments.data
+#         datenow = datetime.now()
+
+#         project = Drawfile(
+#             locnum=locnum,
+#             drawnum=drawnum,
+#             contractnum=contractnum,
+#             projectnum=projectnum,
+#             projectmngr=projectmngr,
+#             mainconsult=mainconsult,
+#             title=title,
+#             comments=comments,
+#             date=datenow,
+#         )
+#         db.session.add(project)
+#         db.session.commit()
+
+#         return redirect(url_for("bp_projects.projects"))
+
+#     return render_template("newproject.html", form=form)
+
+
 @bp_projects.route("/create/", methods=("GET", "POST"))
+@bp_projects.route("/create/<int:locnum>", methods=("GET", "POST"))
 @login_required  # login required for this page
-def create():
+def newproject(locnum):
     form = ProjectForm()
     if request.method == "POST":
         locnum = int(form.locnum.data)
@@ -110,14 +145,23 @@ def create():
         db.session.add(project)
         db.session.commit()
 
-        return redirect(url_for("bp_main.index"))
+        return redirect(url_for("bp_projects.projects") + str(locnum))
 
-    return render_template("create.html", form=form)
+    project_count = Drawfile.query.filter(Drawfile.locnum == locnum).count()
+    if project_count == 0:
+        last_drawnum = None
+        next_drawnum = None
+    else:
+        last_drawnum = (
+            Drawfile.query.order_by(Drawfile.drawnum.desc())
+            .filter(Drawfile.locnum == locnum)
+            .options(db.load_only("drawnum"))
+            .limit(1)
+            .one()
+        )
+        next_drawnum = last_drawnum.drawnum + 1
 
-
-@bp_projects.route("/create/<int:locnum>", methods=("GET", "POST"))
-def newproject(locnum):
-    form = ProjectForm()
+    # sidebar last 5 projects under this location number
     drawings = (
         Drawfile.query.order_by(Drawfile.locnum.asc(), Drawfile.drawnum.desc())
         .filter(Drawfile.locnum == locnum)
@@ -125,7 +169,12 @@ def newproject(locnum):
         .all()
     )
     return render_template(
-        "newproject.html", drawings=drawings, form=form, sidebar="addproject"
+        "newproject.html",
+        drawings=drawings,
+        form=form,
+        sidebar="addproject",
+        locnum=locnum,
+        next_drawnum=next_drawnum,
     )
 
 

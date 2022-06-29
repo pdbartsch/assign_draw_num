@@ -7,29 +7,22 @@
   <h2>Assign a Drawing Number to a New Project</h2>
   <form method="post" class="row g-3">
       {{ form.csrf_token }}
-  
       <div class="col-md-6">
-          <label class="form-label">{{ form.locnum.label }}</label>
-          {{ form.locnum(class_="form-control") }}
-          {% if form.locnum.errors %}
-          <ul class="errors">
-          {% for error in form.locnum.errors %}
-          <li>{{ error }}</li>
-          {% endfor %}
-          </ul>
-          {% endif %}
+        <label for="locnum" class="form-label" for="locnum">Location Number</label>
+        <input type="number" name="locnum"
+                value="{{ locnum }}"
+                id="locnum" class="form-control">
+        </input>
       </div>
       <div class="col-md-6">
-          <label class="form-label">{{ form.drawnum.label }}</label>
-          {{ form.drawnum(class_="form-control") }}
-          {% if form.drawnum.errors %}
-          <ul class="errors">
-          {% for error in form.drawnum.errors %}
-          <li>{{ error }}</li>
-          {% endfor %}
-          </ul>
-          {% endif %}
+        <label for="drawnum" class="form-label" for="drawnum">Drawing Number</label>
+        <input type="number" name="drawnum"
+                value="{{ next_drawnum }}"
+                id="drawnum" class="form-control">
+                
+        </input>
       </div>
+      
   
       <div class="col-md-6">
           <label class="form-label">{{ form.contractnum.label }}</label>

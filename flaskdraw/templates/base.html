@@ -53,9 +53,7 @@
                     <!-- Navbar Right Side -->
                     <ul class="navbar-nav d-flex">
                         {% if current_user.is_authenticated %}
-                        <li class="nav-item:">
-                            <a class="nav-item nav-link" href="{{ url_for('bp_projects.create') }}">Assign Drawing Number</a>
-                        </li>
+
                         <li class="nav-item:">
                             <a class="nav-item nav-link" href="{{ url_for('bp_drawings.add_drawing') }}">Add Drawing</a>
                         </li>
