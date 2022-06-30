@@ -9,9 +9,8 @@ from flaskdraw.bp_drawings.forms import (
     DrawingsSearchForm,
 )
 
-from flaskdraw.models import Drawfile, Drawloc, Drawings
-from flask_login import login_user, login_required
-from datetime import datetime
+from flaskdraw.models import Drawings
+from flask_login import login_required
 
 bp_drawings = Blueprint("bp_drawings", __name__)
 base_drawings_url = os.environ.get("base_drawings_url")
@@ -76,6 +75,7 @@ def drawing_set(locnum, drawnum):
         base_drawings_url=base_drawings_url,
     )
 
+
 @bp_drawings.route("/add_drawing/", methods=("GET", "POST"))
 @login_required  # login required for this page
 def add_drawing():
@@ -111,7 +111,7 @@ def add_drawing():
 
         return redirect(url_for("bp_main.index"))
 
-    return render_template("add_drawing.html", form=form)
+    return render_template("add_drawing.html", form=form, sidebar="drawingedit")
 
 
 @bp_drawings.route("/search_drawings/", methods=("GET", "POST"))
@@ -146,20 +146,54 @@ def search_drawings():  # https://stackoverflow.com/a/27810889/747748
                 Drawings.query.order_by(Drawings.locnum.asc(), Drawings.drawnum.asc())
                 .filter(text(s))
                 .all()
-                )
+            )
 
         return render_template(
             "drawings.html",
             form=form,
             drawings=drawings,
             base_drawings_url=base_drawings_url,
-            sidebar='drawingsearch',
+            sidebar="drawingsearch",
             no_search=no_search,
+            subheading="Search results:",
         )
-    return render_template("drawings.html", form=form, sidebar='drawingsearch', no_search=True)
+    return render_template(
+        "drawings.html", form=form, sidebar="drawingsearch", no_search=True
+    )
 
 
+@bp_drawings.route("/<int:drawing_id>/editdraw/", methods=("GET", "POST"))
+@login_required  # login required for this page
+def edit_draw(drawing_id):
+    drawing = Drawings.query.get_or_404(drawing_id)
+    if request.method == "POST":
+        newname = request.form["newname"]
+        locnum = int(request.form["locnum"])
+        drawnum = int(request.form["drawnum"])
+        project_year = int(request.form["project_year"])
+        project_number = request.form["project_number"]
+        sheet_number = request.form["sheet_number"]
+        project_title = request.form["project_title"]
+        sheet_title = request.form["sheet_title"]
+        discipline = request.form["discipline"]
+        drawing_version = request.form["drawing_version"]
+        notes = request.form["notes"]
 
+        drawing.newname = newname
+        drawing.locnum = locnum
+        drawing.drawnum = drawnum
+        drawing.project_year = project_year
+        drawing.project_number = project_number
+        drawing.sheet_number = sheet_number
+        drawing.project_title = project_title
+        drawing.sheet_title = sheet_title
+        drawing.discipline = discipline
+        drawing.drawing_version = drawing_version
+        drawing.notes = notes
 
-
-    
+        db.session.add(drawing)
+        db.session.commit()
+        return redirect(
+            url_for("bp_drawings.drawings") + str(locnum) + "/" + str(drawnum)
+        )
+    return render_template("edit_draw.html", drawing=drawing, sidebar="drawingedit")

@@ -2,51 +2,35 @@
 
 {% block content %}
 <h3>
-    Edit Location {{ row.locnum }}'s Details
+        Edit Location# {{ location.locnum }}'s Details
 </h3>
-<div class="content">
-        <p>{{row}}</p>
-        <table class="table content-section">
-                <thead>
-                        <tr>
-                        <th scope="col">Location #</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Buttons</th>
-                        </tr>
-                </thead>
-                <tbody>
-                        <tr>
-                        {% for r in row %}
-                        <td>{{ r.locnum | int }}</td>
-                        <td>{{ r.locdescrip }}</td>
-                        {% endfor %}
-                        <td> Submit </td>
-                        </tr>
-
-                </tbody>
-        </table>
-</div>
-
-
-<!-- 
-<form method="post" class="row g-3">
-        <div class="col-12">
-                <label class="form-label" for="locnum">Location Number</label>
+<form method="post" class="row g-3 container-fluid">
+        <div class="col-md-8">
+                <label for="locnum" class="col-md-4 col-form-label" for="locnum">Location Number</label>
                 <input type="number" name="locnum"
-                        value="{{ row.locnum }}"
-                        >
+                        value="{{ location.locnum }}"
+                        id="locnum">
                 </input>
         </div>
-        <div class="col-12">
-            <label class="form-label" for="locdescrip">Location Description</label>
-            <input type="textarea" name="locdescrip"
-                value="{{ row.locdescrip }}"
-                >
-            </input>
+        <div class="col-md-8">
+                <label for="locdescrip" class="col-md-4 col-form-label" for="title">Location Description</label>
+                <input type="text" name="locdescrip"
+                        value="{{ location.locdescrip }}"
+                        id="locdescrip">
+                </input>
         </div>
-        <div class="col-12">
+        <div class="col-6">
                 <button type="submit">Submit</button>
         </div>
-    </form> -->
+        <div class="col-6">
+        <form method="POST" class="form-control-file" action="{{ url_for('bp_locations.delete', loc_id=location.id) }}">
+                <input
+                        type="submit"
+                        value="NOT WORKING -  Delete Location"
+                        onclick="return confirm('Are you sure you want to delete this location?')"
+                />
+        </form>
+        </div>
+</form>
 
 {% endblock content %}

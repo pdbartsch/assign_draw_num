@@ -43,58 +43,27 @@ def add_loc():
     return render_template("addloc.html", form=form)
 
 
-# @bp_locations.route("/<int:project_id>/editproj/", methods=("GET", "POST"))
-# @login_required  # login required for this page
-# def edit_proj(project_id):
-#     project = Drawfile.query.get_or_404(project_id)
-#     if request.method == "POST":
-#         locnum = int(request.form["locnum"])
-#         drawnum = int(request.form["drawnum"])
-#         contractnum = request.form["contractnum"]
-#         projectnum = request.form["projectnum"]
-#         projectmngr = request.form["projectmngr"]
-#         mainconsult = request.form["mainconsult"]
-#         title = request.form["title"]
-#         comments = request.form["comments"]
-#         daterecorded = request.form["daterecorded"]
-
-#         project.locnum = locnum
-#         project.drawnum = drawnum
-#         project.contractnum = contractnum
-#         project.projectnum = projectnum
-#         project.projectmngr = projectmngr
-#         project.mainconsult = mainconsult
-#         project.title = title
-#         project.comments = comments
-#         project.date = datetime.strptime(daterecorded, "%Y-%m-%d")
-
-#         db.session.add(project)
-#         db.session.commit()
-#         return redirect(url_for("bp_main.index"))
-#     return render_template("edit_proj.html", project=project)
-
-
-@bp_locations.route("/editloc/<int:locnum>", methods=("GET", "POST"))
+@bp_locations.route("/<int:loc_id>/editloc/", methods=("GET", "POST"))
 @login_required  # login required for this page
-def edit_loc(locnum):
-    row = Drawloc.query.filter(Drawloc.locnum == locnum).all()
+def edit_loc(loc_id):
+    location = Drawloc.query.get_or_404(loc_id)
     if request.method == "POST":
         locnum = int(request.form["locnum"])
         locdescrip = request.form["locdescrip"]
 
-        row.locnum = locnum
-        row.locdescrip = locdescrip
+        location.locnum = locnum
+        location.locdescrip = locdescrip
 
-        db.session.add(row)
+        db.session.add(location)
         db.session.commit()
         return redirect(url_for("bp_locations.locations"))
-    return render_template("edit_loc.html", row=row)
+    return render_template("edit_loc.html", location=location)
 
 
-@bp_locations.post("/<int:project_id>/delete/")
+@bp_locations.post("/<int:loc_id>/delete/")
 @login_required  # login required for this page
-def delete(project_id):
-    project = Drawfile.query.get_or_404(project_id)
-    db.session.delete(project)
+def delete(loc_id):
+    location = Drawloc.query.get_or_404(loc_id)
+    db.session.delete(location)
     db.session.commit()
     return redirect(url_for("bp_main.index"))

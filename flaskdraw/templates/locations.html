@@ -11,6 +11,7 @@
         {% if current_user.is_authenticated %}
         <th scope="col"> </th>
         <th scope="col"> </th>
+
         {% endif %}
       </tr>
     </thead>
@@ -21,9 +22,11 @@
       {{ location.locnum | int }}</a></td>
     <td>{{ location.locdescrip }}</td>
     {% if current_user.is_authenticated %}
-    <td><button type="button" class="form-control-file"><a href="{{ url_for('bp_locations.edit_loc', locnum=location.locnum)}}">Edit</a></button></td>
+    <td><button type="button" class="form-control-file"><a href="{{ url_for('bp_locations.edit_loc', loc_id=location.id)}}">Edit</a></button></td>
     <td><button type="button" class="form-control-file"><a href="{{ url_for('bp_projects.newproject')}}{{location.locnum | string}}">New Project</a></button></td>
-    {% endif %}
+
+
+        {% endif %}
   </tr>
   {% endfor %}
     </tbody>

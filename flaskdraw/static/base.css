@@ -36,3 +36,12 @@ body {
     border-right: 1px solid #333333;
   }
 }
+
+
+a:not([class]) {
+  text-decoration: none;
+}
+
+a:not([class]):hover {
+  text-decoration: underline;
+}

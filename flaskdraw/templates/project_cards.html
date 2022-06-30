@@ -24,7 +24,7 @@
     {% endif %}
     <!-- <p><b>Number of drawings in set:</b> coming soon </p> -->
     <button type="button" class="form-control-file"><a href="{{ url_for('bp_drawings.drawings', locnum=p.locnum, drawnum=p.drawnum) }}">See Drawings</a></button>
-       
+    <hr>
 
     {% if current_user.is_authenticated %}
     

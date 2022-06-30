@@ -20,7 +20,8 @@ def loc_group(locnum):
     # project = Drawfile.query.get_or_404(project_id)
     project = Drawfile.query.filter(Drawfile.locnum == locnum).all()
     return render_template(
-        "project_cards.html", project=project, sidebar="projectsearch", form=form
+        "project_cards.html",
+        project=project,
     )
 
 
@@ -79,40 +80,6 @@ def projects():
     return render_template(
         "projects.html", form=form, sidebar="projectsearch", no_search=True
     )
-
-
-# @bp_projects.route("/create/", methods=("GET", "POST"))
-# @login_required  # login required for this page
-# def create():
-#     form = ProjectForm()
-#     if request.method == "POST":
-#         locnum = int(form.locnum.data)
-#         drawnum = int(form.drawnum.data)
-#         contractnum = form.contractnum.data
-#         projectnum = form.projectnum.data
-#         projectmngr = form.projectmngr.data
-#         mainconsult = form.mainconsult.data
-#         title = form.title.data
-#         comments = form.comments.data
-#         datenow = datetime.now()
-
-#         project = Drawfile(
-#             locnum=locnum,
-#             drawnum=drawnum,
-#             contractnum=contractnum,
-#             projectnum=projectnum,
-#             projectmngr=projectmngr,
-#             mainconsult=mainconsult,
-#             title=title,
-#             comments=comments,
-#             date=datenow,
-#         )
-#         db.session.add(project)
-#         db.session.commit()
-
-#         return redirect(url_for("bp_projects.projects"))
-
-#     return render_template("newproject.html", form=form)
 
 
 @bp_projects.route("/create/", methods=("GET", "POST"))
@@ -181,6 +148,7 @@ def newproject(locnum):
 @bp_projects.route("/<int:project_id>/editproj/", methods=("GET", "POST"))
 @login_required  # login required for this page
 def edit_proj(project_id):
+    form = ProjectSearchForm()
     project = Drawfile.query.get_or_404(project_id)
     if request.method == "POST":
         locnum = int(request.form["locnum"])
@@ -205,8 +173,12 @@ def edit_proj(project_id):
 
         db.session.add(project)
         db.session.commit()
-        return redirect(url_for("bp_projects.projects") + str(locnum))
-    return render_template("edit_proj.html", project=project)
+        return redirect(
+            url_for("bp_projects.projects") + str(locnum) + "/" + str(drawnum)
+        )
+    return render_template(
+        "edit_proj.html", project=project, form=form, sidebar="projectsearch"
+    )
 
 
 @bp_projects.post("/<int:project_id>/delete/")
