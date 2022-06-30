@@ -205,7 +205,7 @@ def edit_proj(project_id):
 
         db.session.add(project)
         db.session.commit()
-        return redirect(url_for("bp_main.index"))
+        return redirect(url_for("bp_projects.projects") + str(locnum))
     return render_template("edit_proj.html", project=project)
 
 

@@ -43,35 +43,35 @@ def add_loc():
     return render_template("addloc.html", form=form)
 
 
-@bp_locations.route("/<int:project_id>/editproj/", methods=("GET", "POST"))
-@login_required  # login required for this page
-def edit_proj(project_id):
-    project = Drawfile.query.get_or_404(project_id)
-    if request.method == "POST":
-        locnum = int(request.form["locnum"])
-        drawnum = int(request.form["drawnum"])
-        contractnum = request.form["contractnum"]
-        projectnum = request.form["projectnum"]
-        projectmngr = request.form["projectmngr"]
-        mainconsult = request.form["mainconsult"]
-        title = request.form["title"]
-        comments = request.form["comments"]
-        daterecorded = request.form["daterecorded"]
+# @bp_locations.route("/<int:project_id>/editproj/", methods=("GET", "POST"))
+# @login_required  # login required for this page
+# def edit_proj(project_id):
+#     project = Drawfile.query.get_or_404(project_id)
+#     if request.method == "POST":
+#         locnum = int(request.form["locnum"])
+#         drawnum = int(request.form["drawnum"])
+#         contractnum = request.form["contractnum"]
+#         projectnum = request.form["projectnum"]
+#         projectmngr = request.form["projectmngr"]
+#         mainconsult = request.form["mainconsult"]
+#         title = request.form["title"]
+#         comments = request.form["comments"]
+#         daterecorded = request.form["daterecorded"]
 
-        project.locnum = locnum
-        project.drawnum = drawnum
-        project.contractnum = contractnum
-        project.projectnum = projectnum
-        project.projectmngr = projectmngr
-        project.mainconsult = mainconsult
-        project.title = title
-        project.comments = comments
-        project.date = datetime.strptime(daterecorded, "%Y-%m-%d")
+#         project.locnum = locnum
+#         project.drawnum = drawnum
+#         project.contractnum = contractnum
+#         project.projectnum = projectnum
+#         project.projectmngr = projectmngr
+#         project.mainconsult = mainconsult
+#         project.title = title
+#         project.comments = comments
+#         project.date = datetime.strptime(daterecorded, "%Y-%m-%d")
 
-        db.session.add(project)
-        db.session.commit()
-        return redirect(url_for("bp_main.index"))
-    return render_template("edit_proj.html", project=project)
+#         db.session.add(project)
+#         db.session.commit()
+#         return redirect(url_for("bp_main.index"))
+#     return render_template("edit_proj.html", project=project)
 
 
 @bp_locations.route("/editloc/<int:locnum>", methods=("GET", "POST"))

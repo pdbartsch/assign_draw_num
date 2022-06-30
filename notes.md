@@ -1,3 +1,18 @@
+## To Do:
+* More SQL Injection Testing
+* SQL Alchemy working on a SQL DB
+* Sidebars for the:
+  * add_drawing page
+  * Edit project page
+* Edit Location page needs to be completed - currently not functional
+* Edit project page could be improved visually
+* drawing results page could use an edit row if logged in button
+* subheadings and page titles should be visually consistent across pages
+
+
+## Scratch  Notes:
+
+
 `set FLASK_APP=run.py`
 
 `set FLASK_ENV=development`
