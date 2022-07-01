@@ -1,40 +1,40 @@
 {% extends 'base.html' %}
 {% block content%}
 
-  
 
 
-  <p>
-    <img src="{{ url_for('static', filename='cmps-pnt-1500.png') }}" alt="UC Santa Barbara campus point panorama by Matt Perko" title="UCSB Campus Point Panorama by Matt Perko" class="img-fluid">
-  </p>
-  <h4>Welcome to the D&CS Records Homepage</h4>
-  <p>
-    Here you have the ability to search all the records in both the projects and the record drawings database. <br>
-    If you have admin priviledges, you can also add new records and make edits as needed.
-  </p>
-  <hr>
-  <p>
-  <h5>
-    Start your search by selecting from the options below:
-  </h5>
+
+<p>
+  <img src="{{ url_for('static', filename='cmps-pnt-1500.png') }}"
+    alt="UC Santa Barbara campus point panorama by Matt Perko" title="UCSB Campus Point Panorama by Matt Perko"
+    class="img-fluid">
+</p>
+<h4>Welcome to the D&CS Records Homepage</h4>
+<p>
+  Here you have the ability to search all the records in both the projects and the record drawings database. <br>
+  If you have admin priviledges, you can also add new records and make edits as needed.
+</p>
+<hr>
+<p>
+<h5>
+  Start your search by selecting from the options below:
+</h5>
 </p>
 <p>
-  <div class="container">
-    <div class="row">
-      <div class="col">
-        <a href="{{ url_for('bp_locations.locations') }}" class="btn btn-outline-dark btn-lg">Browse by Location</a>
-      </div>
-      <div class="col">
-        <a href="{{ url_for('bp_projects.projects') }}" class="btn btn-outline-dark btn-lg">Search Projects</a>
-      </div>
-      <div class="col">
-        <a href="{{ url_for('bp_drawings.search_drawings') }}" class="btn btn-outline-dark btn-lg">Search Drawings</a>
-      </div>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <a href="{{ url_for('bp_locations.locations') }}" class="btn btn-outline-dark btn-lg">Browse by Location</a>
+    </div>
+    <div class="col">
+      <a href="{{ url_for('bp_projects.projects') }}" class="btn btn-outline-dark btn-lg">Search Projects</a>
+    </div>
+    <div class="col">
+      <a href="{{ url_for('bp_drawings.search_drawings') }}" class="btn btn-outline-dark btn-lg">Search Drawings</a>
     </div>
   </div>
+</div>
 </p>
- 
+
 
 {% endblock %}
-
-

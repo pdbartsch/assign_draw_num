@@ -6,7 +6,7 @@
   <table id="draws_list" class="table table-hover table-bordered">
     <thead>
       <tr>
-        <th scope="col">UCSB Drawing#</th> 
+        <th scope="col">UCSB Drawing#</th>
         <th scope="col">Project Title</th>
         <th scope="col">Sheet Title</th>
         <th scope="col">Year</th>
@@ -17,31 +17,32 @@
     </thead>
     <tbody>
       {% if drawings %}
-        {% for draw in drawings %}
-        <tr>
-          <td scope="row"><a href="{{ '{url}/{locnum}/{newname}'.format(url = base_drawings_url, locnum = draw.locnum, newname = draw.newname) }}" target="_blank">
+      {% for draw in drawings %}
+      <tr>
+        <td scope="row"><a
+            href="{{ '{url}/{locnum}/{newname}'.format(url = base_drawings_url, locnum = draw.locnum, newname = draw.newname) }}"
+            target="_blank">
             {{ draw.locnum }}-{{ draw.drawnum }}-{{ draw.sheet_number }}</a></td>
-          <td>{{ draw.project_title }}</td>
-          <td>{{ draw.sheet_title }}</td>
-          <td>{{ draw.project_year }}</td>
-          {% if current_user.is_authenticated %}
-          <td><button type="button" class="form-control-file"><a href="{{ url_for('bp_drawings.edit_draw', drawing_id=draw.id)}}">Edit</a></button></td>
-          {% endif %}
-        </tr>
-        {% endfor %}
+        <td>{{ draw.project_title }}</td>
+        <td>{{ draw.sheet_title }}</td>
+        <td>{{ draw.project_year }}</td>
+        {% if current_user.is_authenticated %}
+        <td><button type="button" class="form-control-file"><a
+              href="{{ url_for('bp_drawings.edit_draw', drawing_id=draw.id)}}">Edit</a></button></td>
+        {% endif %}
+      </tr>
+      {% endfor %}
       {% elif no_search %}
       <tr>
         <td>Begin your search on the right -></td>
       </tr>
       {% else %}
-        <tr>
-          <td>Your query returned no results</td>
-        </tr>
+      <tr>
+        <td>Your query returned no results</td>
+      </tr>
       {% endif %}
-      
+
     </tbody>
   </table>
 </div>
 {% endblock %}
-
-

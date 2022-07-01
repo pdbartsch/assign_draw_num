@@ -8,10 +8,10 @@
 <div class="table-responsive">
   <table id="proj_list" class="table table-hover table-bordered align-middle">
 
-    
+
     <thead class="table-light">
       <tr>
-        <th scope="col">UCSB Drawing#</th> 
+        <th scope="col">UCSB Drawing#</th>
         <th scope="col">Description</th>
         <th scope="col">Project Manager</th>
         <th scope="col">Consultant</th>
@@ -20,35 +20,33 @@
     </thead>
     <tbody>
       {% if project_list %}
-        {% for project in project_list %}
+      {% for project in project_list %}
 
-        <tr>
-          <td scope="row"><a href="{{ url_for('bp_projects.project', locnum=project.locnum, drawnum=project.drawnum) }}">
+      <tr>
+        <td scope="row"><a href="{{ url_for('bp_projects.project', locnum=project.locnum, drawnum=project.drawnum) }}">
             {{ project.locnum }}-{{ project.drawnum }}</a></td>
-          <td>{{ project.title }}</td>
-          <td>{{ project.projectmngr }}</td>
-          <td>{{ project.mainconsult }}</td>
-          <td>{{ project.date|string|truncate(5,true) }}</td>
+        <td>{{ project.title }}</td>
+        <td>{{ project.projectmngr }}</td>
+        <td>{{ project.mainconsult }}</td>
+        <td>{{ project.date|string|truncate(5,true) }}</td>
 
-        </tr>
-        {% endfor %}
+      </tr>
+      {% endfor %}
       {% elif no_search %}
       <tr>
         <td>Begin your search on the right -></td>
       </tr>
       {% else %}
-        <tr>
-          <td>Your query returned no results</td>
-        </tr>
+      <tr>
+        <td>Your query returned no results</td>
+      </tr>
       {% endif %}
-      
+
 
     </tbody>
-    
+
   </table>
 
 </div>
 
 {% endblock %}
-
-
