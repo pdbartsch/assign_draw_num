@@ -8,13 +8,7 @@ from flask_login import login_user, login_required
 
 bp_main = Blueprint("bp_main", __name__)
 
+
 @bp_main.route("/")
 def index():
-    return render_template(
-        "index.html",
-        title="Home Page",
-        sidebar="homepage"
-    )
-
-
-    
+    return render_template("index.html", title="Home Page", sidebar="homepage")

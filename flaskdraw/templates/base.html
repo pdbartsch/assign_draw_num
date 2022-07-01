@@ -110,8 +110,18 @@
             </div>
 
             <div class="col-md-3 order-last content-section" >
-
+                {% if url_suffix %}
+                <h5>Share or bookmark this search:</h5>
+                <p>
+                    <a href="{{ url_for('bp_drawings.drawings') }}{{url_suffix}}">
+                        Here's the link
+                    </a>
+                </p>
+                {% endif %}
                 {% if sidebar == 'drawingsearch' %}
+
+
+
                 <h4>Search For Drawings:</h4>
                 <form method="post" class="row g-3">
                     {{ form.csrf_token }}
@@ -342,9 +352,14 @@
                 </p>
 
                 {% else %}
-                <p>
-                    This is the default sidebar.
-                </p>
+                <hr>
+                <h5>Start a new search:</h5>
+                <ul class="list-unstyled">
+                    <li><a href="{{ url_for('bp_locations.locations') }}" class="btn btn-outline-dark">Browse by Location</a></li><br>
+                    <li><a href="{{ url_for('bp_projects.projects') }}" class="btn btn-outline-dark">Search Projects</a></li><br>
+                    <li><a href="{{ url_for('bp_drawings.search_drawings') }}" class="btn btn-outline-dark">Search Drawings</a></li>
+                </ul>
+ 
                 {% endif %}
             </div>
 

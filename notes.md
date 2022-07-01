@@ -1,17 +1,20 @@
 ## To Do:
 * More SQL Injection Testing
 * SQL Alchemy working on a SQL DB
-* Sidebars for the:
+* Be sure that 
+* ~~Sidebars for the:~~
   * ~~add_drawing page~~
   * ~~Edit project page~~
 * ~~Edit Location page needs to be completed - currently not functional~~
   * ~~Edit project page could be improved visually~~
 * ~~drawing results page could use an edit row if logged in button~~
-* subheadings and page titles should be visually consistent across pages
+* ~~subheadings and page titles should be visually consistent across pages~~
 * delete location button is not functional (see editloc page)
 * redirect back to projects page after deleting a project
-* paramaeterize the drawings page for sharing - functional for drawings but not yet for search_drawings
-
+* ~~paramaeterize the drawings page for sharing - functional for drawings but not yet for search_drawings~~
+*  Better understand CSRF tokens and how to implement with WTForms or any other form. Add CSRF tokens whenever appropriate.
+    * `{{ form.csrf_token }}`
+    * `{{ form.hidden_tag() }}`
 
 ## Scratch  Notes:
 

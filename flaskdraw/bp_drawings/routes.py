@@ -46,12 +46,12 @@ def drawings():
     if discipline:
         u.append("discipline=" + discipline)
         q.append('Drawings.discipline LIKE("%' + discipline + '%")')
-    url_suffix = "&".join(u)
     s = " AND ".join(q)
 
     if s == "":
         no_search = True
         drawings = None
+        url_suffix = None
     else:
         no_search = False
         drawings = (
@@ -59,7 +59,7 @@ def drawings():
             .filter(text(s))
             .all()
         )
-    # else redirect to search_drawings page
+        url_suffix = "?" + ("&".join(u))
 
     return render_template(
         "drawings.html",
@@ -68,36 +68,43 @@ def drawings():
         subheading="Result of drawing search:",
         base_drawings_url=base_drawings_url,
         no_search=no_search,
-        url_suffix="?" + url_suffix,
-        sidebar="shareurl",
-        # sidebar="drawingsearch",
+        url_suffix=url_suffix,
         form=form,
     )
 
 
 @bp_drawings.route("/search_drawings/", methods=("GET", "POST"))
-def search_drawings():  # https://stackoverflow.com/a/27810889/747748
+def search_drawings():
     form = DrawingsSearchForm()
+    u = []
     q = []
+
     if request.method == "POST":
         # search across multiple optional fields
         if form.locnum.data:
+            u.append("locnum=" + str(form.locnum.data))
             q.append("Drawings.locnum == " + str(form.locnum.data))
         if form.drawnum.data:
+            u.append("drawnum=" + str(form.drawnum.data))
             q.append("Drawings.drawnum == " + str(form.drawnum.data))
         if form.project_title.data:
+            u.append("project_title=" + form.project_title.data)
             q.append('Drawings.project_title LIKE("%' + form.project_title.data + '%")')
         if form.sheet_title.data:
+            u.append("sheet_title=" + form.sheet_title.data)
             q.append('Drawings.sheet_title LIKE("%' + form.sheet_title.data + '%")')
         if form.sheet_number.data:
+            u.append("sheet_number=" + form.sheet_number.data)
             q.append('Drawings.sheet_number LIKE("%' + form.sheet_number.data + '%")')
         if form.discipline.data:
+            u.append("discipline=" + form.discipline.data)
             q.append('Drawings.discipline LIKE("%' + form.discipline.data + '%")')
         s = " AND ".join(q)
 
         if s == "":
             no_search = True
             drawings = None
+            url_suffix = None
         else:
             no_search = False
             drawings = (
@@ -105,12 +112,14 @@ def search_drawings():  # https://stackoverflow.com/a/27810889/747748
                 .filter(text(s))
                 .all()
             )
+            url_suffix = "?" + ("&".join(u))
 
         return render_template(
             "drawings.html",
             form=form,
             drawings=drawings,
             base_drawings_url=base_drawings_url,
+            url_suffix=url_suffix,
             sidebar="drawingsearch",
             no_search=no_search,
             subheading="Search results:",
