@@ -20,20 +20,45 @@ base_drawings_url = os.environ.get("base_drawings_url")
 def drawings():
     locnum = request.args.get("locnum")
     drawnum = request.args.get("drawnum")
-    if locnum and drawnum:
-        drawings = (
-            Drawings.query.order_by(Drawings.locnum.asc(), Drawings.drawnum.asc())
-            .filter(Drawings.locnum == locnum, Drawings.drawnum == drawnum)
-            .all()
-        )
-    elif locnum:
-        drawings = (
-            Drawings.query.order_by(Drawings.locnum.asc(), Drawings.drawnum.asc())
-            .filter(Drawings.locnum == locnum)
-            .all()
-        )
-    else:
+    project_title = request.args.get("project_title")
+    sheet_title = request.args.get("sheet_title")
+    sheet_number = request.args.get("sheet_number")
+    discipline = request.args.get("discipline")
+    u = []
+    q = []
+    # search across multiple optional fields
+    if locnum:
+        u.append("locnum=" + str(locnum))
+        q.append("Drawings.locnum == " + str(locnum))
+    if drawnum:
+        u.append("drawnum=" + str(drawnum))
+        q.append("Drawings.drawnum == " + str(drawnum))
+    if project_title:
+        u.append("project_title=" + project_title)
+        q.append('Drawings.project_title LIKE("%' + project_title + '%")')
+    if sheet_title:
+        u.append("sheet_title=" + sheet_title)
+        q.append('Drawings.sheet_title LIKE("%' + sheet_title + '%")')
+    if sheet_number:
+        u.append("sheet_number=" + sheet_number)
+        q.append('Drawings.sheet_number LIKE("%' + sheet_number + '%")')
+    if discipline:
+        u.append("discipline=" + discipline)
+        q.append('Drawings.discipline LIKE("%' + discipline + '%")')
+    url_suffix = "&".join(u)
+    s = " AND ".join(q)
+
+    if s == "":
+        no_search = True
         drawings = None
+    else:
+        no_search = False
+        drawings = (
+            Drawings.query.order_by(Drawings.locnum.asc(), Drawings.drawnum.asc())
+            .filter(text(s))
+            .all()
+        )
+    # else redirect to search_drawings page
 
     return render_template(
         "drawings.html",
@@ -41,6 +66,9 @@ def drawings():
         title="Drawing results:",
         subheading="Result of drawing search:",
         base_drawings_url=base_drawings_url,
+        no_search=no_search,
+        url_suffix="?" + url_suffix,
+        sidebar="shareurl",
     )
 
 
@@ -117,11 +145,8 @@ def add_drawing():
 @bp_drawings.route("/search_drawings/", methods=("GET", "POST"))
 def search_drawings():  # https://stackoverflow.com/a/27810889/747748
     form = DrawingsSearchForm()
-
     q = []
-
     if request.method == "POST":
-
         # search across multiple optional fields
         if form.locnum.data:
             q.append("Drawings.locnum == " + str(form.locnum.data))

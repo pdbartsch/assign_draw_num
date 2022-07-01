@@ -10,6 +10,7 @@
 * subheadings and page titles should be visually consistent across pages
 * delete location button is not functional (see editloc page)
 * redirect back to projects page after deleting a project
+* paramaeterize the drawings page for sharing - functional for drawings but not yet for search_drawings
 
 
 ## Scratch  Notes:
