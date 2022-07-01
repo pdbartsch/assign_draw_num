@@ -18,6 +18,7 @@ base_drawings_url = os.environ.get("base_drawings_url")
 
 @bp_drawings.route("/drawings/")
 def drawings():
+    form = DrawingsSearchForm()
     locnum = request.args.get("locnum")
     drawnum = request.args.get("drawnum")
     project_title = request.args.get("project_title")
@@ -69,6 +70,53 @@ def drawings():
         no_search=no_search,
         url_suffix="?" + url_suffix,
         sidebar="shareurl",
+        # sidebar="drawingsearch",
+        form=form,
+    )
+
+
+@bp_drawings.route("/search_drawings/", methods=("GET", "POST"))
+def search_drawings():  # https://stackoverflow.com/a/27810889/747748
+    form = DrawingsSearchForm()
+    q = []
+    if request.method == "POST":
+        # search across multiple optional fields
+        if form.locnum.data:
+            q.append("Drawings.locnum == " + str(form.locnum.data))
+        if form.drawnum.data:
+            q.append("Drawings.drawnum == " + str(form.drawnum.data))
+        if form.project_title.data:
+            q.append('Drawings.project_title LIKE("%' + form.project_title.data + '%")')
+        if form.sheet_title.data:
+            q.append('Drawings.sheet_title LIKE("%' + form.sheet_title.data + '%")')
+        if form.sheet_number.data:
+            q.append('Drawings.sheet_number LIKE("%' + form.sheet_number.data + '%")')
+        if form.discipline.data:
+            q.append('Drawings.discipline LIKE("%' + form.discipline.data + '%")')
+        s = " AND ".join(q)
+
+        if s == "":
+            no_search = True
+            drawings = None
+        else:
+            no_search = False
+            drawings = (
+                Drawings.query.order_by(Drawings.locnum.asc(), Drawings.drawnum.asc())
+                .filter(text(s))
+                .all()
+            )
+
+        return render_template(
+            "drawings.html",
+            form=form,
+            drawings=drawings,
+            base_drawings_url=base_drawings_url,
+            sidebar="drawingsearch",
+            no_search=no_search,
+            subheading="Search results:",
+        )
+    return render_template(
+        "drawings.html", form=form, sidebar="drawingsearch", no_search=True
     )
 
 
@@ -140,51 +188,6 @@ def add_drawing():
         return redirect(url_for("bp_main.index"))
 
     return render_template("add_drawing.html", form=form, sidebar="drawingedit")
-
-
-@bp_drawings.route("/search_drawings/", methods=("GET", "POST"))
-def search_drawings():  # https://stackoverflow.com/a/27810889/747748
-    form = DrawingsSearchForm()
-    q = []
-    if request.method == "POST":
-        # search across multiple optional fields
-        if form.locnum.data:
-            q.append("Drawings.locnum == " + str(form.locnum.data))
-        if form.drawnum.data:
-            q.append("Drawings.drawnum == " + str(form.drawnum.data))
-        if form.project_title.data:
-            q.append('Drawings.project_title LIKE("%' + form.project_title.data + '%")')
-        if form.sheet_title.data:
-            q.append('Drawings.sheet_title LIKE("%' + form.sheet_title.data + '%")')
-        if form.sheet_number.data:
-            q.append('Drawings.sheet_number LIKE("%' + form.sheet_number.data + '%")')
-        if form.discipline.data:
-            q.append('Drawings.discipline LIKE("%' + form.discipline.data + '%")')
-        s = " AND ".join(q)
-
-        if s == "":
-            no_search = True
-            drawings = None
-        else:
-            no_search = False
-            drawings = (
-                Drawings.query.order_by(Drawings.locnum.asc(), Drawings.drawnum.asc())
-                .filter(text(s))
-                .all()
-            )
-
-        return render_template(
-            "drawings.html",
-            form=form,
-            drawings=drawings,
-            base_drawings_url=base_drawings_url,
-            sidebar="drawingsearch",
-            no_search=no_search,
-            subheading="Search results:",
-        )
-    return render_template(
-        "drawings.html", form=form, sidebar="drawingsearch", no_search=True
-    )
 
 
 @bp_drawings.route("/<int:drawing_id>/editdraw/", methods=("GET", "POST"))

@@ -27,21 +27,10 @@ body {
   }
 }
 
-/* dividers on large screen */
-@media only screen and (min-width: 992px) {
-  .navbar .navbar-nav .nav-item .nav-link {
-    padding: 0 0.5em;
-  }
-  .navbar .navbar-nav .d-flex .nav-item:not(:last-child) .nav-link {
-    border-right: 1px solid #333333;
-  }
-}
-
-
+/* dont underline links except on hover */
 a:not([class]) {
   text-decoration: none;
 }
-
 a:not([class]):hover {
   text-decoration: underline;
 }

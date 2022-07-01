@@ -30,7 +30,7 @@
 
     <header class="site-header">
         <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
-            <div class="container">
+            <div class="container-lg">
                 <a class="navbar-brand" href="{{ url_for('bp_main.index') }}">UCSB D&CS Records</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" 
                     aria-controls="navbarSupportedContent" 
@@ -52,30 +52,39 @@
                     </ul>
                     <!-- Navbar Right Side -->
                     <ul class="navbar-nav d-flex">
-                        {% if current_user.is_authenticated %}
 
-                        <li class="nav-item:">
-                            <a class="nav-item nav-link" href="{{ url_for('bp_drawings.add_drawing') }}">Add Drawing</a>
-                        </li>
-                        <li class="nav-item:">
-                            <a class="nav-item nav-link" href="{{ url_for('bp_locations.add_loc') }}">Add Location</a>
-                        </li>
-                        <li class="nav-item:">
-                            <a class="nav-item nav-link" href="{{ url_for('bp_users.account') }}">Account</a>
-                        </li>
-                        <li class="nav-item:">
-                            <a class="nav-item nav-link" href="{{ url_for('bp_users.logout') }}">Logout</a>
+                        {% if current_user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-item nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              Admin Tools
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <li><a class="dropdown-item" href="{{ url_for('bp_drawings.add_drawing') }}">Add Drawing</a></li>
+                              <li><a class="dropdown-item" href="{{ url_for('bp_locations.add_loc') }}">Add Location</a></li>
+                              <li><hr class="dropdown-divider"></li>
+                              <li><a class="dropdown-item" href="{{ url_for('bp_users.account') }}">Account</a></li>
+                              <li><a class="dropdown-item" href="{{ url_for('bp_users.register') }}">Register User</a></li>
+                              <li><a class="dropdown-item" href="{{ url_for('bp_users.logout') }}">Logout</a></li>
+                            </ul>
                         </li>
                         {% else %}
-                        <li class="nav-item:">
-                            <a class="nav-item nav-link" href="https://www.dfss.ucsb.edu/">DFSS Home</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-item nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              Additional Resources
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <li><a class="dropdown-item" href="https://ucsbconnect.sharepoint.com/sites/dfss/SitePages/Maps.aspx">Maps on the DFSS Intranet</a></li>
+                              <li><a class="dropdown-item" href="https://arcg.is/1SSiPK1">Utility Atlas Grids</a></li>
+                              <li><a class="dropdown-item" href="https://arcg.is/nn1bT">Find A Building</a></li>
+                              <li><a class="dropdown-item" href="https://arcg.is/0aq8XH0">DFSS Campus Basemap</a></li>
+                              <li><a class="dropdown-item" href="https://www.dfss.ucsb.edu/">DFSS Home</a></li>
+                              <li><hr class="dropdown-divider"></li>
+                              <li><a class="dropdown-item" href="{{ url_for('bp_users.login') }}">Admin Login</a></li>
+                            </ul>
                         </li>
-                        <li class="nav-item:">
-                            <a class="nav-item nav-link" href="{{ url_for('bp_users.login') }}">Admin Login</a>
-                        </li>
-                        <!-- <li class="nav-item:">
-                            <a class="nav-item nav-link" href="{{ url_for('bp_users.register') }}">Register</a>
-                        </li> -->
+                        
+
+
                         {% endif %}
                     </ul>
                 </div>
@@ -83,7 +92,7 @@
         </nav>
     </header>
 
-    <main role="main" class="container-sm">
+    <main role="main" class="container-fluid">
         <div class="row">
 
             <div class="col-md-9 order-first content-section" >

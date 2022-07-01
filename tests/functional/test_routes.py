@@ -183,16 +183,6 @@ def test_drawproj_drawings_locnum(client):
     assert response.status_code == 200
 
 
-def test_drawproj_drawings_drawnum(client):
-    response = client.get(
-        url_for("bp_drawings.drawings", drawnum=101), follow_redirects=True
-    )
-    assert response.status_code == 200
-    assert (
-        b"Your query returned no results" in response.data
-    ), "Should NOT return results"
-
-
 def test_drawproj_drawings_draw_n_locnums(client):
     response = client.get(
         url_for("bp_drawings.drawings", drawnum=101, locnum=525), follow_redirects=True
