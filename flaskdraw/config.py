@@ -1,7 +1,7 @@
 import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-use_local_database = True
+use_local_database = False
 
 
 class Config:
@@ -18,12 +18,14 @@ class Config:
         DB_PROJECT_ID = os.environ.get("DB_PROJECT_ID")
         DB_INSTANCE_NAME = os.environ.get("DB_INSTANCE_NAME")
 
+        # CONN_DB = (
+        #     "mysql+pymysql://" + DB_USER + ":" + DB_PW + "@" + DB_URL + "/" + DB_DB
+        # )
         CONN_DB = (
-            "mysql+pymysql://" + DB_USER + ":" + DB_PW + "@" + DB_URL + "/" + DB_DB
+            "mssql+pyodbc://" + DB_USER + ":" + DB_PW + "@" + DB_URL + "/" + DB_DB + "?driver=SQL+Server"
         )
 
         SQLALCHEMY_DATABASE_URI = CONN_DB
-
 
 class TestConfig:
     # SECRET_KEY = "Test_Key"
