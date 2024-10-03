@@ -22,10 +22,19 @@ class Config:
         #     "mysql+pymysql://" + DB_USER + ":" + DB_PW + "@" + DB_URL + "/" + DB_DB
         # )
         CONN_DB = (
-            "mssql+pyodbc://" + DB_USER + ":" + DB_PW + "@" + DB_URL + "/" + DB_DB + "?driver=SQL+Server"
+            "mssql+pyodbc://"
+            + DB_USER
+            + ":"
+            + DB_PW
+            + "@"
+            + DB_URL
+            + "/"
+            + DB_DB
+            + "?driver=SQL+Server"
         )
 
         SQLALCHEMY_DATABASE_URI = CONN_DB
+
 
 class TestConfig:
     # SECRET_KEY = "Test_Key"
